@@ -68,7 +68,16 @@ qx.Class.define("ligamanager.Application",
 
       // Add an event listener
       button1.addListener("execute", function(e) {
-        alert("Hello World!");
+		
+		var rpc = new qx.io.remote.Rpc("/LigaManager/Backend/services/index.php",
+			"qooxdoo.test");
+		// synchronous call
+		try {
+			var result = rpc.callSync("echo", "Test");
+			alert("Result of sync call: " + result);
+		} catch (exc) {
+			alert("Exception during sync call: " + exc);
+		}
       });
     }
   }
