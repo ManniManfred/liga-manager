@@ -57,28 +57,12 @@ qx.Class.define("ligamanager.Application",
       -------------------------------------------------------------------------
       */
 
-      // Create a button
-      var button1 = new qx.ui.form.Button("First Button", "ligamanager/test.png");
-
       // Document is the application root
       var doc = this.getRoot();
 
-      // Add button to document at fixed coordinates
-      doc.add(button1, {left: 100, top: 50});
-
-      // Add an event listener
-      button1.addListener("execute", function(e) {
-		
-		var rpc = new qx.io.remote.Rpc("/LigaManager/Backend/services/index.php",
-			"qooxdoo.test");
-		// synchronous call
-		try {
-			var result = rpc.callSync("echo", "Test");
-			alert("Result of sync call: " + result);
-		} catch (exc) {
-			alert("Exception during sync call: " + exc);
-		}
-      });
+	  var mainW = new ligamanager.MainWidget();
+	  doc.add(mainW, {left: 0, top: 0, right: 0, bottom: 0});
+	  
     }
   }
 });
