@@ -31,7 +31,7 @@ msgstr "Spielplan"
 msgid "Guestbook"
 msgstr "Gästebuch"
 
-#: ligamanager/MainWidget.js:247
+#: ligamanager/MainWidget.js:247 ligamanager/MainWidget.js:333
 msgid "Documents"
 msgstr "Dokumente"
 
@@ -39,17 +39,17 @@ msgstr "Dokumente"
 msgid "Logout"
 msgstr "Abmelden"
 
-#: ligamanager/MainWidget.js:301
-msgid "Info"
-msgstr ""
-
-#: ligamanager/MainWidget.js:321
+#: ligamanager/MainWidget.js:305
 msgid "Manager"
 msgstr "Verwaltung"
 
-#: ligamanager/MainWidget.js:328
-msgid "Extra"
+#: ligamanager/MainWidget.js:317
+msgid "Liga"
 msgstr ""
+
+#: ligamanager/MainWidget.js:325
+msgid "User"
+msgstr "Benutzer"
 
 #: ligamanager/pages/ContactPage.js:88 ligamanager/MainWidget.js:223
 msgid "Contact"
@@ -209,6 +209,12 @@ msgstr "Sie wurden erfolgreich registriert."
 #: ligamanager/pages/RegisterPage.js:206
 msgid "Register failed. The following error occured: "
 msgstr "Die Registrierung ist fehlgeschlagen. Der folgende Fehler ist aufgetreten: "
+
+#~ msgid "Info"
+#~ msgstr ""
+
+#~ msgid "Extra"
+#~ msgstr ""
 
 #~ msgid "Help"
 #~ msgstr "Hilfe"

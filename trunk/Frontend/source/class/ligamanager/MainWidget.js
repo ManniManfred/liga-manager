@@ -308,6 +308,35 @@ qx.Class.define("ligamanager.MainWidget",
 				btManager.addListener("execute", this.__onBtExecuted, this);
 				btManager.addListener("execute", this.__onShowPage, this);
 				sidebar.add(btManager);
+			
+				
+				var managerContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox().set({spacing : this.__innerSpace}));
+				managerContainer.setPaddingLeft(20);
+				sidebar.add(managerContainer);
+				
+				var btLiga = new qx.ui.form.Button(this.tr("Liga"), null);
+				btLiga.setAppearance("sidebar/button");
+				btLiga.setUserData("page", ligamanager.pages.LigaManagerPage);
+				btLiga.addListener("execute", this.__onBtExecuted, this);
+				btLiga.addListener("execute", this.__onShowPage, this);
+				managerContainer.add(btLiga);
+				
+				
+				var btUserManager = new qx.ui.form.Button(this.tr("User"), null);
+				btUserManager.setAppearance("sidebar/button");
+				btUserManager.setUserData("page", ligamanager.pages.UserManagerPage);
+				btUserManager.addListener("execute", this.__onBtExecuted, this);
+				btUserManager.addListener("execute", this.__onShowPage, this);
+				managerContainer.add(btUserManager);
+				
+				
+				var btDocumentsManager = new qx.ui.form.Button(this.tr("Documents"), null);
+				btDocumentsManager.setAppearance("sidebar/button");
+				btDocumentsManager.setUserData("page", ligamanager.pages.DocumentsManagerPage);
+				btDocumentsManager.addListener("execute", this.__onBtExecuted, this);
+				btDocumentsManager.addListener("execute", this.__onShowPage, this);
+				managerContainer.add(btDocumentsManager);
+
 			}
 		},
 		
