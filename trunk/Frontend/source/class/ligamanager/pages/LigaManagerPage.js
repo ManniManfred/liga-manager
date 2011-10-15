@@ -61,16 +61,23 @@ qx.Class.define("ligamanager.pages.LigaManagerPage",
 		
 		__createSaison : function() {
 			
-			var gbSaison = new qx.ui.groupbox.GroupBox("Saison");
-			gbSaison.setAllowGrowX(false);
-			gbSaison.setLayout(new qx.ui.layout.Dock());
-			this.add(gbSaison);
+			var laSaison = new qx.ui.basic.Label("Saison");
+			laSaison.setFont("bold");
+			laSaison.setPadding(5);
+			laSaison.setBackgroundColor("#CCCCCC");
+			laSaison.setAllowGrowX(true);
+			this.add(laSaison);
+			
+			var paSaison = new qx.ui.container.Composite();
+			paSaison.setAllowGrowX(false);
+			paSaison.setLayout(new qx.ui.layout.Dock());
+			this.add(paSaison);
 
 			//
 			// toolbar
 			//
 			var toolbar = new qx.ui.toolbar.ToolBar();
-			gbSaison.add(toolbar, {edge: "north"});
+			paSaison.add(toolbar, {edge: "north"});
 
 
 			var btNew = new qx.ui.toolbar.Button(this.tr("New"), "ligamanager/normal/new.png");
@@ -83,7 +90,7 @@ qx.Class.define("ligamanager.pages.LigaManagerPage",
 
 
 			var lvSaison = this.__lvSaison = new qx.ui.form.List();
-			gbSaison.add(lvSaison, {edge: "center"});
+			paSaison.add(lvSaison, {edge: "center"});
 
 
 			toolbar.setShow("icon");
@@ -97,6 +104,7 @@ qx.Class.define("ligamanager.pages.LigaManagerPage",
 					
 					for (var i=0; i < result.length; i++) {
 						var item = new qx.ui.form.ListItem(result[i].name);
+						item.setUserData("id", result[i].id);
 						self.__lvSaison.add(item);
 						
 						if (result[i].isDefault == true) {
@@ -111,7 +119,22 @@ qx.Class.define("ligamanager.pages.LigaManagerPage",
 		},
 		
 		__onSetDefault : function(evt) {
-			alert("set default");
+		
+			var selection = this.__lvSaison.getSelection();
+			
+			if (selection.length == 1) {
+			
+				var saisonId = selection[0].getUserData("id");
+				this.__ligaManagerRpc.callSync("SetDefaultSaison", saisonId);
+				
+				var items = this.__lvSaison.getChildren();
+				for (var i = 0; i < items.length; i++) {
+					items[i].setIcon(null);
+				}
+			
+				selection[0].setIcon("ligamanager/normal/default.png");
+			}
+			
 		},
 		
 		__onNewSaison : function(evt) {
