@@ -1,0 +1,220 @@
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: you@your.org\n"
+"POT-Creation-Date: 2011-10-09 10:39+0100\n"
+"PO-Revision-Date: 2011-10-09 10:39+0100\n"
+"Last-Translator: you <you@your.org>\n"
+"Language-Team: Team <yourteam@your.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ligamanager/MainWidget.js:170
+msgid "Login"
+msgstr "Anmelden"
+
+#: ligamanager/MainWidget.js:179
+msgid "Register"
+msgstr "Registrieren"
+
+#: ligamanager/MainWidget.js:209
+msgid "Table"
+msgstr "Spieltabelle"
+
+#: ligamanager/MainWidget.js:216
+msgid "Playing Schedule"
+msgstr "Spielplan"
+
+#: ligamanager/MainWidget.js:230
+msgid "Guestbook"
+msgstr "Gästebuch"
+
+#: ligamanager/MainWidget.js:247
+msgid "Documents"
+msgstr "Dokumente"
+
+#: ligamanager/MainWidget.js:289
+msgid "Logout"
+msgstr "Abmelden"
+
+#: ligamanager/MainWidget.js:301
+msgid "Info"
+msgstr ""
+
+#: ligamanager/MainWidget.js:321
+msgid "Manager"
+msgstr "Verwaltung"
+
+#: ligamanager/MainWidget.js:328
+msgid "Extra"
+msgstr ""
+
+#: ligamanager/pages/ContactPage.js:88 ligamanager/MainWidget.js:223
+msgid "Contact"
+msgstr "Kontakt"
+
+#: ligamanager/pages/ContactPage.js:97
+msgid "Salutation"
+msgstr "Anrede"
+
+#: ligamanager/pages/ContactPage.js:101 ligamanager/pages/ContactPage.js:154
+msgid "First name"
+msgstr "Vorname"
+
+#: ligamanager/pages/ContactPage.js:105 ligamanager/pages/ContactPage.js:162
+msgid "Last name"
+msgstr "Nachname"
+
+#: ligamanager/pages/ContactPage.js:110
+msgid "Company"
+msgstr "Firma"
+
+#: ligamanager/pages/ContactPage.js:115
+msgid "Street / Number"
+msgstr "Straße / Nr."
+
+#: ligamanager/pages/ContactPage.js:120
+msgid "Postal Code / City"
+msgstr "PLZ / Stadt"
+
+#: ligamanager/pages/ContactPage.js:125
+msgid "Phone number"
+msgstr "Tel."
+
+#: ligamanager/pages/ContactPage.js:130
+msgid "Fax"
+msgstr ""
+
+#: ligamanager/pages/ContactPage.js:135 ligamanager/pages/ContactPage.js:213
+#: ligamanager/pages/RegisterPage.js:143 ligamanager/pages/RegisterPage.js:150
+#: ligamanager/pages/Guestbook.js:99
+msgid "E-Mail"
+msgstr ""
+
+#: ligamanager/pages/ContactPage.js:144
+msgid "Mr."
+msgstr "Herr"
+
+#: ligamanager/pages/ContactPage.js:145
+msgid "Mrs."
+msgstr "Frau"
+
+#: ligamanager/pages/ContactPage.js:154 ligamanager/pages/ContactPage.js:162
+#: ligamanager/pages/ContactPage.js:213 ligamanager/pages/ContactPage.js:228
+#: ligamanager/pages/RegisterPage.js:105 ligamanager/pages/RegisterPage.js:117
+#: ligamanager/pages/RegisterPage.js:135 ligamanager/pages/RegisterPage.js:150
+#: ligamanager/pages/Guestbook.js:113 ligamanager/pages/Guestbook.js:130
+msgid "The field %1 is required."
+msgstr "Das Eingabefeld %1 muss ausgefüllt werden."
+
+#: ligamanager/pages/ContactPage.js:221 ligamanager/pages/ContactPage.js:228
+#: ligamanager/pages/Guestbook.js:103 ligamanager/pages/Guestbook.js:130
+msgid "Message"
+msgstr "Nachricht"
+
+#: ligamanager/pages/ContactPage.js:233
+msgid "Send a copy of your mail to your e-mail address."
+msgstr "Eine Kopie zu ihrer E-Mail Adresse schicken."
+
+#: ligamanager/pages/ContactPage.js:237 ligamanager/pages/RegisterPage.js:167
+#: ligamanager/pages/Guestbook.js:138
+msgid "Send"
+msgstr "Senden"
+
+#: ligamanager/pages/ContactPage.js:245 ligamanager/pages/RegisterPage.js:174
+#: ligamanager/pages/Guestbook.js:146
+msgid "Reset"
+msgstr "Zurücksetzten"
+
+#: ligamanager/pages/ContactPage.js:260
+msgid "The message was succesfully send."
+msgstr "Die Nachricht wurde erfolgreich versandt."
+
+#: ligamanager/pages/ContactPage.js:264 ligamanager/pages/Guestbook.js:219
+msgid "Sending the messsaged failed. The following error occured: "
+msgstr "Das Versenden ist fehlgeschlagen. Der folgende Fehler ist aufgetreten"
+
+#: ligamanager/pages/Guestbook.js:85
+msgid "New Entry"
+msgstr "Neuer Eintrag"
+
+#: ligamanager/pages/Guestbook.js:215
+msgid "The message was succesfully entered."
+msgstr "Der Entrag wurde erfolgreich hinzugefügt."
+
+#: ligamanager/pages/LoginPage.js:23
+msgid "Hobbyliga"
+msgstr ""
+
+#: ligamanager/pages/LoginPage.js:50
+msgid "Welcome to"
+msgstr "Willkommen zur"
+
+#: ligamanager/pages/LoginPage.js:99
+msgid "Anmelden"
+msgstr ""
+
+#: ligamanager/pages/LoginPage.js:173
+msgid "Login ..."
+msgstr "Anmelden ..."
+
+#: ligamanager/pages/LoginPage.js:185
+msgid "Login failed: %1"
+msgstr "Anmeldung fehlgeschlagen: %1"
+
+#: ligamanager/pages/LoginPage.js:190
+msgid "Connection error"
+msgstr "Verbindungsfehler"
+
+#: ligamanager/pages/RegisterPage.js:92
+msgid "Register to"
+msgstr "Benutzerangaben"
+
+#: ligamanager/pages/RegisterPage.js:98
+msgid "User name"
+msgstr "Benutzername"
+
+#: ligamanager/pages/RegisterPage.js:105 ligamanager/pages/LoginPage.js:64
+#: ligamanager/pages/Guestbook.js:94 ligamanager/pages/Guestbook.js:113
+msgid "Name"
+msgstr ""
+
+#: ligamanager/pages/RegisterPage.js:110 ligamanager/pages/RegisterPage.js:117
+#: ligamanager/pages/LoginPage.js:81
+msgid "Password"
+msgstr "Passwort"
+
+#: ligamanager/pages/RegisterPage.js:121
+msgid "The password must have a length of 6."
+msgstr "Das Passwort muss mindestens 6 Zeichen lang sein."
+
+#: ligamanager/pages/RegisterPage.js:126 ligamanager/pages/RegisterPage.js:136
+msgid "Confirm password"
+msgstr "Passwort Bestätigung"
+
+#: ligamanager/pages/RegisterPage.js:138
+msgid "Password and confirm password are not equal."
+msgstr "Das Passwort und die Bestätigung stimmen nicht überein."
+
+#: ligamanager/pages/RegisterPage.js:156
+msgid "Team"
+msgstr "Mannschaft"
+
+#: ligamanager/pages/RegisterPage.js:200
+msgid "You are successfully registered."
+msgstr "Sie wurden erfolgreich registriert."
+
+#: ligamanager/pages/RegisterPage.js:206
+msgid "Register failed. The following error occured: "
+msgstr "Die Registrierung ist fehlgeschlagen. Der folgende Fehler ist aufgetreten: "
+
+#~ msgid "Help"
+#~ msgstr "Hilfe"
+
+#~ msgid "Nachricht"
+#~ msgstr ""
+
+#~ msgid "acadGraph Planinfo"
+#~ msgstr ""

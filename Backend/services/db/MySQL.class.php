@@ -90,7 +90,7 @@ class MySQL {
 			return true;
 		}
 
-	} // public function connect($host, $base, $user, $password)
+	}
 	
 
 
@@ -110,32 +110,22 @@ class MySQL {
 
 		}
 
-	} // public function getLastId()
-
-
-
-
+	}
 
 
 
 	public function fetchAll($result) {
 	
+		$rows = array();
 		if (mysql_num_rows($result)) {
 
-			$rows = array();
 			while ($row = mysql_fetch_assoc($result)) {
 				$rows[] = $row;
 			}
 			return $rows;
 
 		}
-		else {
-
-			$this->errorManager->reportFatalError($this, new MySQLException("invalid mysql query result supplied to fetchAll()"));
-
-		}
-
-	} // public function fetchAll($result)
+	}
 
 
 
@@ -168,7 +158,7 @@ class MySQL {
 
 		}
 
-	} // public function query($string)
+	} 
 
 
 
@@ -178,7 +168,7 @@ class MySQL {
 		$entries = $this->fetchAll($result);
 		return $entries;
 
-	} // public function queryFetchAll($query)
+	}
 
 
 
@@ -188,7 +178,7 @@ class MySQL {
 	
 		return $this->queries;
 
-	} // public function getQueries()
+	}
 
 
 
@@ -200,11 +190,8 @@ class MySQL {
 			mysql_close($this->id);
 		
 		}
+	}
 
-	} // public function __destruct()
-
-
-
-} // class Mysql
+}
 
 ?>
