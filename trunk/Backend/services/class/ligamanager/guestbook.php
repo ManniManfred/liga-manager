@@ -47,13 +47,7 @@ class class_guestbook extends ServiceIntrospection
         }
 		
 		$db = CreateDbConnection();
-		$result = $db->query('select * from guestbook');
-		
-		return $db->fetchAll($result);
-		
-		//foreach ($mysql->fetchAll($result) as $entry) {
-
-		//}
+		return $db->queryFetchAll('select * from guestbook');
 	}
 
 }

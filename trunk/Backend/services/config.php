@@ -1,5 +1,6 @@
 <?php
 
+define("PASSWORD_HASH_ALGO", "sha1");
 
 $_ENV["db_server"] = "localhost";
 $_ENV["db_catalog"] = "ligamanager";
