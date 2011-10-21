@@ -168,9 +168,11 @@ qx.Class.define("ligamanager.pages.Guestbook",
 
 			
 			var entries = this.__guestRpc.callSync("GetEntries");
-			for (var i = 0; i < entries.length; i++) {
-				var item = this.__createItem(entries[i], i);
-				paContent.add(item);
+			if (entries != null) {
+				for (var i = 0; i < entries.length; i++) {
+					var item = this.__createItem(entries[i], i);
+					paContent.add(item);
+				}
 			}
 		},
 		
