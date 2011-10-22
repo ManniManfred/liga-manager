@@ -297,9 +297,14 @@ qx.Class.define("ligamanager.MainWidget",
 			// Verwaltung
 			//
 			
-			var hasAdminRight = this.__isLoggedIn && this.__coreRpc.callSync("HasAdminRight");
+			var userRights = this.__isLoggedIn && this.__coreRpc.callSync("GetUserRights");
 
-			if (hasAdminRight) {
+			if (userRights == "USER") {
+				// nothing: keine besonderen Berechtigungen..
+			}
+			
+			else if( userRights == "ADMIN_TEAM" || userRights == "ADMIN_LIGA" || userRights == "ADMIN" ) {
+				
 				sidebar.add(new qx.ui.core.Spacer(this.__blockSpace, this.__blockSpace));
 				
 				var btManager = new qx.ui.form.Button(this.tr("Manager"), null);
@@ -313,14 +318,6 @@ qx.Class.define("ligamanager.MainWidget",
 				var managerContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox().set({spacing : this.__innerSpace}));
 				managerContainer.setPaddingLeft(20);
 				sidebar.add(managerContainer);
-				
-				var btLiga = new qx.ui.form.Button(this.tr("Liga"), null);
-				btLiga.setAppearance("sidebar/button");
-				btLiga.setUserData("page", ligamanager.pages.LigaManagerPage);
-				btLiga.addListener("execute", this.__onBtExecuted, this);
-				btLiga.addListener("execute", this.__onShowPage, this);
-				managerContainer.add(btLiga);
-				
 				
 				var btUserManager = new qx.ui.form.Button(this.tr("User"), null);
 				btUserManager.setAppearance("sidebar/button");
@@ -336,7 +333,21 @@ qx.Class.define("ligamanager.MainWidget",
 				btDocumentsManager.addListener("execute", this.__onBtExecuted, this);
 				btDocumentsManager.addListener("execute", this.__onShowPage, this);
 				managerContainer.add(btDocumentsManager);
+			}
 
+			if( userRights == "ADMIN_LIGA" || userRights == "ADMIN" ) {
+				// addittional: liga manager
+				var btLiga = new qx.ui.form.Button(this.tr("Liga"), null);
+				btLiga.setAppearance("sidebar/button");
+				btLiga.setUserData("page", ligamanager.pages.LigaManagerPage);
+				btLiga.addListener("execute", this.__onBtExecuted, this);
+				btLiga.addListener("execute", this.__onShowPage, this);
+				managerContainer.add(btLiga);
+			
+			}
+			
+			if( userRights == "ADMIN" ) {
+				// to be defined
 			}
 		},
 		
