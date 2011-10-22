@@ -37,7 +37,7 @@ class class_core extends ServiceIntrospection
 		return false;
     }
 
-	function method_HasAdminRight($params, $error) 
+	function method_GetUserRights($params, $error) 
 	{
         if (count($params) != 0)
         {
@@ -47,11 +47,11 @@ class class_core extends ServiceIntrospection
         }
 		
 		if (isset($_SESSION["user"])) {
-			// TODO: what about changes on the user during a session?
-			$isAdmin = $_SESSION["user"]["is_admin"];
-			return isset($isAdmin) && $isAdmin == true;
+			// changes during session are not considered! User has to logout and login
+			$group = $_SESSION["user"]["rights"];
+			return $group;
 		}
-		return false;
+		return null;
 	}
 	
 	function method_Login($params, $error) 
