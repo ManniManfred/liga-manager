@@ -4,10 +4,10 @@ require_once "server/lib/JSON.phps";
 require_once "config.php";
 require_once "db.php";
 
-class class_manager extends ServiceIntrospection
+class class_usermanager extends ServiceIntrospection
 {
 
-    function method_AddEntry($params, $error)
+    function method_AddUser($params, $error)
     {
         if (count($params) != 1)
         {
@@ -18,13 +18,16 @@ class class_manager extends ServiceIntrospection
 		
 		$db = CreateDbConnection();
 		$entry = (array)$params[0];
-		$entry['Message'] = htmlentities($entry['Message']);
-		$entry['date'] = date('c');
-		$db->insert('guestbook', $entry);
+		$entry['Password'] = hash(PASSWORD_HASH_ALGO, ($entry['Password']));
+		
+		unset($entry['ConfirmPassword']);
+		unset($entry['Team']);
+		
+		$db->insert('users', $entry);
     }
 	
 	
-	function method_GetEntries($params, $error)
+	function method_GetUsers($params, $error)
     {
         if (count($params) != 0)
         {
@@ -34,7 +37,7 @@ class class_manager extends ServiceIntrospection
         }
 		
 		$db = CreateDbConnection();
-		return $db->queryFetchAll('select * from guestbook');
+		return $db->queryFetchAll('select * from users');
 	}
 
 }

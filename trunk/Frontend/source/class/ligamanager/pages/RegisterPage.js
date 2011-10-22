@@ -14,7 +14,7 @@ qx.Class.define("ligamanager.pages.RegisterPage",
 	construct: function() {
 		this.base(arguments, new qx.ui.layout.Canvas());
 
-		this.__coreRpc = new qx.io.remote.Rpc(ligamanager.Core.RPC_BACKEND, "ligamanager.core");
+		this.__userRpc = new qx.io.remote.Rpc(ligamanager.Core.RPC_BACKEND, "ligamanager.Usermanager");
 		
 		this.createUi();
 	},
@@ -50,7 +50,7 @@ qx.Class.define("ligamanager.pages.RegisterPage",
 
 	members:
 	{
-		__coreRpc : null,
+		__userRpc : null,
 		
 		__userField : null,
 		__passwordField : null,
@@ -196,7 +196,7 @@ qx.Class.define("ligamanager.pages.RegisterPage",
 				var data = qx.util.Serializer.toNativeObject(model);
 				
 				try {
-					this.__coreRpc.callSync("Register", data);
+					this.__userRpc.callSync("AddUser", data);
 					alert(this.tr("You are successfully registered."));
 					this.__form.reset();
 					

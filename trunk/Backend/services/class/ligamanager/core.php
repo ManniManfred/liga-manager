@@ -100,25 +100,6 @@ class class_core extends ServiceIntrospection
 		unset($_SESSION["user"]);
 	}
 	
-	function method_Register($params, $error) 
-	{
-        if (count($params) != 1)
-        {
-            $error->SetError(JsonRpcError_ParameterMismatch,
-                             "Expected 1 parameter; got " . count($params));
-            return $error;
-        }
-		
-		$db = CreateDbConnection();
-		$entry = (array)$params[0];
-		$entry['Password'] = hash(PASSWORD_HASH_ALGO, ($entry['Password']));
-		
-		unset($entry['ConfirmPassword']);
-		unset($entry['Team']);
-		
-		$db->insert('users', $entry);
-	}
-	
 	
 	
 	function method_GetDocuments($params, $error) 
