@@ -52,12 +52,14 @@ qx.Class.define("ligamanager.pages.UserManagerPage",
 
 	members:
 	{
+		__userRpc : null,
 		__userTable : null,
 		__userModel : null,
 		
 		__btnNew : null,
 		__btnDelete : null,
 		__btnEdit : null,
+		
 		
 		
 		//
@@ -69,10 +71,16 @@ qx.Class.define("ligamanager.pages.UserManagerPage",
 				this.__showUserDialog();
 			}
 		},
-		
-		__onCellClick : function(e) {
-			__btnDelete.setEnabled(true);
-			__btnEdit.setEnabled(true);
+				
+		__onChangeSelection : function(e) {
+			var selection = this.__userTable.getSelectionModel();
+			if( selection.isSelectionEmpty() ) {
+				this.__btnDelete.setEnabled(false);
+				this.__btnEdit.setEnabled(false);
+			} else {
+				this.__btnDelete.setEnabled(true);
+				this.__btnEdit.setEnabled(true);
+			}
 		},
 		
 		__onDblClick : function() {
@@ -88,7 +96,24 @@ qx.Class.define("ligamanager.pages.UserManagerPage",
 		},
 
 		__onDelete : function() {
-			this.__showUserDialog();
+			var selection = this.__userTable.getSelectionModel();
+			var	selectedData = null;
+			var userId = null;
+			if( selection.isSelectionEmpty() == false ) {
+			
+				var selectedRanges = selection.getSelectedRanges();
+				for( var i=0; i<selectedRanges.length(); i++ ) {
+					for( index=selectedRanges[i]["fromIndex"]; index<selectedRanges[i]["toIndex"]; index++ ) {
+					
+				//selection.iterateSelection( function(index) {
+						selectedData = this.__userTableModel.getRowDataAsMap(index);
+						userId = selectedData["id"];
+						this.__userRpc.callSync("RemoveUser", userId );
+						this.__userTableModel.removeRows( index, 1 );
+				//}, this);
+					}
+				}
+			}
 		},
 
 		__onNew : function() {
@@ -137,19 +162,19 @@ qx.Class.define("ligamanager.pages.UserManagerPage",
 			part = new qx.ui.toolbar.Part();
 			bar.add(part);
 			
-			__btnNew = new qx.ui.toolbar.Button(this.tr("New"), "icon/22/actions/list-add.png" );
-			__btnNew.addListener("execute", this.__onNew, this );
-			part.add(__btnNew);
+			this.__btnNew = new qx.ui.toolbar.Button(this.tr("New"), "icon/22/actions/list-add.png" );
+			this.__btnNew.addListener("execute", this.__onNew, this );
+			part.add(this.__btnNew);
 
-			__btnDelete = new qx.ui.toolbar.Button(this.tr("Delete"), "icon/22/actions/list-remove.png" );
-			__btnDelete.addListener("execute", this.__onDelete, this );
-			__btnDelete.setEnabled( false );
-			part.add(__btnDelete);
+			this.__btnDelete = new qx.ui.toolbar.Button(this.tr("Delete"), "icon/22/actions/list-remove.png" );
+			this.__btnDelete.addListener("execute", this.__onDelete, this );
+			this.__btnDelete.setEnabled( false );
+			part.add(this.__btnDelete);
 			
-			__btnEdit = new qx.ui.toolbar.Button(this.tr("Edit"), "icon/22/actions/document-properties.png" );
-			__btnEdit.addListener("execute", this.__onEdit, this );
-			__btnEdit.setEnabled( false );
-			part.add(__btnEdit);
+			this.__btnEdit = new qx.ui.toolbar.Button(this.tr("Edit"), "icon/22/actions/document-properties.png" );
+			this.__btnEdit.addListener("execute", this.__onEdit, this );
+			this.__btnEdit.setEnabled( false );
+			part.add(this.__btnEdit);
 
 			// tbd.
 			part = new qx.ui.toolbar.Part();
@@ -160,26 +185,30 @@ qx.Class.define("ligamanager.pages.UserManagerPage",
 			container.add( bar, {edge:"north"} );
 
 			
-			__userTableModel = new qx.ui.table.model.Simple();
+			this.__userTableModel = new qx.ui.table.model.Simple();
 			
-			__userTableModel.setColumns( ["username", "firstname", "lastname", "email"] );
-			__userTableModel.setColumnNamesById( {"username":"Benutzer","firstname":"Vorname", "lastname":"Nachname", "email":"E-Mail"} );
+			this.__userTableModel.setColumns( ["id","username", "firstname", "lastname", "email"] );
+			this.__userTableModel.setColumnNamesById( {"id":"Id","username":"Benutzer","firstname":"Vorname", "lastname":"Nachname", "email":"E-Mail"} );
 
-			__userTable = new qx.ui.table.Table(__userTableModel);
+			this.__userTable = new qx.ui.table.Table(this.__userTableModel);
 			
-			__userTable.setColumnWidth( 0, 200 );
-			__userTable.setColumnWidth( 1, 200 );
-			__userTable.setColumnWidth( 2, 200 );
-			__userTable.setColumnWidth( 3, 200 );
+			this.__userTable.setColumnWidth( 0, 40 );
+			this.__userTable.setColumnWidth( 1, 200 );
+			this.__userTable.setColumnWidth( 2, 200 );
+			this.__userTable.setColumnWidth( 3, 200 );
+			this.__userTable.setColumnWidth( 4, 200 );
 			
-			__userTable.setShowCellFocusIndicator( false );
+			this.__userTable.setShowCellFocusIndicator( false );
 			
-			__userTable.addListener( "cellClick", this.__onCellClick, this );
-			__userTable.addListener( "dblclick", this.__onDblClick, this );
-			__userTable.addListener( "keypress", this.__onKeyPressed, this );
+			this.__userTable.addListener( "dblclick", this.__onDblClick, this );
+			this.__userTable.addListener( "keypress", this.__onKeyPressed, this );
 			
+			selectionModel = new qx.ui.table.selection.Model();
+			selectionModel.setSelectionMode( qx.ui.table.selection.Model.SINGLE_SELECTION );
+			selectionModel.addListener( "changeSelection", this.__onChangeSelection, this );
+			this.__userTable.setSelectionModel( selectionModel );
 			
-			container.add( __userTable, {edge:"center"} );
+			container.add( this.__userTable, {edge:"center"} );
 			
 			this.add( container, {left:20, top:70, bottom:20 } );
 	
@@ -191,7 +220,7 @@ qx.Class.define("ligamanager.pages.UserManagerPage",
 		
 			var Users = this.__userRpc.callSync("GetUsers");
 			
-			__userTableModel.setDataAsMapArray( Users );
+			this.__userTableModel.setDataAsMapArray( Users );
 		}
 			
 	}

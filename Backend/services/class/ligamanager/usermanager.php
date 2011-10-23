@@ -26,6 +26,19 @@ class class_usermanager extends ServiceIntrospection
 		$db->insert('users', $entry);
     }
 	
+	function method_RemoveUser($params, $error)
+    {
+        if (count($params) != 1)
+        {
+            $error->SetError(JsonRpcError_ParameterMismatch,
+                             "Expected 1 parameter; got " . count($params));
+            return $error;
+        }
+
+		$db = CreateDbConnection();
+		$user_id = (int)$params[0];
+		$db->query("delete from users where id = $user_id");
+	}
 	
 	function method_GetUsers($params, $error)
     {
