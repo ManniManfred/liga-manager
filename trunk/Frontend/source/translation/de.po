@@ -31,7 +31,7 @@ msgstr "Spielplan"
 msgid "Guestbook"
 msgstr "Gästebuch"
 
-#: ligamanager/MainWidget.js:247 ligamanager/MainWidget.js:333
+#: ligamanager/MainWidget.js:247 ligamanager/MainWidget.js:330
 msgid "Documents"
 msgstr "Dokumente"
 
@@ -39,17 +39,17 @@ msgstr "Dokumente"
 msgid "Logout"
 msgstr "Abmelden"
 
-#: ligamanager/MainWidget.js:305
+#: ligamanager/MainWidget.js:310
 msgid "Manager"
 msgstr "Verwaltung"
 
-#: ligamanager/MainWidget.js:317
-msgid "Liga"
-msgstr ""
-
-#: ligamanager/MainWidget.js:325
+#: ligamanager/MainWidget.js:322
 msgid "User"
 msgstr "Benutzer"
+
+#: ligamanager/MainWidget.js:340
+msgid "Liga"
+msgstr ""
 
 #: ligamanager/pages/ContactPage.js:88 ligamanager/MainWidget.js:223
 msgid "Contact"
@@ -88,7 +88,7 @@ msgid "Fax"
 msgstr ""
 
 #: ligamanager/pages/ContactPage.js:135 ligamanager/pages/ContactPage.js:213
-#: ligamanager/pages/RegisterPage.js:143 ligamanager/pages/RegisterPage.js:150
+#: ligamanager/pages/RegisterPage.js:133 ligamanager/pages/RegisterPage.js:139
 #: ligamanager/pages/Guestbook.js:99
 msgid "E-Mail"
 msgstr ""
@@ -101,14 +101,6 @@ msgstr "Herr"
 msgid "Mrs."
 msgstr "Frau"
 
-#: ligamanager/pages/ContactPage.js:154 ligamanager/pages/ContactPage.js:162
-#: ligamanager/pages/ContactPage.js:213 ligamanager/pages/ContactPage.js:228
-#: ligamanager/pages/RegisterPage.js:105 ligamanager/pages/RegisterPage.js:117
-#: ligamanager/pages/RegisterPage.js:135 ligamanager/pages/RegisterPage.js:150
-#: ligamanager/pages/Guestbook.js:113 ligamanager/pages/Guestbook.js:130
-msgid "The field %1 is required."
-msgstr "Das Eingabefeld %1 muss ausgefüllt werden."
-
 #: ligamanager/pages/ContactPage.js:221 ligamanager/pages/ContactPage.js:228
 #: ligamanager/pages/Guestbook.js:103 ligamanager/pages/Guestbook.js:130
 msgid "Message"
@@ -118,12 +110,12 @@ msgstr "Nachricht"
 msgid "Send a copy of your mail to your e-mail address."
 msgstr "Eine Kopie zu ihrer E-Mail Adresse schicken."
 
-#: ligamanager/pages/ContactPage.js:237 ligamanager/pages/RegisterPage.js:167
+#: ligamanager/pages/ContactPage.js:237 ligamanager/pages/RegisterPage.js:185
 #: ligamanager/pages/Guestbook.js:138
 msgid "Send"
 msgstr "Senden"
 
-#: ligamanager/pages/ContactPage.js:245 ligamanager/pages/RegisterPage.js:174
+#: ligamanager/pages/ContactPage.js:245 ligamanager/pages/RegisterPage.js:192
 #: ligamanager/pages/Guestbook.js:146
 msgid "Reset"
 msgstr "Zurücksetzten"
@@ -132,7 +124,7 @@ msgstr "Zurücksetzten"
 msgid "The message was succesfully send."
 msgstr "Die Nachricht wurde erfolgreich versandt."
 
-#: ligamanager/pages/ContactPage.js:264 ligamanager/pages/Guestbook.js:219
+#: ligamanager/pages/ContactPage.js:264 ligamanager/pages/Guestbook.js:221
 msgid "Sending the messsaged failed. The following error occured: "
 msgstr "Das Versenden ist fehlgeschlagen. Der folgende Fehler ist aufgetreten"
 
@@ -140,9 +132,34 @@ msgstr "Das Versenden ist fehlgeschlagen. Der folgende Fehler ist aufgetreten"
 msgid "New Entry"
 msgstr "Neuer Eintrag"
 
-#: ligamanager/pages/Guestbook.js:215
+#: ligamanager/pages/Guestbook.js:217
 msgid "The message was succesfully entered."
 msgstr "Der Entrag wurde erfolgreich hinzugefügt."
+
+#: ligamanager/pages/LigaManagerPage.js:89
+msgid "New"
+msgstr ""
+
+#: ligamanager/pages/LigaManagerPage.js:93
+#: ligamanager/pages/LigaManagerPage.js:97
+msgid "SetDefault"
+msgstr ""
+
+#: ligamanager/pages/LigaManagerPage.js:203
+#: ligamanager/pages/ContactPage.js:154 ligamanager/pages/ContactPage.js:162
+#: ligamanager/pages/ContactPage.js:213 ligamanager/pages/ContactPage.js:228
+#: ligamanager/pages/RegisterPage.js:106 ligamanager/pages/RegisterPage.js:117
+#: ligamanager/pages/RegisterPage.js:128 ligamanager/pages/RegisterPage.js:139
+#: ligamanager/pages/RegisterPage.js:160 ligamanager/pages/RegisterPage.js:177
+#: ligamanager/pages/Guestbook.js:113 ligamanager/pages/Guestbook.js:130
+msgid "The field %1 is required."
+msgstr "Das Eingabefeld %1 muss ausgefüllt werden."
+
+#: ligamanager/pages/LigaManagerPage.js:203
+#: ligamanager/pages/RegisterPage.js:106 ligamanager/pages/LoginPage.js:64
+#: ligamanager/pages/Guestbook.js:94 ligamanager/pages/Guestbook.js:113
+msgid "Name"
+msgstr ""
 
 #: ligamanager/pages/LoginPage.js:23
 msgid "Hobbyliga"
@@ -168,56 +185,59 @@ msgstr "Anmeldung fehlgeschlagen: %1"
 msgid "Connection error"
 msgstr "Verbindungsfehler"
 
-#: ligamanager/pages/RegisterPage.js:92
+#: ligamanager/pages/RegisterPage.js:94
 msgid "Register to"
 msgstr "Benutzerangaben"
 
-#: ligamanager/pages/RegisterPage.js:98
+#: ligamanager/pages/RegisterPage.js:100
 msgid "User name"
 msgstr "Benutzername"
 
-#: ligamanager/pages/RegisterPage.js:105 ligamanager/pages/LoginPage.js:64
-#: ligamanager/pages/Guestbook.js:94 ligamanager/pages/Guestbook.js:113
-msgid "Name"
-msgstr ""
+#: ligamanager/pages/RegisterPage.js:111 ligamanager/pages/RegisterPage.js:117
+msgid "first name"
+msgstr "Vorname"
 
-#: ligamanager/pages/RegisterPage.js:110 ligamanager/pages/RegisterPage.js:117
+#: ligamanager/pages/RegisterPage.js:122 ligamanager/pages/RegisterPage.js:128
+msgid "surname"
+msgstr "Nachname"
+
+#: ligamanager/pages/RegisterPage.js:145
+msgid "Team"
+msgstr "Mannschaft"
+
+#: ligamanager/pages/RegisterPage.js:154 ligamanager/pages/RegisterPage.js:160
 #: ligamanager/pages/LoginPage.js:81
 msgid "Password"
 msgstr "Passwort"
 
-#: ligamanager/pages/RegisterPage.js:121
+#: ligamanager/pages/RegisterPage.js:164
 msgid "The password must have a length of 6."
 msgstr "Das Passwort muss mindestens 6 Zeichen lang sein."
 
-#: ligamanager/pages/RegisterPage.js:126 ligamanager/pages/RegisterPage.js:136
+#: ligamanager/pages/RegisterPage.js:169 ligamanager/pages/RegisterPage.js:178
 msgid "Confirm password"
 msgstr "Passwort Bestätigung"
 
-#: ligamanager/pages/RegisterPage.js:138
+#: ligamanager/pages/RegisterPage.js:180
 msgid "Password and confirm password are not equal."
 msgstr "Das Passwort und die Bestätigung stimmen nicht überein."
 
-#: ligamanager/pages/RegisterPage.js:156
-msgid "Team"
-msgstr "Mannschaft"
-
-#: ligamanager/pages/RegisterPage.js:200
+#: ligamanager/pages/RegisterPage.js:218
 msgid "You are successfully registered."
 msgstr "Sie wurden erfolgreich registriert."
 
-#: ligamanager/pages/RegisterPage.js:206
+#: ligamanager/pages/RegisterPage.js:224
 msgid "Register failed. The following error occured: "
 msgstr "Die Registrierung ist fehlgeschlagen. Der folgende Fehler ist aufgetreten: "
-
-#~ msgid "Info"
-#~ msgstr ""
 
 #~ msgid "Extra"
 #~ msgstr ""
 
 #~ msgid "Help"
 #~ msgstr "Hilfe"
+
+#~ msgid "Info"
+#~ msgstr ""
 
 #~ msgid "Nachricht"
 #~ msgstr ""
