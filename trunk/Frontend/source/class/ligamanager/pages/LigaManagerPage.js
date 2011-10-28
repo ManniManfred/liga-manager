@@ -1,8 +1,9 @@
 
 /*
-#asset(ligamanager/normal/new.png)
-#asset(ligamanager/normal/default.png)
-#asset(ligamanager/normal/delete.png)
+#asset(qx/icon/${qx.icontheme}/22/actions/view-refresh.png)
+#asset(qx/icon/${qx.icontheme}/22/actions/list-add.png)
+#asset(qx/icon/${qx.icontheme}/22/actions/list-remove.png)
+#asset(ligamanager/22/default.png)
 */
 qx.Class.define("ligamanager.pages.LigaManagerPage",
 {
@@ -85,19 +86,30 @@ qx.Class.define("ligamanager.pages.LigaManagerPage",
 			var toolbar = new qx.ui.toolbar.ToolBar();
 			paSaison.add(toolbar, {edge: "north"});
 
+			var part = new qx.ui.toolbar.Part();
+			toolbar.add(part);
 
-			var btNew = new qx.ui.toolbar.Button(this.tr("New"), "ligamanager/normal/new.png");
+			var btRefresh = new qx.ui.toolbar.Button(this.tr("Refresh"), "icon/22/actions/view-refresh.png" );
+			btRefresh.addListener("execute", this.__onRefresh, this );
+			part.add(btRefresh);
+			
+			part.add(new qx.ui.toolbar.Separator());
+			
+			var btNew = new qx.ui.toolbar.Button(this.tr("New"), "icon/22/actions/list-add.png");
 			btNew.addListener("execute", this.__onNewSaison, this);
-			toolbar.add(btNew);
+			part.add(btNew);
 
-			var btSetDefault = new qx.ui.toolbar.Button(this.tr("SetDefault"), "ligamanager/normal/default.png");
-			btSetDefault.addListener("execute", this.__onSetDefault, this);
-			toolbar.add(btSetDefault);
 
-			var btDelete = new qx.ui.toolbar.Button(this.tr("SetDefault"), "ligamanager/normal/delete.png");
+			var btDelete = new qx.ui.toolbar.Button(this.tr("SetDefault"), "icon/22/actions/list-remove.png");
 			btDelete.addListener("execute", this.__onDeleteSaison, this);
-			toolbar.add(btDelete);
+			part.add(btDelete);
 
+			part.add(new qx.ui.toolbar.Separator());
+			
+			var btSetDefault = new qx.ui.toolbar.Button(this.tr("SetDefault"), "ligamanager/22/default.png");
+			btSetDefault.addListener("execute", this.__onSetDefault, this);
+			part.add(btSetDefault);
+			
 			var lvSaison = this.__lvSaison = new qx.ui.form.List();
 			paSaison.add(lvSaison, {edge: "center"});
 
@@ -119,7 +131,7 @@ qx.Class.define("ligamanager.pages.LigaManagerPage",
 							self.__lvSaison.add(item);
 							
 							if (result[i].isDefault == true) {
-								item.setIcon("ligamanager/normal/default.png");
+								item.setIcon("ligamanager/22/default.png");
 							}
 						}
 					}
@@ -128,6 +140,10 @@ qx.Class.define("ligamanager.pages.LigaManagerPage",
 				}
 			}, "GetSaisons");
 			
+		},
+		
+		__onRefresh : function(evt) {
+			this.__updateSaisons();
 		},
 		
 		__onDeleteSaison : function(evt) {
@@ -156,14 +172,14 @@ qx.Class.define("ligamanager.pages.LigaManagerPage",
 					items[i].setIcon(null);
 				}
 			
-				selection[0].setIcon("ligamanager/normal/default.png");
+				selection[0].setIcon("ligamanager/22/default.png");
 			}
 			
 		},
 		
 		__onNewSaison : function(evt) {
 		
-			var wm1 = this.__newSaisonWindow = new qx.ui.window.Window("Neue Saison", "ligamanager/normal/new.png");
+			var wm1 = this.__newSaisonWindow = new qx.ui.window.Window("Neue Saison", "ligamanager/22/new.png");
 			wm1.setShowMaximize(false);
 			wm1.setShowMinimize(false);
 			wm1.setResizable(false);

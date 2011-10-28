@@ -2,8 +2,8 @@
 /*
 #asset(ligamanager/fussball_gras.png) 
 #asset(ligamanager/waitcursor.gif)
-#asset(ligamanager/normal/warn.png)
-#asset(ligamanager/normal/info.png)
+#asset(ligamanager/22/warn.png)
+#asset(ligamanager/22/info.png)
 */
 
 qx.Class.define("ligamanager.pages.LoginPage",
@@ -183,12 +183,12 @@ qx.Class.define("ligamanager.pages.LoginPage",
 					}
 					else {
 						self.__statusAtom.setLabel(self.tr("Login failed: %1", result.message));
-						self.__statusAtom.setIcon("ligamanager/normal/info.png");
+						self.__statusAtom.setIcon("ligamanager/22/info.png");
 					}
 				}
 				else {
 					self.__statusAtom.setLabel(self.tr("Connection error"));
-					self.__statusAtom.setIcon("ligamanager/normal/warn.png");
+					self.__statusAtom.setIcon("ligamanager/22/warn.png");
 				}
 			};
 
