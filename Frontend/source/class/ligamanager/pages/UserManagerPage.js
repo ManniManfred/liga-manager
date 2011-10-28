@@ -102,15 +102,12 @@ qx.Class.define("ligamanager.pages.UserManagerPage",
 			if( selection.isSelectionEmpty() == false ) {
 			
 				var selectedRanges = selection.getSelectedRanges();
-				for( var i=0; i<selectedRanges.length(); i++ ) {
-					for( index=selectedRanges[i]["fromIndex"]; index<selectedRanges[i]["toIndex"]; index++ ) {
-					
-				//selection.iterateSelection( function(index) {
+				for (var i=0; i<selectedRanges.length; i++ ) {
+					for (var index=selectedRanges[i]["minIndex"]; index <= selectedRanges[i]["maxIndex"]; index++ ) {
 						selectedData = this.__userTableModel.getRowDataAsMap(index);
 						userId = selectedData["id"];
 						this.__userRpc.callSync("RemoveUser", userId );
 						this.__userTableModel.removeRows( index, 1 );
-				//}, this);
 					}
 				}
 			}
@@ -203,7 +200,7 @@ qx.Class.define("ligamanager.pages.UserManagerPage",
 			this.__userTable.addListener( "dblclick", this.__onDblClick, this );
 			this.__userTable.addListener( "keypress", this.__onKeyPressed, this );
 			
-			selectionModel = new qx.ui.table.selection.Model();
+			var selectionModel = new qx.ui.table.selection.Model();
 			selectionModel.setSelectionMode( qx.ui.table.selection.Model.SINGLE_SELECTION );
 			selectionModel.addListener( "changeSelection", this.__onChangeSelection, this );
 			this.__userTable.setSelectionModel( selectionModel );
