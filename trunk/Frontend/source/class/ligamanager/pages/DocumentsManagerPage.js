@@ -66,7 +66,7 @@ qx.Class.define("ligamanager.pages.DocumentsManagerPage",
 		__docsRpc : null,
 		
 		__waDocs : null,
-		
+		__filesSelectBox : null,
 		
 		__createFileUploadUi : function() {
 			
@@ -90,12 +90,6 @@ qx.Class.define("ligamanager.pages.DocumentsManagerPage",
 			var file1 = new uploadwidget.UploadField('uploadfile1', 'Select File 1','icon/16/actions/document-save.png');
 			form2.add(file1);
 
-			var file2 = new uploadwidget.UploadField('uploadfile2', 'Select File 2','icon/16/actions/document-save.png');
-			form2.add(file2);
-
-			var file3 = new uploadwidget.UploadField('uploadfile3', 'Select File 3','icon/16/actions/document-save.png');
-			form2.add(file3);
-
 			var bt = new qx.ui.form.Button(this.tr("Upload"), "icon/16/actions/dialog-ok.png");
 			bt.set({ marginTop : 10, allowGrowX : false });
 			form2.add(bt);
@@ -106,11 +100,16 @@ qx.Class.define("ligamanager.pages.DocumentsManagerPage",
 				bt.setEnabled(true);
 			});
 
+			form2.addListener('completed', function(e) {
+				var files = this.__docsRpc.callSync("GetFiles");
+				this.__filesSelectBox.setListData(files);
+			}, this);
+
 			bt.addListener('execute', function(e) {
 				form2.send();
 				this.setEnabled(false);
 			});
-
+			
 			this.__content.add(container2);
 
 			
@@ -186,11 +185,8 @@ qx.Class.define("ligamanager.pages.DocumentsManagerPage",
 			var tcm = this.__docsTable.getTableColumnModel();
 
 			// Display a select box for file choose
-			var files = this.__docsRpc.callSync("GetFiles");
-			var cellEditor = new qx.ui.table.celleditor.SelectBox();
-			
-			cellEditor.setListData(files);
-			tcm.setCellEditorFactory(1, cellEditor);
+			this.__filesSelectBox = new qx.ui.table.celleditor.SelectBox();
+			tcm.setCellEditorFactory(1, this.__filesSelectBox);
 			
 			
 			paDocs.add(this.__docsTable, {edge:"center"} );
@@ -198,32 +194,11 @@ qx.Class.define("ligamanager.pages.DocumentsManagerPage",
 		},
 		
 		__updateDocuments : function(evt) {
-			var self = this;
-			self.__toAdd = [];
-			self.__toDelete = [];
-			self.__toUpdate = [];
+		
+			var files = this.__docsRpc.callSync("GetFiles");
+			this.__filesSelectBox.setListData(files);
 			
-			self.__docsTableModel.reloadData();
-			
-			/*
-			self.__waDocs.startWaiting();
-			
-			this.__docsRpc.callAsync(function(result, ex) {
-				try {
-					if (ex == null) {
-						self.__toAdd = [];
-						self.__toDelete = [];
-						self.__toUpdate = [];
-						if (result != null) {
-							self.__docsTableModel.setDataAsMapArray( result );
-						}
-					} else {
-						alert("Fehler beim Laden der Dokumente.");
-					}
-				} finally {
-					self.__waDocs.stopWaiting();
-				}
-			}, "GetDocuments");*/
+			this.__docsTableModel.reloadData();
 		},
 		
 		__docsChanged : function(evt) {
@@ -250,20 +225,13 @@ qx.Class.define("ligamanager.pages.DocumentsManagerPage",
 				for (var i=0; i < selectedRanges.length; i++ ) {
 					for (var index = selectedRanges[i]["minIndex"]; index <= selectedRanges[i]["maxIndex"]; index++ ) {
 						this.__docsTableModel.removeRow(index);
-						
-						// selectedData = this.__docsTableModel.getRowDataAsMap(index);
-						// docId = selectedData["id"];
-						// this.__docsTableModel.removeRows( index, 1 );
-						
-						// this.__toDelete.push(selectedData["id"]);
 					}
 				}
 			}
 		},
 		
 		/**
-		 * Stores all changed, cached in __toDelete, __toAdd, __toUpdate
-		 * arrays.
+		 * Stores all changed.
 		 */
 		__onSaveDocuments : function(evt) {
 			this.__docsTableModel.saveChanges();
