@@ -67,41 +67,7 @@ class class_LigaManager extends ServiceIntrospection
 		$db->query("delete from saison where id = $saison_id");
     }
 	
-	//
-	// team handling
-	//
 	
-	function method_GetTeamsCount($params, $error)
-	{
-        if (count($params) != 0)
-        {
-            $error->SetError(JsonRpcError_ParameterMismatch,
-                             "Expected 0 parameter; got " . count($params));
-            return $error;
-        }
-		
-		
-		$db = CreateDbConnection();
-		$result = $db->queryFetchAll("select count(*) from team");
-		
-		return $result == null ? 0 : (int)$result[0]["count(*)"];
-	}
-	
-	function method_GetTeams($params, $error)
-	{
-        if (count($params) != 0)
-        {
-            $error->SetError(JsonRpcError_ParameterMismatch,
-                             "Expected 0 parameter; got " . count($params));
-            return $error;
-        }
-		
-		
-		$db = CreateDbConnection();
-		$result = $db->queryFetchAll("select * from team");
-		
-		return $result;
-	}
 	
 }
 
