@@ -1,3 +1,6 @@
+/*
+#asset(ligamanager/fussball_ani.svg)
+*/
 
 /**
  * Adds waiting ability to a widget. Classes that want to use this must
@@ -31,9 +34,16 @@ qx.Mixin.define("ligamanager.ui.MWaiting",
 			waitLayer.setOpacity(0.8);
 			waitLayer.setZIndex(1000000);
 			
-			var waitIcon = new qx.ui.basic.Image("ligamanager/waitcursor.gif");
+			 
+			var waitIcon = new qx.ui.embed.Html();
+			waitIcon.setHtml('<object data="resource/ligamanager/fussball_ani.svg?nocache=3" type="image/svg+xml"></object>');
 			waitIcon.setAlignX("center");
 			waitIcon.setAlignY("middle");
+			waitIcon.setWidth(60);
+			waitIcon.setHeight(60);
+			waitIcon.setMaxWidth(60);
+			waitIcon.setMaxHeight(60);
+			waitIcon.setCursor("wait");
 			waitLayer.add(waitIcon, {edge : "center"});
 			
 			waitLayer.setCursor("wait");

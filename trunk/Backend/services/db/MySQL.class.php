@@ -137,6 +137,33 @@ class MySQL {
 		return $this->query('INSERT INTO `'.$table.'` (`'.implode('`,`', $keys).'`) VALUES (\''.implode('\',\'', $values).'\')');
 	}
 	
+	public function update($table, $updates, $id_col="id") {
+		if (count($updates) > 0) {
+			$sql = "UPDATE `$table` SET ";
+			
+			$i = 0;
+			$id_val = null;
+			foreach($updates as $key => $value) {
+				if ($key != $id_col) {
+					$col = mysql_real_escape_string($key);
+					$val = mysql_real_escape_string($value);
+					
+					if ($i > 0) {
+						$sql .= ", ";
+					}
+					$sql .= "`$key` = '$val'";
+					
+					$i++;
+				} else {
+					$id_val = mysql_real_escape_string($value);
+				}				
+			}
+			
+			$sql .= " where `$id_col` = $id_val";
+			return $this->query($sql);
+		}
+	}
+	
 	public function query($string) {
 
 	 	if (is_resource($this->id)) {

@@ -1,7 +1,7 @@
 ﻿ 
 qx.Class.define("ligamanager.pages.Guestbook",
 {
-	extend: qx.ui.container.Composite,
+	extend: qx.ui.container.Scroll,
 	implement: [ligamanager.pages.IPage],
 
 	/*
@@ -20,10 +20,10 @@ qx.Class.define("ligamanager.pages.Guestbook",
 		props.size = 22;
 		this.__headerFont = qx.bom.Font.fromConfig(props);
 		
-		this.setPadding(20);
-		var layout = new qx.ui.layout.Dock();
-		layout.setSpacingY(20);
-		this.setLayout(layout);
+		this.__content = new qx.ui.container.Composite(new qx.ui.layout.VBox(20));
+		this.__content.setPadding(20);
+		this.add(this.__content);
+				
 		this.__createEntryInput();
 		this.__createEntries();
 	},
@@ -58,14 +58,22 @@ qx.Class.define("ligamanager.pages.Guestbook",
 		__model : null,
 		__form : null,
 		__headerFont : null,
+		__content : null,
+		__paGbContent : null,
 		
 		__createEntryInput : function() {
 			
 		
+			var laTeams = new qx.ui.basic.Label(this.tr("New Entry"));
+			laTeams.setAppearance("label-sep");
+			this.__content.add(laTeams);
+			
+			
 			var paCreateEntry = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
-			this.add(paCreateEntry, {edge:"north"});
+			this.__content.add(paCreateEntry);
 			
 			// create the model
+			
 			var model = this.__model = qx.data.marshal.Json.createModel({Name: ""});
 
 
@@ -82,8 +90,8 @@ qx.Class.define("ligamanager.pages.Guestbook",
 			gridLayout.setColumnWidth(2, 80);
 			gridLayout.setColumnWidth(3, 50);
 
-			var groupbox = new qx.ui.groupbox.GroupBox(this.tr("New Entry"));
-			groupbox.setLayout(gridLayout);
+			
+			var groupbox = new qx.ui.container.Composite(gridLayout);
 			paCreateEntry.add(groupbox, {left: 0, top:0});
 
 			var suffix = " :";
@@ -113,7 +121,7 @@ qx.Class.define("ligamanager.pages.Guestbook",
 			tbFirstName.setRequiredInvalidMessage(this.tr("The field %1 is required.", this.tr("Name")));
 			tbFirstName.setTabIndex(tabIndex++);
 			groupbox.add(tbFirstName, {row : rowIndex, column : 1, colSpan : 3});
-			form.add(tbFirstName, "", null, "Name");
+			form.add(tbFirstName, "", null, "name");
 			rowIndex++;
 			
 			
@@ -122,7 +130,7 @@ qx.Class.define("ligamanager.pages.Guestbook",
 			//tbEMail.setRequiredInvalidMessage(this.tr("The field %1 is required.", this.tr("E-Mail")));
 			tbEMail.setTabIndex(tabIndex++);
 			groupbox.add(tbEMail, {row : rowIndex, column : 1, colSpan : 3});
-			form.add(tbEMail, "", qx.util.Validate.email(), "EMail");
+			form.add(tbEMail, "", function(value) { return value == null || value == "" || qx.util.Validate.checkEmail(value, null, null); }, "email");
 			rowIndex++;
 			
 			var taMessage = new qx.ui.form.TextArea();
@@ -130,7 +138,7 @@ qx.Class.define("ligamanager.pages.Guestbook",
 			taMessage.setRequiredInvalidMessage(this.tr("The field %1 is required.", this.tr("Message")));
 			taMessage.setTabIndex(tabIndex++);
 			groupbox.add(taMessage, {row : rowIndex, column : 1, colSpan : 3});
-			form.add(taMessage, "", null, "Message");
+			form.add(taMessage, "", null, "message");
 			rowIndex++;
 			
 			
@@ -156,35 +164,33 @@ qx.Class.define("ligamanager.pages.Guestbook",
 		
 		__createEntries : function() {
 		
-			var groupbox = new qx.ui.groupbox.GroupBox("Gästebuch");
-			groupbox.setLayout(new qx.ui.layout.Grow());
-			//groupbox.setWidth(300);
-			this.add(groupbox, {edge:"center"});
+			var laGuestbook = new qx.ui.basic.Label(this.tr("Guestbook"));
+			laGuestbook.setAppearance("label-sep");
+			this.__content.add(laGuestbook);
 			
-			var paContent = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
-			
-			var scroll = new qx.ui.container.Scroll(paContent)
-			groupbox.add(scroll);
-
+			var paContent = this.__paGbContent = new qx.ui.container.Composite(new qx.ui.layout.VBox(20));
+			this.__content.add(paContent);
 			
 			var entries = this.__guestRpc.callSync("GetEntries");
 			if (entries != null) {
 				for (var i = 0; i < entries.length; i++) {
-					var item = this.__createItem(entries[i], i);
-					paContent.add(item);
+					this.__addItem(entries[i]);
 				}
 			}
 		},
 		
-		__createItem : function(entry, i) {
 		
+		__addItem : function(entry) {
+		
+			var count = this.__paGbContent.getChildren().length;
+			
 			var paItem = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
 			paItem.setPadding(10);
 			
-			if (i % 2 === 0) {
+			if (count % 2 === 0) {
 				paItem.setBackgroundColor("#DDDDD0");
 			} else {
-			  paItem.setBackgroundColor("#DDDDDD");
+			    paItem.setBackgroundColor("#DDDDDD");
 			}
 			
 			var lyHeader = new qx.ui.layout.HBox(10);
@@ -205,7 +211,7 @@ qx.Class.define("ligamanager.pages.Guestbook",
 			laMessage.setSelectable(true);
 			paItem.add(laMessage);
 			
-			return paItem;
+			this.__paGbContent.addAt(paItem, 0);
 		},
 		
 		__onBtSend : function(evt) {
@@ -213,7 +219,9 @@ qx.Class.define("ligamanager.pages.Guestbook",
 				var controller = new qx.data.controller.Form(null, this.__form);
 				var model = controller.createModel();
 				try {
-					this.__guestRpc.callSync("AddEntry", qx.util.Serializer.toNativeObject(model));
+					var entry = qx.util.Serializer.toNativeObject(model);
+					this.__addItem(entry);
+					this.__guestRpc.callSync("AddEntry", entry);
 					alert(this.tr("The message was succesfully entered."));
 					this.__form.reset();
 				} catch (ex)

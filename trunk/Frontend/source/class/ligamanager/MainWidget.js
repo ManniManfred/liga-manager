@@ -30,6 +30,7 @@ qx.Class.define("ligamanager.MainWidget",
 		this.base(arguments);
 
 		this.__coreRpc = new qx.io.remote.Rpc(ligamanager.Core.RPC_BACKEND , "ligamanager.Core");
+		this.__documentsRpc = new qx.io.remote.Rpc(ligamanager.Core.RPC_BACKEND , "ligamanager.Documents");
 		
 		var core = ligamanager.Core.getInstance();
 
@@ -102,6 +103,7 @@ qx.Class.define("ligamanager.MainWidget",
 	members:
 	{
 		__coreRpc : null,
+		__documentsRpc : null,
 		__inButtons : null,
 		__contentContainer : null,
 		__emptyPage : null,
@@ -238,9 +240,9 @@ qx.Class.define("ligamanager.MainWidget",
 			// Documents
 			//
 			
-			var docs = this.__coreRpc.callSync("GetDocuments");
+			var docs = this.__documentsRpc.callSync("GetDocuments");
 			
-			if (docs.length > 0) {
+			if (docs != null && docs.length > 0) {
 			
 				sidebar.add(new qx.ui.core.Spacer(this.__blockSpace, this.__blockSpace));
 				
@@ -261,7 +263,7 @@ qx.Class.define("ligamanager.MainWidget",
 					var btDoc = new qx.ui.form.Button(docs[i].name, null);
 					btDoc.setAppearance("sidebar/button");
 					btDoc.setUserData("parentButton", btDocuments);
-					btDoc.setUserData("pdfUrl", docs[i].pdfUrl);
+					btDoc.setUserData("pdfUrl", ligamanager.Core.DOCUMENT_FOLDER + docs[i].filename);
 					btDoc.addListener("execute", this.__onBtExecuted, this);
 					btDoc.addListener("execute", this.__onShowDocument, this);
 					documentsContainer.add(btDoc);
