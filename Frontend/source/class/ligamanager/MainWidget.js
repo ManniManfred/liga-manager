@@ -30,7 +30,6 @@ qx.Class.define("ligamanager.MainWidget",
 		this.base(arguments);
 
 		this.__coreRpc = new qx.io.remote.Rpc(ligamanager.Core.RPC_BACKEND , "ligamanager.Core");
-		this.__documentsRpc = new qx.io.remote.Rpc(ligamanager.Core.RPC_BACKEND , "ligamanager.Documents");
 		
 		var core = ligamanager.Core.getInstance();
 
@@ -103,7 +102,6 @@ qx.Class.define("ligamanager.MainWidget",
 	members:
 	{
 		__coreRpc : null,
-		__documentsRpc : null,
 		__inButtons : null,
 		__contentContainer : null,
 		__emptyPage : null,
@@ -240,7 +238,7 @@ qx.Class.define("ligamanager.MainWidget",
 			// Documents
 			//
 			
-			var docs = this.__documentsRpc.callSync("GetDocuments");
+			var docs = this.__coreRpc.callSync("GetEntities", "document");
 			
 			if (docs != null && docs.length > 0) {
 			

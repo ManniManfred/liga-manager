@@ -9,7 +9,7 @@ qx.Class.define("ligamanager.pages.EntityTableModel",
 	 * ****************************************************************************
 	 */
 
-	construct: function(rpc, entityName) {
+	construct: function(tableName) {
 		this.base(arguments);
 		
 		//
@@ -21,8 +21,8 @@ qx.Class.define("ligamanager.pages.EntityTableModel",
 		
 		this.__idName = "id";
 		
-		this.__rpc = rpc;
-		this.__entityName = entityName;
+		this.__tableName = tableName;
+		this.__rpc = new qx.io.remote.Rpc(ligamanager.Core.RPC_BACKEND , "ligamanager.Core");
 		
 	},
 	
@@ -30,7 +30,7 @@ qx.Class.define("ligamanager.pages.EntityTableModel",
 	members :
 	{
 		__rpc : null,
-		__entityName : null,
+		__tableName : null,
 		__idName : null,
 
 		__toAdd : null,
@@ -118,7 +118,7 @@ qx.Class.define("ligamanager.pages.EntityTableModel",
 			var updates = this.getChanges();
 			
 			if (updates != null) {
-				this.__rpc.callSync("Update" + this.__entityName, updates);
+				this.__rpc.callSync("UpdateEntities", this.__tableName, updates);
 				
 				this.reloadData();
 			}
@@ -170,9 +170,9 @@ qx.Class.define("ligamanager.pages.EntityTableModel",
 						self._onRowCountLoaded(result);
 					}
 				} else {
-					alert("Fehler beim Laden der Saisons.");
+					alert("Fehler beim Laden der Element der Tabelle " + this.__tableName);
 				}
-			}, "Get" + this.__entityName + "Count");
+			}, "GetEntitiesCount", this.__tableName);
 
 		},
 
@@ -193,7 +193,7 @@ qx.Class.define("ligamanager.pages.EntityTableModel",
 					alert("Fehler beim Laden der Saisons.");
 				}
 				
-			}, "Get" + this.__entityName, firstRow, lastRow);
+			}, "GetEntities", this.__tableName, firstRow, lastRow);
 		}
 		
 	}

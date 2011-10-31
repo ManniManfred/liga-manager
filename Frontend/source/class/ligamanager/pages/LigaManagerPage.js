@@ -335,9 +335,7 @@ qx.Class.define("ligamanager.pages.LigaManagerPage",
 		// team handling
 		//
 		
-		__waTeams : null,
-		__teamTableModel : null,
-		__teamTable : null,
+		__teamsTable : null,
 		
 		__createTeamPart : function() {
 			
@@ -345,61 +343,16 @@ qx.Class.define("ligamanager.pages.LigaManagerPage",
 			laTeams.setAppearance("label-sep");
 			this.__content.add(laTeams);
 			
-			var waTeams = this.__waTeams = new ligamanager.ui.WaitingContainer();
-			this.__content.add(waTeams);
+			this.__teamsTable = new ligamanager.pages.EntityTable("team", ["Name", "Webseite", "Logo"], ["name", "homepage", "icon"]);
+			this.__teamsTable.setHeight(300);
+			this.__teamsTable.setAllowGrowX(false);
+			this.__content.add(this.__teamsTable);
 			
-			var paTeams = new qx.ui.container.Composite();
-			paTeams.setAllowGrowX(false);
-			paTeams.setLayout(new qx.ui.layout.Dock());
-			waTeams.add(paTeams);
-
-			//
-			// toolbar
-			//
-			var toolbar = new qx.ui.toolbar.ToolBar();
-			paTeams.add(toolbar, {edge: "north"});
-
-			var part = new qx.ui.toolbar.Part();
-			toolbar.add(part);
-
-			var btRefresh = new qx.ui.toolbar.Button(this.tr("Refresh"), "icon/22/actions/view-refresh.png" );
-			btRefresh.addListener("execute", this.__onSaisonRefresh, this );
-			part.add(btRefresh);
-			
-			part.add(new qx.ui.toolbar.Separator());
-			
-			var btNew = new qx.ui.toolbar.Button(this.tr("New"), "icon/22/actions/list-add.png");
-			btNew.addListener("execute", this.__onNewSaison, this);
-			part.add(btNew);
-
-
-			var btDelete = new qx.ui.toolbar.Button(this.tr("SetDefault"), "icon/22/actions/list-remove.png");
-			btDelete.addListener("execute", this.__onDeleteSaison, this);
-			part.add(btDelete);
-
-			part.add(new qx.ui.toolbar.Separator());
-			
-			var btSetDefault = new qx.ui.toolbar.Button(this.tr("SetDefault"), "ligamanager/22/default.png");
-			btSetDefault.addListener("execute", this.__onSetDefault, this);
-			part.add(btSetDefault);
-			
-			toolbar.setShow("icon");
-			
-			//
-			// team table view
-			//
-			var table = this.__teamTable = new qx.ui.table.Table();
-			paTeams.add(table, {edge: "center"});
-			
-			var model = this.__teamTableModel = new ligamanager.pages.TeamTableModel();
-			table.setTableModel(model);
-			
-
-			
-		},
-		
-		__updateTeams : function() {
+			var table = this.__teamsTable.getTable();
+			table.setColumnWidth( 0, 200 );
+			table.setColumnWidth( 1, 200 );
 			
 		}
+		
 	}
 });
