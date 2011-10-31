@@ -15,6 +15,10 @@ foreach ($_FILES as $key => $file)
 		echo "Temp file: " . $file["tmp_name"] . "<br />";
 
 		
+		if (!is_dir($_ENV["upload_folder"])) {
+			mkdir($_ENV["upload_folder"]);
+		}
+		
 		move_uploaded_file($file["tmp_name"], $_ENV["upload_folder"] . $file["name"]);
 		echo "Stored in: " . $_ENV["upload_folder"] . $file["name"];
     }
