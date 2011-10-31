@@ -4,7 +4,7 @@ require_once "server/lib/JSON.phps";
 require_once "config.php";
 require_once "db.php";
 
-class class_core extends ServiceIntrospection
+class class_Core extends ServiceIntrospection
 {
 
 	
@@ -101,20 +101,6 @@ class class_core extends ServiceIntrospection
 	}
 	
 	
-	
-	function method_GetDocuments($params, $error) 
-	{
-        if (count($params) != 0)
-        {
-            $error->SetError(JsonRpcError_ParameterMismatch,
-                             "Expected 0 parameter; got " . count($params));
-            return $error;
-        }
-		
-		// TODO:
-		return array(array("name" => "LigaRegeln", "pdfUrl" => "/bla.pdf"),
-					array("name" => "Spielbericht", "pdfUrl" => "/bla.pdf"),);
-	}
 }
 
 ?>

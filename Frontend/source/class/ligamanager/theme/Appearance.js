@@ -33,6 +33,16 @@ qx.Theme.define("ligamanager.theme.Appearance",
 				};  
 			}
 		},
+		"label-sep" : {
+			style : function(states) {
+				return {
+					padding : [5],
+					font : "bold",
+					backgroundColor : "#CCCCCC",
+					allowGrowX : true
+				};
+			}
+		},
 		
 		"tabview-small" : {
 			alias : "tabview",

@@ -7,5 +7,6 @@ $_ENV["db_catalog"] = "ligamanager";
 $_ENV["db_user"] = "root";
 $_ENV["db_password"] = "";
 
+$_ENV["upload_folder"] = "upload/";
 
 ?>

@@ -130,10 +130,7 @@ qx.Class.define("ligamanager.pages.UserManagerPage",
 		__createUI : function() {
 		
 			var laCaption = new qx.ui.basic.Label(this.tr("User Manager"));
-			laCaption.setFont("bold");
-			laCaption.setPadding(5);
-			laCaption.setBackgroundColor("#CCCCCC");
-			laCaption.setAllowGrowX(true);
+			laCaption.setAppearance("label-sep");
 			this.add(laCaption, {left:20, top:20, right:20} );
 	
 	

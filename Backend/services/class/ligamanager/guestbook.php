@@ -31,7 +31,7 @@ class class_guestbook extends ServiceIntrospection
 		
 		$db = CreateDbConnection();
 		$entry = (array)$params[0];
-		$entry['Message'] = htmlentities($entry['Message']);
+		$entry['message'] = htmlentities($entry['message']);
 		$entry['date'] = date('c');
 		$db->insert('guestbook', $entry);
     }

@@ -134,7 +134,7 @@ msgstr "Neuer Eintrag"
 
 #: ligamanager/pages/Guestbook.js:217
 msgid "The message was succesfully entered."
-msgstr "Der Entrag wurde erfolgreich hinzugefügt."
+msgstr "Der Eintrag wurde erfolgreich hinzugefügt."
 
 #: ligamanager/pages/LigaManagerPage.js:89
 msgid "New"
