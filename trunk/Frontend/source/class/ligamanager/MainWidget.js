@@ -301,9 +301,7 @@ qx.Class.define("ligamanager.MainWidget",
 
 			if (userRights == "USER") {
 				// nothing: keine besonderen Berechtigungen..
-			}
-			
-			else if( userRights == "ADMIN_TEAM" || userRights == "ADMIN_LIGA" || userRights == "ADMIN" ) {
+			} else if (userRights == "ADMIN_LIGA" || userRights == "ADMIN") {
 				
 				sidebar.add(new qx.ui.core.Spacer(this.__blockSpace, this.__blockSpace));
 				
@@ -321,6 +319,7 @@ qx.Class.define("ligamanager.MainWidget",
 				
 				var btUserManager = new qx.ui.form.Button(this.tr("User"), null);
 				btUserManager.setAppearance("sidebar/button");
+				btUserManager.setUserData("parentButton", btManager);
 				btUserManager.setUserData("page", ligamanager.pages.UserManagerPage);
 				btUserManager.addListener("execute", this.__onBtExecuted, this);
 				btUserManager.addListener("execute", this.__onShowPage, this);
@@ -329,26 +328,46 @@ qx.Class.define("ligamanager.MainWidget",
 				
 				var btDocumentsManager = new qx.ui.form.Button(this.tr("Documents"), null);
 				btDocumentsManager.setAppearance("sidebar/button");
+				btDocumentsManager.setUserData("parentButton", btManager);
 				btDocumentsManager.setUserData("page", ligamanager.pages.DocumentsManagerPage);
 				btDocumentsManager.addListener("execute", this.__onBtExecuted, this);
 				btDocumentsManager.addListener("execute", this.__onShowPage, this);
 				managerContainer.add(btDocumentsManager);
-			}
-
-			if( userRights == "ADMIN_LIGA" || userRights == "ADMIN" ) {
-				// addittional: liga manager
+			
+				//
+				// liga manager
+				//
 				var btLiga = new qx.ui.form.Button(this.tr("Liga"), null);
 				btLiga.setAppearance("sidebar/button");
 				btLiga.setUserData("page", ligamanager.pages.LigaManagerPage);
+				btLiga.setUserData("parentButton", btManager);
 				btLiga.addListener("execute", this.__onBtExecuted, this);
 				btLiga.addListener("execute", this.__onShowPage, this);
 				managerContainer.add(btLiga);
 			
+				var ligaContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox().set({spacing : this.__innerSpace}));
+				ligaContainer.setPaddingLeft(20);
+				managerContainer.add(ligaContainer);
+			
+				var btMasterDataLiga = new qx.ui.form.Button(this.tr("MasterData"), null);
+				btMasterDataLiga.setAppearance("sidebar/button");
+				btMasterDataLiga.setUserData("parentButton", btLiga);
+				btMasterDataLiga.setUserData("page", ligamanager.pages.LigaMasterDataPage);
+				btMasterDataLiga.addListener("execute", this.__onBtExecuted, this);
+				btMasterDataLiga.addListener("execute", this.__onShowPage, this);
+				ligaContainer.add(btMasterDataLiga);
+				
+				
+				var btSaison = new qx.ui.form.Button(this.tr("Saison"), null);
+				btSaison.setAppearance("sidebar/button");
+				btSaison.setUserData("parentButton", btLiga);
+				btSaison.setUserData("page", ligamanager.pages.SaisonManagerPage);
+				btSaison.addListener("execute", this.__onBtExecuted, this);
+				btSaison.addListener("execute", this.__onShowPage, this);
+				ligaContainer.add(btSaison);
+				
 			}
 			
-			if( userRights == "ADMIN" ) {
-				// to be defined
-			}
 		},
 		
 		__updateSideBar : function() {
@@ -395,9 +414,10 @@ qx.Class.define("ligamanager.MainWidget",
 			button.addState("isIn");
 			
 			var parentButton = button.getUserData("parentButton");
-			if (parentButton != undefined && parentButton != null) {
+			while (parentButton != undefined && parentButton != null) {
 				parentButton.addState("isIn");
 				this.__inButtons.push(parentButton);
+				var parentButton = parentButton.getUserData("parentButton");
 			}
 		},
 		
