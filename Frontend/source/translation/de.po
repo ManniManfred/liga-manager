@@ -1,4 +1,4 @@
-﻿# 
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
@@ -35,16 +35,24 @@ msgstr "Gästebuch"
 msgid "Logout"
 msgstr "Abmelden"
 
-#: ligamanager/MainWidget.js:310
+#: ligamanager/MainWidget.js:308
 msgid "Manager"
 msgstr "Verwaltung"
 
-#: ligamanager/MainWidget.js:322
+#: ligamanager/MainWidget.js:320
 msgid "User"
 msgstr "Benutzer"
 
 #: ligamanager/MainWidget.js:340
 msgid "Liga"
+msgstr ""
+
+#: ligamanager/MainWidget.js:352
+msgid "MasterData"
+msgstr "Stammdaten"
+
+#: ligamanager/MainWidget.js:361
+msgid "Saison"
 msgstr ""
 
 #: ligamanager/pages/ContactPage.js:88 ligamanager/MainWidget.js:223
@@ -133,15 +141,15 @@ msgid "Upload"
 msgstr ""
 
 #: ligamanager/pages/DocumentsManagerPage.js:120 ligamanager/MainWidget.js:247
-#: ligamanager/MainWidget.js:330
+#: ligamanager/MainWidget.js:329
 msgid "Documents"
 msgstr "Dokumente"
 
 #: ligamanager/pages/EntityTable.js:107
 msgid "Save"
-msgstr ""
+msgstr "Speichern"
 
-#: ligamanager/pages/EntityTableModel.js:142
+#: ligamanager/pages/EntityTableModel.js:150
 msgid "que_save_data"
 msgstr "In dieser Tabelle sind ungespeicherte Daten. Durch die aufgerufene Funktion würden diese verloren gehen. Sollen die Änderungen vorher gespeichert werden?"
 
@@ -153,28 +161,28 @@ msgstr "Neuer Eintrag"
 msgid "The message was succesfully entered."
 msgstr "Der Eintrag wurde erfolgreich hinzugefügt."
 
-#: ligamanager/pages/LigaManagerPage.js:112
+#: ligamanager/pages/LigaMasterDataPage.js:112
 #: ligamanager/pages/EntityTable.js:90
 #: ligamanager/pages/UserManagerPage.js:150
 msgid "Refresh"
-msgstr ""
+msgstr "Aktualisieren"
 
-#: ligamanager/pages/LigaManagerPage.js:118
+#: ligamanager/pages/LigaMasterDataPage.js:118
 #: ligamanager/pages/EntityTable.js:96
 #: ligamanager/pages/UserManagerPage.js:159
 msgid "New"
-msgstr ""
+msgstr "Neu"
 
-#: ligamanager/pages/LigaManagerPage.js:123
+#: ligamanager/pages/LigaMasterDataPage.js:123
 #: ligamanager/pages/EntityTable.js:101
 msgid "Remove"
-msgstr ""
+msgstr "Entfernen"
 
-#: ligamanager/pages/LigaManagerPage.js:129
+#: ligamanager/pages/LigaMasterDataPage.js:129
 msgid "SetDefault"
-msgstr ""
+msgstr "Als Standard setzten"
 
-#: ligamanager/pages/LigaManagerPage.js:269
+#: ligamanager/pages/LigaMasterDataPage.js:269
 #: ligamanager/pages/ContactPage.js:154 ligamanager/pages/ContactPage.js:162
 #: ligamanager/pages/ContactPage.js:213 ligamanager/pages/ContactPage.js:228
 #: ligamanager/pages/RegisterPage.js:106 ligamanager/pages/RegisterPage.js:117
@@ -184,19 +192,19 @@ msgstr ""
 msgid "The field %1 is required."
 msgstr "Das Eingabefeld %1 muss ausgefüllt werden."
 
-#: ligamanager/pages/LigaManagerPage.js:269
+#: ligamanager/pages/LigaMasterDataPage.js:269
 #: ligamanager/pages/RegisterPage.js:106 ligamanager/pages/LoginPage.js:64
 #: ligamanager/pages/Guestbook.js:102 ligamanager/pages/Guestbook.js:121
 msgid "Name"
 msgstr ""
 
-#: ligamanager/pages/LigaManagerPage.js:343
+#: ligamanager/pages/LigaMasterDataPage.js:343
 msgid "Teams"
-msgstr ""
+msgstr "Mannschaften"
 
-#: ligamanager/pages/LigaManagerPage.js:368
+#: ligamanager/pages/LigaMasterDataPage.js:369
 msgid "Player"
-msgstr ""
+msgstr "Spieler"
 
 #: ligamanager/pages/LoginPage.js:23
 msgid "Hobbyliga"
