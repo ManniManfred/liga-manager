@@ -116,12 +116,11 @@ class class_Core extends ServiceIntrospection
                              "Expected 1 parameter; got " . count($params));
             return $error;
         }
-		
 		$tableName = $params[0];
 		
 		$db = CreateDbConnection();
 		$result = $db->queryFetchAll("select count(*) from $tableName");
-		return $result == null ? 0 : (int)$result[0]["count(*)"];
+		return $result == null ? 0 : $result[0]["count(*)"];
 	}
 	
 
@@ -130,15 +129,22 @@ class class_Core extends ServiceIntrospection
 		$db = CreateDbConnection();
 		
 		$tableName = $params[0];
+		$sqlQuery = "select * from $tableName";
 		
 		if (isset($params[1]) && isset($params[2])) {
-			$firstIndex = $params[1];
-			$maxRows = $params[2] - $firstIndex ;
+			$sortField = $params[1];
+			$sortOrder = $params[2];
 			
-			return $db->queryFetchAll("select * from $tableName limit $firstIndex, $maxRows");
-		} else {
-			return $db->queryFetchAll("select * from $tableName");
+			$sqlQuery .= " order by $sortField $sortOrder";
 		}
+		
+		if (isset($params[3]) && isset($params[4])) {
+			$firstIndex = $params[3];
+			$maxRows = $params[4] - $firstIndex ;
+			
+			$sqlQuery .= " limit $firstIndex, $maxRows";
+		}
+		return $db->queryFetchAll($sqlQuery, $tableName);
 	}
 	
 	function method_UpdateEntities($params, $error) {

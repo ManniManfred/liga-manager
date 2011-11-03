@@ -1,4 +1,4 @@
-# 
+﻿# 
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
@@ -27,13 +27,9 @@ msgstr "Spieltabelle"
 msgid "Playing Schedule"
 msgstr "Spielplan"
 
-#: ligamanager/MainWidget.js:230
+#: ligamanager/MainWidget.js:230 ligamanager/pages/Guestbook.js:167
 msgid "Guestbook"
 msgstr "Gästebuch"
-
-#: ligamanager/MainWidget.js:247 ligamanager/MainWidget.js:330
-msgid "Documents"
-msgstr "Dokumente"
 
 #: ligamanager/MainWidget.js:289
 msgid "Logout"
@@ -89,7 +85,7 @@ msgstr ""
 
 #: ligamanager/pages/ContactPage.js:135 ligamanager/pages/ContactPage.js:213
 #: ligamanager/pages/RegisterPage.js:133 ligamanager/pages/RegisterPage.js:139
-#: ligamanager/pages/Guestbook.js:99
+#: ligamanager/pages/Guestbook.js:107
 msgid "E-Mail"
 msgstr ""
 
@@ -102,7 +98,7 @@ msgid "Mrs."
 msgstr "Frau"
 
 #: ligamanager/pages/ContactPage.js:221 ligamanager/pages/ContactPage.js:228
-#: ligamanager/pages/Guestbook.js:103 ligamanager/pages/Guestbook.js:130
+#: ligamanager/pages/Guestbook.js:111 ligamanager/pages/Guestbook.js:138
 msgid "Message"
 msgstr "Nachricht"
 
@@ -111,12 +107,12 @@ msgid "Send a copy of your mail to your e-mail address."
 msgstr "Eine Kopie zu ihrer E-Mail Adresse schicken."
 
 #: ligamanager/pages/ContactPage.js:237 ligamanager/pages/RegisterPage.js:185
-#: ligamanager/pages/Guestbook.js:138
+#: ligamanager/pages/Guestbook.js:146
 msgid "Send"
 msgstr "Senden"
 
 #: ligamanager/pages/ContactPage.js:245 ligamanager/pages/RegisterPage.js:192
-#: ligamanager/pages/Guestbook.js:146
+#: ligamanager/pages/Guestbook.js:154
 msgid "Reset"
 msgstr "Zurücksetzten"
 
@@ -124,41 +120,82 @@ msgstr "Zurücksetzten"
 msgid "The message was succesfully send."
 msgstr "Die Nachricht wurde erfolgreich versandt."
 
-#: ligamanager/pages/ContactPage.js:264 ligamanager/pages/Guestbook.js:221
+#: ligamanager/pages/ContactPage.js:264 ligamanager/pages/Guestbook.js:229
 msgid "Sending the messsaged failed. The following error occured: "
 msgstr "Das Versenden ist fehlgeschlagen. Der folgende Fehler ist aufgetreten"
 
-#: ligamanager/pages/Guestbook.js:85
+#: ligamanager/pages/DocumentsManagerPage.js:74
+msgid "File Upload"
+msgstr ""
+
+#: ligamanager/pages/DocumentsManagerPage.js:93
+msgid "Upload"
+msgstr ""
+
+#: ligamanager/pages/DocumentsManagerPage.js:120 ligamanager/MainWidget.js:247
+#: ligamanager/MainWidget.js:330
+msgid "Documents"
+msgstr "Dokumente"
+
+#: ligamanager/pages/EntityTable.js:107
+msgid "Save"
+msgstr ""
+
+#: ligamanager/pages/EntityTableModel.js:142
+msgid "que_save_data"
+msgstr "In dieser Tabelle sind ungespeicherte Daten. Durch die aufgerufene Funktion würden diese verloren gehen. Sollen die Änderungen vorher gespeichert werden?"
+
+#: ligamanager/pages/Guestbook.js:67
 msgid "New Entry"
 msgstr "Neuer Eintrag"
 
-#: ligamanager/pages/Guestbook.js:217
+#: ligamanager/pages/Guestbook.js:225
 msgid "The message was succesfully entered."
 msgstr "Der Eintrag wurde erfolgreich hinzugefügt."
 
-#: ligamanager/pages/LigaManagerPage.js:89
+#: ligamanager/pages/LigaManagerPage.js:112
+#: ligamanager/pages/EntityTable.js:90
+#: ligamanager/pages/UserManagerPage.js:150
+msgid "Refresh"
+msgstr ""
+
+#: ligamanager/pages/LigaManagerPage.js:118
+#: ligamanager/pages/EntityTable.js:96
+#: ligamanager/pages/UserManagerPage.js:159
 msgid "New"
 msgstr ""
 
-#: ligamanager/pages/LigaManagerPage.js:93
-#: ligamanager/pages/LigaManagerPage.js:97
+#: ligamanager/pages/LigaManagerPage.js:123
+#: ligamanager/pages/EntityTable.js:101
+msgid "Remove"
+msgstr ""
+
+#: ligamanager/pages/LigaManagerPage.js:129
 msgid "SetDefault"
 msgstr ""
 
-#: ligamanager/pages/LigaManagerPage.js:203
+#: ligamanager/pages/LigaManagerPage.js:269
 #: ligamanager/pages/ContactPage.js:154 ligamanager/pages/ContactPage.js:162
 #: ligamanager/pages/ContactPage.js:213 ligamanager/pages/ContactPage.js:228
 #: ligamanager/pages/RegisterPage.js:106 ligamanager/pages/RegisterPage.js:117
 #: ligamanager/pages/RegisterPage.js:128 ligamanager/pages/RegisterPage.js:139
 #: ligamanager/pages/RegisterPage.js:160 ligamanager/pages/RegisterPage.js:177
-#: ligamanager/pages/Guestbook.js:113 ligamanager/pages/Guestbook.js:130
+#: ligamanager/pages/Guestbook.js:121 ligamanager/pages/Guestbook.js:138
 msgid "The field %1 is required."
 msgstr "Das Eingabefeld %1 muss ausgefüllt werden."
 
-#: ligamanager/pages/LigaManagerPage.js:203
+#: ligamanager/pages/LigaManagerPage.js:269
 #: ligamanager/pages/RegisterPage.js:106 ligamanager/pages/LoginPage.js:64
-#: ligamanager/pages/Guestbook.js:94 ligamanager/pages/Guestbook.js:113
+#: ligamanager/pages/Guestbook.js:102 ligamanager/pages/Guestbook.js:121
 msgid "Name"
+msgstr ""
+
+#: ligamanager/pages/LigaManagerPage.js:343
+msgid "Teams"
+msgstr ""
+
+#: ligamanager/pages/LigaManagerPage.js:368
+msgid "Player"
 msgstr ""
 
 #: ligamanager/pages/LoginPage.js:23
@@ -229,6 +266,18 @@ msgstr "Sie wurden erfolgreich registriert."
 #: ligamanager/pages/RegisterPage.js:224
 msgid "Register failed. The following error occured: "
 msgstr "Die Registrierung ist fehlgeschlagen. Der folgende Fehler ist aufgetreten: "
+
+#: ligamanager/pages/UserManagerPage.js:132
+msgid "User Manager"
+msgstr ""
+
+#: ligamanager/pages/UserManagerPage.js:163
+msgid "Delete"
+msgstr ""
+
+#: ligamanager/pages/UserManagerPage.js:168
+msgid "Edit"
+msgstr ""
 
 #~ msgid "Extra"
 #~ msgstr ""
