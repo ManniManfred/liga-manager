@@ -111,23 +111,78 @@ class MySQL {
 		}
 
 	}
-
-
-
-	public function fetchAll($result) {
 	
-		$rows = array();
-		if (mysql_num_rows($result)) {
-
-			while ($row = mysql_fetch_assoc($result)) {
-				$rows[] = $row;
-			}
-			return $rows;
-
+	function fetch_fields($result, $table) {
+        // LIMIT 1 means to only read rows before row 1 (0-indexed)
+		if ($table != null) {
+			$describe = mysql_query("SHOW COLUMNS FROM $table");
 		}
+        $num = mysql_num_fields($result);
+        $output = array();
+        for ($i = 0; $i < $num; ++$i) {
+                $field = mysql_fetch_field($result, $i);
+				
+				if ($table != null) {
+					// Analyze 'extra' field
+					$field->auto_increment = (strpos(mysql_result($describe, $i, 'Extra'), 'auto_increment') === FALSE ? 0 : 1);
+					
+					// Create the column_definition
+					$field->definition = mysql_result($describe, $i, 'Type');
+					if ($field->not_null && !$field->primary_key) $field->definition .= ' NOT NULL';
+					if ($field->def) $field->definition .= " DEFAULT '" . mysql_real_escape_string($field->def) . "'";
+					if ($field->auto_increment) $field->definition .= ' AUTO_INCREMENT';
+					if ($key = mysql_result($describe, $i, 'Key')) {
+							if ($field->primary_key) $field->definition .= ' PRIMARY KEY';
+							else $field->definition .= ' UNIQUE KEY';
+					}
+					// Create the field length
+					$field->len = mysql_field_len($result, $i);
+				}
+				
+                // Store the field into the output
+                $output[] = $field;
+        }
+        return $output;
 	}
 
 
+	public function fetchAll($result, $handleFields = true, $table = null) {
+	
+		$rows = array();
+		$fields = array();
+		
+		if ($handleFields) {
+			$fields = $this->fetch_fields($result, $table);
+		}
+		
+		if (mysql_num_rows($result)) {
+			if ($handleFields) {
+				$correctRow = array();
+				while ($row = mysql_fetch_row($result)) {
+					for ($i = 0; $i < count($fields); $i++) {
+						$correctRow[$fields[$i]->name] = $this->convertFieldValue($fields[$i], $row[$i]);
+					}
+					$rows[] = $correctRow;
+				}
+			} else {			
+				while ($row = mysql_fetch_assoc($result)) {
+					$rows[] = $row;
+				}
+			}
+		}
+		
+		mysql_free_result($result);
+		return $rows;
+	}
+
+	public function convertFieldValue($fieldMeta, $cellValue) {
+		if ($fieldMeta->definition == "tinyint(1)") {
+			return (bool)$cellValue;
+		} else if ($fieldMeta->type == "int") {
+			return (int)$cellValue;
+		}
+		return $cellValue;
+	}
 
 
 	public function insert($table, $inserts) {
@@ -189,10 +244,10 @@ class MySQL {
 
 
 
-	public function queryFetchAll($query) {
+	public function queryFetchAll($query, $tableName = null) {
 
 		$result = $this->query($query);
-		$entries = $this->fetchAll($result);
+		$entries = $this->fetchAll($result, true, $tableName);
 		return $entries;
 
 	}

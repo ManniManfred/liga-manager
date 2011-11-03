@@ -26,6 +26,19 @@ qx.Class.define("ligamanager.pages.EntityTableModel",
 		
 	},
 	
+	/*
+	* ****************************************************************************
+	* EVENTS
+	* ****************************************************************************
+	*/
+
+	events:
+	{
+		/**
+		 * Fired when the data was loaded from backend
+		 */
+		"dataLoaded" : "qx.event.type.Event"
+	},
 	
 	members :
 	{
@@ -119,8 +132,30 @@ qx.Class.define("ligamanager.pages.EntityTableModel",
 			
 			if (updates != null) {
 				this.__rpc.callSync("UpdateEntities", this.__tableName, updates);
-				
+				this.clearChanges();
 				this.reloadData();
+			}
+		},
+		
+		clearChanges : function() {
+			this.__toAdd = [];
+			this.__toUpdate = [];
+			this.__toDelete = [];
+		},
+		
+		handleUnsavedData : function(callback, context) {
+			var updates = this.getChanges();
+			
+			if (updates != null) {
+				dialog.Dialog.confirm(qx.locale.Manager.tr("que_save_data"), 
+					function(result) {
+						if (result) {
+							this.__rpc.callSync("UpdateEntities", this.__tableName, updates);
+						}
+						callback.call(context, result);
+					}, this);
+			} else {
+				callback.call(context, false);
 			}
 		},
 		
@@ -156,10 +191,13 @@ qx.Class.define("ligamanager.pages.EntityTableModel",
 		// overloaded - called whenever the table requests the row count
 		_loadRowCount : function()
 		{
-			this.__toAdd = [];
-			this.__toUpdate = [];
-			this.__toDelete = [];
-				
+			//this.__loadRowCount();
+			this.handleUnsavedData(this.__loadRowCount, this);
+		},
+
+		__loadRowCount : function(changesWereSaved) {
+		
+			this.clearChanges();
 			var self = this;
 			
 			// send request
@@ -173,13 +211,38 @@ qx.Class.define("ligamanager.pages.EntityTableModel",
 					alert("Fehler beim Laden der Element der Tabelle " + this.__tableName);
 				}
 			}, "GetEntitiesCount", this.__tableName);
-
 		},
-
 
 		// overloaded - called whenever the table requests new data
 		_loadRowData : function(firstRow, lastRow)
 		{
+			//this.__loadRowData(firstRow, lastRow);
+			this.handleUnsavedData(function(changesWereSaved) {
+				if (changesWereSaved == true) {
+					if (this.__toAdd.length > 0) {
+						//if the count has changed, call reload, to get the new count.
+						var newCount = this.getRowCount();
+						this.clearChanges();
+						this._onRowCountLoaded(newCount);
+						this.__loadRowData(firstRow, lastRow);
+						//this.reloadData();
+					} else {
+						this.__loadRowData(firstRow, lastRow);
+					}
+				} else {
+					this.__loadRowData(firstRow, lastRow);
+				}
+			}, this);
+		},
+		
+		__loadRowData : function(firstRow, lastRow) {
+		
+			this.clearChanges();
+			
+			var sortIndex = this.getSortColumnIndex();
+			var sortField = this.getColumnId(sortIndex);
+			var sortOrder =  this.isSortAscending() ? "asc" : "desc";
+			
 			var self = this;
 			
 			// send request
@@ -188,12 +251,13 @@ qx.Class.define("ligamanager.pages.EntityTableModel",
 					if (result != null) {
 						// Apply it to the model - the method "_onRowCountLoaded" has to be called
 						self._onRowDataLoaded(result);
+						self.fireEvent("dataLoaded");
 					}
 				} else {
 					alert("Fehler beim Laden der Saisons.");
 				}
 				
-			}, "GetEntities", this.__tableName, firstRow, lastRow);
+			}, "GetEntities", this.__tableName, sortField, sortOrder, firstRow, lastRow);
 		}
 		
 	}

@@ -1,7 +1,7 @@
 
 qx.Class.define("ligamanager.pages.TeamTableModel",
 {
-  extend : qx.ui.table.model.Remote,
+  extend : ligamanager.pages.EntityTableModel,
 
 	/*
 	 * ****************************************************************************

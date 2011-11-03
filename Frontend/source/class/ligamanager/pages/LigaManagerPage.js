@@ -34,6 +34,7 @@ qx.Class.define("ligamanager.pages.LigaManagerPage",
 		
 		this.__createSaisonPart();
 		this.__createTeamPart();
+		this.__createPlayersPart();
 		
 		this.__updateSaisons();
 	},
@@ -343,16 +344,76 @@ qx.Class.define("ligamanager.pages.LigaManagerPage",
 			laTeams.setAppearance("label-sep");
 			this.__content.add(laTeams);
 			
-			this.__teamsTable = new ligamanager.pages.EntityTable("team", ["Name", "Webseite", "Logo"], ["name", "homepage", "icon"]);
+			this.__teamsTable = new ligamanager.pages.EntityTable("team", ["Id", "Name", "Webseite", "Logo"], ["id", "name", "homepage", "icon"]);
 			this.__teamsTable.setHeight(300);
 			this.__teamsTable.setAllowGrowX(false);
 			this.__content.add(this.__teamsTable);
 			
 			var table = this.__teamsTable.getTable();
-			table.setColumnWidth( 0, 200 );
+			table.setColumnWidth( 0, 50 );
 			table.setColumnWidth( 1, 200 );
+			table.setColumnWidth( 2, 200 );
 			
-		}
+		},
 		
+		//
+		// player handling
+		//
+		
+		__playersTable : null,
+		__teamSelectBox : null,
+		__teamReplaceRenderer : null,
+		
+		__createPlayersPart : function() {
+			
+			var laTeams = new qx.ui.basic.Label(this.tr("Player"));
+			laTeams.setAppearance("label-sep");
+			this.__content.add(laTeams);
+			
+			this.__playersTable = new ligamanager.pages.EntityTable("player", ["Id", "Mannschaft", "Vorname", "Nachname", "Hoeher A Liga"], ["id", "id_team", "firstname", "lastname", "hoeherALiga"]);
+			this.__playersTable.setHeight(300);
+			this.__playersTable.setAllowGrowX(false);
+			this.__content.add(this.__playersTable);
+			
+			var table = this.__playersTable.getTable();
+			table.setColumnWidth( 0, 50 );
+			table.setColumnWidth( 2, 200 );
+			table.setColumnWidth( 3, 200 );
+			
+			var tableModel = this.__teamsTable.getTableModel();
+			tableModel.addListener("dataLoaded", this.__updateTeamsChoice, this);
+			
+			var tcm = table.getTableColumnModel();
+
+			// bool renderer and editor
+			tcm.setDataCellRenderer(4, new qx.ui.table.cellrenderer.Boolean());
+			tcm.setCellEditorFactory(4, new qx.ui.table.celleditor.CheckBox());
+			
+			
+			// select box for teams
+			this.__teamReplaceRenderer = new qx.ui.table.cellrenderer.Replace();
+			this.__teamReplaceRenderer.setUseAutoAlign(false);
+			tcm.setDataCellRenderer(1, this.__teamReplaceRenderer);
+			
+			this.__teamSelectBox = new qx.ui.table.celleditor.SelectBox();
+			tcm.setCellEditorFactory(1, this.__teamSelectBox);
+		},
+		
+		__updateTeamsChoice : function() {
+			var model = this.__teamsTable.getTableModel();
+			var replaceMap = {};
+			var teams = [];
+			for (var i = 0; i < model.getRowCount(); i++) {
+				var row = model.getRowData(i);
+				replaceMap[row["id"]] = row["name"];
+				teams.push([row["name"], null, row["id"]]);
+			}
+			
+			this.__teamSelectBox.setListData(teams);
+			this.__teamReplaceRenderer.setReplaceMap(replaceMap);
+			//this.__teamReplaceRenderer.addReversedReplaceMap();
+			
+			this.__playersTable.getTable().updateContent();
+		}
 	}
 });
