@@ -144,6 +144,11 @@ qx.Class.define("ligamanager.pages.SaisonManagerPage",
 			
 			part.add(new qx.ui.toolbar.Separator());
 			
+			var btSave = new qx.ui.toolbar.Button(this.tr("Save"), "icon/22/actions/document-save.png");
+			btSave.addListener("execute", this.__onSave, this);
+			part.add(btSave);
+
+			
 			toolbar.setShow("icon");
 			
 			//
@@ -163,15 +168,26 @@ qx.Class.define("ligamanager.pages.SaisonManagerPage",
 		},
 		
 		__updateRelations : function() {
-			//var teams = this.__ligaManagerRpc.callSync("GetTeams", this.getCurrentSaison());
-			var teams = [{name : "HSV", related : true}, {name : "Lupine", related : true}];
+			this.__lvTeams.removeAll();
 			
-			for(var i = 0; i < teams.length; i++) {
-				var item = new qx.ui.form.CheckBox(teams[i]["name"]);
-				item.setValue(teams[i]["related"]);
-				this.__lvTeams.add(item);
+			if (this.getCurrentSaison() != null) {
+				var teams = this.__ligaManagerRpc.callSync("GetSaisonTeams", this.getCurrentSaison().id);
+				//var teams = [{name : "HSV", related : true}, {name : "Lupine", related : true}];
+				
+				for(var i = 0; i < teams.length; i++) {
+					var item = new qx.ui.form.CheckBox(teams[i]["name"]);
+					var checked = teams[i]["id_saison_team"] != null;
+					item.setValue(checked);
+					this.__lvTeams.add(item);
+				}
 			}
-		}
+		},
 		
+		/**
+		 * Stores all changes.
+		 */
+		__onSave : function(evt) {
+			
+		}
 	}
 });
