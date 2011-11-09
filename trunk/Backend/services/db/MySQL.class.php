@@ -176,6 +176,10 @@ class MySQL {
 	}
 
 	public function convertFieldValue($fieldMeta, $cellValue) {
+		if ($cellValue == null) {
+			return $cellValue;
+		}
+		
 		if ($fieldMeta->definition == "tinyint(1)") {
 			return (bool)$cellValue;
 		} else if ($fieldMeta->type == "int") {

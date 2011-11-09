@@ -67,7 +67,25 @@ class class_LigaManager extends ServiceIntrospection
 		$db->query("delete from saison where id = $saison_id");
     }
 	
-	
+	function method_GetSaisonTeams($params, $error)
+    {
+        if (count($params) != 1)
+        {
+            $error->SetError(JsonRpcError_ParameterMismatch,
+                             "Expected 1 parameter; got " . count($params));
+            return $error;
+        }
+		
+		$saison_id = (int)$params[0];
+		
+		$db = CreateDbConnection();
+		
+		$sql = "select T.id, T.name,"
+			. " (select id from saison_team ST where ST.id_saison = $saison_id and ST.id_team = T.id) as id_saison_team"
+			. " from team T";
+		return $db->queryFetchAll($sql);
+		
+	}
 	
 }
 
