@@ -167,11 +167,18 @@ qx.Class.define("ligamanager.pages.SaisonManagerPage",
 			//
 		},
 		
+		
+		//
+		// handle teams
+		//
+		
+		__teamsOfSaison : null,
+		
 		__updateRelations : function() {
 			this.__lvTeams.removeAll();
 			
 			if (this.getCurrentSaison() != null) {
-				var teams = this.__ligaManagerRpc.callSync("GetSaisonTeams", this.getCurrentSaison().id);
+				var teams = this.__teamsOfSaison = this.__ligaManagerRpc.callSync("GetSaisonTeams", this.getCurrentSaison().id);
 				//var teams = [{name : "HSV", related : true}, {name : "Lupine", related : true}];
 				
 				for(var i = 0; i < teams.length; i++) {
@@ -187,7 +194,28 @@ qx.Class.define("ligamanager.pages.SaisonManagerPage",
 		 * Stores all changes.
 		 */
 		__onSave : function(evt) {
+			// get changes
+			var relsToAdd = [];
+			var relsToDel = [];
 			
+			var items = this.__lvTeams.getChildren();
+			
+			for (var i = 0; i < this.__teamsOfSaison.length; i++) {
+				var prevChecked = this.__teamsOfSaison[i]["id_saison_team"] != null;
+				var checked = items[i].getValue();
+				if (prevChecked != checked) {
+					if (prevChecked) {
+						relsToDel.push(this.__teamsOfSaison[i]["id_saison_team"]);
+					} else {
+						relsToAdd.push(this.__teamsOfSaison[i]["id"]);
+					}
+				}
+			}
+			
+			if (relsToAdd.length > 0 || relsToDel.length > 0) {
+				this.__ligaManagerRpc.callSync("UpdateSaisonTeams", this.getCurrentSaison()["id"], relsToAdd, relsToDel);
+				this.__updateRelations();
+			}
 		}
 	}
 });
