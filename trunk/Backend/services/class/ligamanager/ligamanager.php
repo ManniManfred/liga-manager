@@ -87,6 +87,35 @@ class class_LigaManager extends ServiceIntrospection
 		
 	}
 	
+	
+	function method_UpdateSaisonTeams($params, $error)
+    {
+        if (count($params) != 3)
+        {
+            $error->SetError(JsonRpcError_ParameterMismatch,
+                             "Expected 3 parameter; got " . count($params));
+            return $error;
+        }
+		
+		$saison_id = (int)$params[0];
+		$relsToAdd = $params[1];
+		$relsToDel = $params[2];
+		
+		$db = CreateDbConnection();
+		
+		// handle insert / relations added
+		for ($i = 0; $i < count($relsToAdd); $i++) {
+			$team_id = (int)$relsToAdd[$i];
+			$sql = "insert into saison_team (id_team, id_saison) values ($team_id, $saison_id)";
+			$db->query($sql);
+		}
+		
+		// handle deletes
+		if (count($relsToDel) > 0) {
+			$db->deleteEntities("saison_team", $relsToDel);
+		}
+	}
+	
 }
 
 ?>

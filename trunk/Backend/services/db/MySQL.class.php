@@ -268,6 +268,35 @@ class MySQL {
 
 
 
+	//
+	// handle entities
+	//
+
+	public function addEntities($tableName, $docs) {
+		for ($i = 0; $i < count($docs); $i++) {
+			$entry = (array)$docs[$i];
+			$this->insert($tableName, $entry);
+		}
+	}
+	
+	public function updateEntities($tableName, $docs) {
+		for ($i = 0; $i < count($docs); $i++) {
+		
+			$entry = (array)$docs[$i];
+			$this->update($tableName, $entry);
+		}
+	}
+	
+	public function deleteEntities($tableName, $doc_ids) {
+		$sqlIDs = implode(', ', array_map('mysql_escape_string', $doc_ids));
+		
+		$this->query("delete from $tableName where id in ($sqlIDs)");
+	}
+	
+	
+	
+	
+	
 	
 	public function __destruct() {
 

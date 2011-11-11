@@ -156,42 +156,25 @@ class class_Core extends ServiceIntrospection
             return $error;
         }
 		
+		
+		// TODO: check for rights!!!
+		
 		$tableName = $params[0];
 		
 		$db = CreateDbConnection();
 		
 		$updates = (array)$params[1];
 		if (isset($updates["toAdd"])) {
-			$this->addDocs($db, $tableName, $updates["toAdd"]);
+			$db->addEntities($tableName, $updates["toAdd"]);
 		}
 		if (isset($updates["toUpdate"])) {
-			$this->updateDocs($db, $tableName, $updates["toUpdate"]);
+			$db->updateEntities($tableName, $updates["toUpdate"]);
 		}
 		if (isset($updates["toDelete"])) {
-			$this->deleteDocs($db, $tableName, $updates["toDelete"]);
+			$db->deleteEntities($tableName, $updates["toDelete"]);
 		}
 	}
 	
-	function addDocs($db, $tableName, $docs) {
-		for ($i = 0; $i < count($docs); $i++) {
-			$entry = (array)$docs[$i];
-			$db->insert($tableName, $entry);
-		}
-	}
-	
-	function updateDocs($db, $tableName, $docs) {
-		for ($i = 0; $i < count($docs); $i++) {
-		
-			$entry = (array)$docs[$i];
-			$db->update($tableName, $entry);
-		}
-	}
-	
-	function deleteDocs($db, $tableName, $doc_ids) {
-		$sqlIDs = implode(', ', array_map('mysql_escape_string', $doc_ids));
-		
-		$db->query("delete from $tableName where id in ($sqlIDs)");
-	}
 	
 }
 
