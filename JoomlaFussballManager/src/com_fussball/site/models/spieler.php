@@ -192,9 +192,7 @@
         //$this->setError("query = " . $query );
         //return false;
          
-      }
-      $db->Execute("call CreateSpielerDetails()");
-       
+      }       
        
       if ($db->getErrorNum() > 0 || !$success) {
         if ($success) {
