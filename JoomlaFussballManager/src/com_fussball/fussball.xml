@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5.0" type="component">
+  <name>fussball</name>
+  <author>Manfred Rosskamp</author>
+  <creationDate>January 2008</creationDate>
+  <copyright>(C) 2008 Holthausener Sportverein. All rights reserved.</copyright>
+  <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+  <authorEmail>manfred.rosskamp@web.de</authorEmail>
+  <authorUrl>www.joomla.org</authorUrl>
+  <version>0.01</version>
+  <description>Das ultimative Fussball Tool zur Verwaltung von Spielen, Spielern und Mannschaften.</description>
+
+  <files folder="site">
+    <filename>fussball.php</filename>
+    <filename>controller.php</filename>
+    <filename>index.html</filename>
+
+    <folder>views</folder>
+    <folder>models</folder>
+    <folder>assets</folder>
+    <folder>controllers</folder>
+  </files>
+
+
+  <installfile>install.php</installfile>
+
+  <uninstallfile>uninstall.php</uninstallfile>
+
+
+  <administration>
+    <menu>Fussball</menu>
+    <submenu>
+      <menu view="saisonliste">Saisonliste verwalten</menu>
+      <menu view="mannschaften">Mannschaft verwalten</menu>
+      <menu view="spielerliste">Spieler verwalten</menu>
+      <menu view="spiele">Spiele eintragen</menu>
+      <menu view="attribute">Spieler Attribute verwalten</menu>
+    </submenu>
+    <files folder="admin">
+      <filename>admin.fussball.php</filename>
+      <filename>controller.php</filename>
+      <folder>db</folder>
+      <folder>controllers</folder>
+      <folder>models</folder>
+      <folder>tables</folder>
+      <folder>views</folder>
+    </files>
+  </administration>
+
+  <params>
+    <param name="displaytype" type="radio" default="0" label="Anzeige-Typ" description="">
+      <option value="0">Saison abhängig</option>
+      <option value="1">Saison unabhängig</option>
+    </param>
+    <param name="saison" type="sql" default="1" label="Wähle die Saison" query="SELECT id, name FROM #__fussball_saison" key_field="id" value_field="name" />
+  </params>
+</install>

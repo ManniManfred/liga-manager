@@ -1,0 +1,127 @@
+#!/usr/bin/php -Cq
+<?php
+    /**
+    * Console script to use Beautify PHP from the command line
+    */
+    /**
+    * Require PEAR Class
+    */
+    require_once 'PEAR.php';
+    /**
+    * Require for PEAR Getopt class
+    */
+    require_once 'Console/Getopt.php';
+    /**
+    * Require for PEAR System class
+    */
+    require_once 'System.php';
+    /**
+    * Require the beautify_php class....
+    */
+    require_once 'beautify_php.class.inc';
+    error_reporting(E_ALL ^ E_NOTICE);
+    //default_options
+    $file = "php://stdin";
+    $file_output = "php://stdout";
+    //end default_options
+    $argv = Console_Getopt::readPHPArgv();
+    $options = Console_Getopt::getopt($argv, "d?wulf:o:i:b:m:v:t:");
+    if (PEAR::isError($options)) {
+        usage($options);
+    }
+    foreach ($options[0] as $opt) {
+        $param = $opt[1];
+        switch($opt[0]) {
+            case 'f':
+            $file = $param;
+            break;
+            case 'o':
+            // output_file
+            $file_output = $param;
+            break;
+            case 'i':
+            // indent-width:
+            $indent_width = $param;
+            break;
+            case 'b':
+            // braces-style
+            $braces = $param;
+            break;
+            case 'w':
+            // word-wrap
+            $max_line = true;
+            break;
+            case 'm':
+            // braces-style
+            $max = $param;
+            break;
+            case 'd':
+            // braces-style
+            $del_line = true;
+            break;
+			case 't':
+            // indent with tabs
+            $indent_mode = "t";
+            break;
+            case 'u':
+            // find functions
+            $find_functions = true;
+            break;
+            case 'v':
+            // verify
+            $verify = $param;
+            case 'l':
+            // indent long comments
+            $indent_long_comments = true;
+            break;
+            case '?':
+            default:
+            usage();
+            break;
+        }
+    }
+    $start = time();
+    ini_set('max_execution_time', 0);
+    // start script
+    $settings = compact("indent_width", "max_line", "max", "del_line", "highlight", "braces", "file", "find_functions", "verify", "indent_long_comments", "indent_mode");
+    $beauty = & new phpBeautify($settings);
+    $rs = $beauty->beautify();
+    if (PEAR::isError($rs)) {
+        $fp = open("php://stderr", "w");
+        fputs($fp, $rs->getMessage()."\n");
+        fclose($fp);
+    } else {
+        $fp = fopen($file_output, "w");
+        fputs($fp, $rs, strlen($rs));
+        fclose($fp);
+    }
+    $stderr = fopen('php://stderr', 'w');
+        fputs($stderr,"PHPbeautify for $file done\n");
+        fputs($stderr,round(time()-$start,1)." seconds needed\n\n");
+        fclose($stderr);
+
+        function usage($obj = null) {
+        $stderr = fopen('php://stderr', 'w');
+        if ($obj  !== null) {
+            fputs($stderr, $obj->getMessage());
+        }
+        fputs($stderr,
+          "\nUsage: phpBeautify [-f <file>] [-o <file>] [-v <int>] [-t] [-i <int>] [-l] [-b <int>] [-w] [-m <int>] [-d] [-u] [-?]\n".
+          "Options:\n".
+          "     -f <file> input file  - default: stdin\n".
+          "     -o <file> output file - default: stdout\n".
+          "     -v <int>  verify (0:off -1: on) - default: 1\n".
+		  "     -t        indent with tabs\n".
+          "     -i <int>  spaces to indent - default:4\n".
+          "     -l        indent long comments\n".
+          "     -b <int>  braces-style (0: PEAR - 1:C) - default: 0\n".
+          "     -w        word wrap  - Use it for printing only!\n".
+          "     -m <int>  max chars per line - default: 40\n".
+          "     -d        delete empty lines\n".
+          "     -u        find functions and list at the beggining\n".
+		  "     -?    display help/usage (this message)\n".
+          "\n");
+    fclose($stderr);
+    exit;
+}
+?>
