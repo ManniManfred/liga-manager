@@ -116,6 +116,81 @@ class class_LigaManager extends ServiceIntrospection
 		}
 	}
 	
+	
+	
+	function method_GetOnlyTeamsOfSaison($params, $error)
+    {
+        if (count($params) != 1)
+        {
+            $error->SetError(JsonRpcError_ParameterMismatch,
+                             "Expected 1 parameter; got " . count($params));
+            return $error;
+        }
+		
+		$saison_id = (int)$params[0];
+		
+		$db = CreateDbConnection();
+		
+		$sql = "select ST.id, T.name from saison_team ST"
+			. " left join team T on T.id = ST.id_team"
+			. " where id_saison = $saison_id";
+		return $db->queryFetchAll($sql);
+	}
+	
+	
+	function method_GetSaisonPlayers($params, $error)
+    {
+        if (count($params) != 1)
+        {
+            $error->SetError(JsonRpcError_ParameterMismatch,
+                             "Expected 1 parameter; got " . count($params));
+            return $error;
+        }
+		
+		$saison_team_id = (int)$params[0];
+		
+		$db = CreateDbConnection();
+		
+		$sql = "select P.id, P.firstname, P.lastname,"
+			. " (select id from saison_player SP"
+			. " where SP.id_saison_team = $saison_team_id"
+			. " and SP.id_player = P.id) as id_saison_player"
+			. " from player P"
+			. " where P.id_team IN (select id_team from saison_team where id = $saison_team_id)"
+			. " order by P.firstname";
+
+		return $db->queryFetchAll($sql);
+		
+	}
+	
+	
+	function method_UpdateSaisonPlayers($params, $error)
+    {
+        if (count($params) != 3)
+        {
+            $error->SetError(JsonRpcError_ParameterMismatch,
+                             "Expected 3 parameter; got " . count($params));
+            return $error;
+        }
+		
+		$id_saison_team = (int)$params[0];
+		$relsToAdd = $params[1];
+		$relsToDel = $params[2];
+		
+		$db = CreateDbConnection();
+		
+		// handle insert / relations added
+		for ($i = 0; $i < count($relsToAdd); $i++) {
+			$player_id = (int)$relsToAdd[$i];
+			$sql = "insert into saison_player (id_saison_team, id_player) values ($id_saison_team, $player_id)";
+			$db->query($sql);
+		}
+		
+		// handle deletes
+		if (count($relsToDel) > 0) {
+			$db->deleteEntities("saison_player", $relsToDel);
+		}
+	}
 }
 
 ?>

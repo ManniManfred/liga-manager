@@ -31,7 +31,8 @@ qx.Class.define("ligamanager.pages.SaisonManagerPage",
 		this.__ligaManagerRpc = new qx.io.remote.Rpc(ligamanager.Core.RPC_BACKEND , "ligamanager.LigaManager");
 		
 		this.__createSaisonChoice();
-		this.__createRelationsPart();
+		this.__createTeamsPart();
+		this.__createPlayersPart();
 	},
 
 	/*
@@ -46,6 +47,13 @@ qx.Class.define("ligamanager.pages.SaisonManagerPage",
 			nullable : true,
 			init : null,
 			apply : "__applyCurrentSaison"
+		},
+		
+		currentSaisonTeam : {
+			check : "Map",
+			nullable : true,
+			init : null,
+			apply : "__applyCurrentSaisonTeam"
 		}
 	},
 
@@ -72,7 +80,7 @@ qx.Class.define("ligamanager.pages.SaisonManagerPage",
 		__lvTeams : null,
 		
 		__applyCurrentSaison : function(value, oldValue) {
-			this.__updateRelations();
+			this.__updateTeamsRelations();
 		},
 		
 		__createSaisonChoice : function() {
@@ -117,9 +125,16 @@ qx.Class.define("ligamanager.pages.SaisonManagerPage",
 			}, "GetSaisons");
 		},
 		
-		__createRelationsPart : function() {
+		
+		//
+		// handle teams
+		//
+		
+		__teamsOfSaison : null,
+		
+		__createTeamsPart : function() {
 			
-			var laSaison = new qx.ui.basic.Label("Saison Zuordnungen");
+			var laSaison = new qx.ui.basic.Label("Mannschaft Zuordnungen");
 			laSaison.setAppearance("label-sep");
 			this.__content.add(laSaison);
 			
@@ -139,13 +154,13 @@ qx.Class.define("ligamanager.pages.SaisonManagerPage",
 			toolbar.add(part);
 
 			var btRefresh = new qx.ui.toolbar.Button(this.tr("Refresh"), "icon/22/actions/view-refresh.png" );
-			btRefresh.addListener("execute", this.__updateRelations, this );
+			btRefresh.addListener("execute", this.__updateTeamsRelations, this );
 			part.add(btRefresh);
 			
 			part.add(new qx.ui.toolbar.Separator());
 			
 			var btSave = new qx.ui.toolbar.Button(this.tr("Save"), "icon/22/actions/document-save.png");
-			btSave.addListener("execute", this.__onSave, this);
+			btSave.addListener("execute", this.__onSaveTeams, this);
 			part.add(btSave);
 
 			
@@ -156,25 +171,16 @@ qx.Class.define("ligamanager.pages.SaisonManagerPage",
 			//
 			
 			var lvTeams = this.__lvTeams = new qx.ui.form.List();
+			lvTeams.setWidth(300);
 			//lvTeams.addListener("changeSelection", this.__saisonSelectionChanged, this);
 			paTeams.add(lvTeams, {edge: "center"});
 
 
 			
-			
-			//
-			// list player
-			//
 		},
 		
 		
-		//
-		// handle teams
-		//
-		
-		__teamsOfSaison : null,
-		
-		__updateRelations : function() {
+		__updateTeamsRelations : function() {
 			this.__lvTeams.removeAll();
 			
 			if (this.getCurrentSaison() != null) {
@@ -188,12 +194,14 @@ qx.Class.define("ligamanager.pages.SaisonManagerPage",
 					this.__lvTeams.add(item);
 				}
 			}
+			
+			this.__updateSaisonTeamsChoice();
 		},
 		
 		/**
 		 * Stores all changes.
 		 */
-		__onSave : function(evt) {
+		__onSaveTeams : function(evt) {
 			// get changes
 			var relsToAdd = [];
 			var relsToDel = [];
@@ -214,7 +222,152 @@ qx.Class.define("ligamanager.pages.SaisonManagerPage",
 			
 			if (relsToAdd.length > 0 || relsToDel.length > 0) {
 				this.__ligaManagerRpc.callSync("UpdateSaisonTeams", this.getCurrentSaison()["id"], relsToAdd, relsToDel);
-				this.__updateRelations();
+				this.__updateTeamsRelations();
+			}
+		},
+		
+		
+		//
+		// handle players
+		//
+		
+		__playersOfSaison : null,
+		__saisonTeamsChoice : null,
+		
+		__applyCurrentSaisonTeam : function() {
+			this.__updatePlayersRelations();
+		},
+		
+		__createPlayersPart : function() {
+			
+			var laSaison = new qx.ui.basic.Label("Spieler Zuordnungen");
+			laSaison.setAppearance("label-sep");
+			this.__content.add(laSaison);
+			
+			
+			this.__saisonTeamsChoice = new qx.ui.form.SelectBox();
+			this.__saisonTeamsChoice.setWidth(200);
+			this.__saisonTeamsChoice.setAllowGrowX(false);
+			this.__content.add(this.__saisonTeamsChoice);
+			
+			// add changed listener
+			this.__saisonTeamsChoice.addListener("changeSelection", function(evt) {
+				var selection = evt.getData();
+				//var selection = this.__lvSaison.getSelection();
+				if (selection == null || selection.length <= 0) {
+					this.setCurrentSaisonTeam(null);
+				} else {
+					this.setCurrentSaisonTeam(selection[0].getUserData("team"));
+				}
+			}, this);
+			
+			
+			
+			
+			var paPlayers = new qx.ui.container.Composite();
+			paPlayers.setAllowGrowX(false);
+			paPlayers.setLayout(new qx.ui.layout.Dock());
+			this.__content.add(paPlayers);
+
+			
+			//
+			// toolbar
+			//
+			var toolbar = new qx.ui.toolbar.ToolBar();
+			paPlayers.add(toolbar, {edge: "north"});
+
+			var part = new qx.ui.toolbar.Part();
+			toolbar.add(part);
+
+			var btRefresh = new qx.ui.toolbar.Button(this.tr("Refresh"), "icon/22/actions/view-refresh.png" );
+			btRefresh.addListener("execute", this.__updateTeamsRelations, this );
+			part.add(btRefresh);
+			
+			part.add(new qx.ui.toolbar.Separator());
+			
+			var btSave = new qx.ui.toolbar.Button(this.tr("Save"), "icon/22/actions/document-save.png");
+			btSave.addListener("execute", this.__onSavePlayers, this);
+			part.add(btSave);
+
+			
+			toolbar.setShow("icon");
+			
+			//
+			// list teams
+			//
+			
+			var lvPlayers = this.__lvPlayers = new qx.ui.form.List();
+			lvPlayers.setWidth(300);
+			//lvPlayers.addListener("changeSelection", this.__saisonSelectionChanged, this);
+			paPlayers.add(lvPlayers, {edge: "center"});
+
+
+			
+		},
+		
+		
+		__updateSaisonTeamsChoice : function() {
+		
+			if (this.getCurrentSaison() == null) return;
+			
+			var self = this;
+			
+			this.__ligaManagerRpc.callAsync(function(teams, ex) {
+				self.__saisonTeamsChoice.removeAll();
+				if (ex == null && teams != null) {
+					var defaultItem = null;
+					for (var i=0; i < teams.length; i++) {
+						var item = new qx.ui.form.ListItem(teams[i].name);
+						item.setUserData("team", teams[i]);
+						self.__saisonTeamsChoice.add(item);
+					}
+				}
+			}, "GetOnlyTeamsOfSaison", this.getCurrentSaison()["id"]);
+			
+		},
+		
+		
+		__updatePlayersRelations : function() {
+			this.__lvPlayers.removeAll();
+			
+			if (this.getCurrentSaisonTeam() != null) {
+				var players = this.__playersOfSaison = this.__ligaManagerRpc.callSync("GetSaisonPlayers", this.getCurrentSaisonTeam().id);
+				
+				for(var i = 0; i < players.length; i++) {
+					var text = players[i]["firstname"] + " " + players[i]["lastname"];
+					var item = new qx.ui.form.CheckBox(text);
+					var checked = players[i]["id_saison_player"] != null;
+					item.setValue(checked);
+					this.__lvPlayers.add(item);
+				}
+			}
+		},
+		
+		/**
+		 * Stores all changes.
+		 */
+		__onSavePlayers : function(evt) {
+			// get changes
+			var relsToAdd = [];
+			var relsToDel = [];
+			
+			var items = this.__lvPlayers.getChildren();
+			
+			for (var i = 0; i < this.__playersOfSaison.length; i++) {
+				var prevChecked = this.__playersOfSaison[i]["id_saison_player"] != null;
+				var checked = items[i].getValue();
+				if (prevChecked != checked) {
+					if (prevChecked) {
+						relsToDel.push(this.__playersOfSaison[i]["id_saison_player"]);
+					} else {
+						relsToAdd.push(this.__playersOfSaison[i]["id"]);
+					}
+				}
+			}
+			
+			if (relsToAdd.length > 0 || relsToDel.length > 0) {
+				this.__ligaManagerRpc.callSync("UpdateSaisonPlayers", this.getCurrentSaisonTeam()["id"], relsToAdd, relsToDel);
+				this.__updatePlayersRelations();
 			}
 		}
 	}
