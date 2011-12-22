@@ -97,7 +97,7 @@ if (! defined("JsonRpcErrorHandling"))
  */
 if ( ! defined("handleQooxdooDates") )
 {
-  define( "handleQooxdooDates", false );
+  define( "handleQooxdooDates", true );
 }
 
 
@@ -369,7 +369,7 @@ class JsonRpcServer extends AbstractServer
       "result"  => $output,
        "id"     => $this->getId()
     );
-
+	  
     return $this->json->encode($ret);
   }
 

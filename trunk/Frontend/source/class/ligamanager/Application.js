@@ -42,6 +42,8 @@ qx.Class.define("ligamanager.Application",
       // Call super class
       this.base(arguments);
 
+	  //qx.io.remote.Rpc.CONVERT_DATES = true;
+	  
       // Enable logging in debug variant
       if (qx.core.Environment.get("qx.debug"))
       {

@@ -232,6 +232,7 @@ qx.Class.define("ligamanager.pages.SaisonManagerPage",
 		//
 		
 		__playersOfSaison : null,
+		__saisonTeams : null,
 		__saisonTeamsChoice : null,
 		
 		__applyCurrentSaisonTeam : function() {
@@ -313,6 +314,7 @@ qx.Class.define("ligamanager.pages.SaisonManagerPage",
 			var self = this;
 			
 			this.__ligaManagerRpc.callAsync(function(teams, ex) {
+				self.__saisonTeams = teams;
 				self.__saisonTeamsChoice.removeAll();
 				if (ex == null && teams != null) {
 					var defaultItem = null;
@@ -322,6 +324,7 @@ qx.Class.define("ligamanager.pages.SaisonManagerPage",
 						self.__saisonTeamsChoice.add(item);
 					}
 				}
+				
 			}, "GetOnlyTeamsOfSaison", this.getCurrentSaison()["id"]);
 			
 		},
@@ -370,5 +373,7 @@ qx.Class.define("ligamanager.pages.SaisonManagerPage",
 				this.__updatePlayersRelations();
 			}
 		}
+		
+		
 	}
 });

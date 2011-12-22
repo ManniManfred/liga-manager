@@ -29,6 +29,8 @@ qx.Class.define("ligamanager.MainWidget",
 	construct: function() {
 		this.base(arguments);
 
+		this.__settings = { uploadPath : "/LigaManager/Backend/services/upload/" };
+		
 		this.__coreRpc = new qx.io.remote.Rpc(ligamanager.Core.RPC_BACKEND , "ligamanager.Core");
 		
 		var core = ligamanager.Core.getInstance();
@@ -39,6 +41,10 @@ qx.Class.define("ligamanager.MainWidget",
 			this.__isLoggedIn = false;
 		}
 
+		
+		// load design
+		this.loadDesign();
+		this.setDesign(this.__design);
 		
 		
 		// create ui
@@ -101,6 +107,8 @@ qx.Class.define("ligamanager.MainWidget",
 
 	members:
 	{
+		__settings : null,
+		__design : null,
 		__coreRpc : null,
 		__inButtons : null,
 		__contentContainer : null,
@@ -125,6 +133,81 @@ qx.Class.define("ligamanager.MainWidget",
 		__btLogin : null,
 		__btRegister : null,
 		
+		/**
+		 * Loads the design stored in the server
+		 * and sets the appearance.
+		 */
+		loadDesign : function() {
+			
+			// create default design
+			var design = this.__design = {};
+			design.Title = "Hobbyliga Kreis Borken";
+			design.Image = "fussball_gras.png";
+			design.TitleBackColor = "rgb(16,153,9)";
+			design.TitleFrontColor = "#ffffff";
+			design.NavBackColor = "#002953";
+			design.NavFrontColor = "#FFF";
+			design.HighlightColor = "#AAFFFF";
+			
+			var storedDesign = this.__coreRpc.callSync("GetDesign");
+			
+			// take properties from storedDesign
+			if (storedDesign != null) {
+				for (var key in storedDesign) {
+					design[key] = storedDesign[key];
+				}
+			}
+			
+		},
+		
+		getDesign : function() {
+			return this.__design;
+		},
+		
+		setDesign : function(design) {
+			this.__design = design;
+			
+			var appearance = ligamanager.theme.Appearance.appearances;
+			
+			//
+			// set title
+			//
+			if (this.__title != null) {
+				this.__title.setLabel(design.Title);
+				this.__title.setIcon(this.__settings.uploadPath + design.Image);
+			}
+			
+			appearance["app-title"].style = function(states) {
+					return {
+						font : "bold",
+						textColor : design.TitleFrontColor,
+						padding : [8, 12],
+						backgroundColor : design.TitleBackColor //"#002953"
+					};
+				}
+				
+			
+			//
+			// set navigation style
+			//
+			
+			appearance["sidebar"].style = function(states) {
+				return {
+					padding : [8, 12],
+					textColor : design.NavFrontColor,
+					backgroundColor : design.NavBackColor //"#002953"
+				};
+			}
+			
+			appearance["sidebar/button"].style = function(states) {
+				return {
+					allowGrowX : false,
+					textColor : states.hovered ? design.HighlightColor : undefined,
+					cursor : "pointer",
+					font : states.isIn ? "bold-underline" : undefined
+				};
+			}
+		},
 		
 		__applyActivePage : function(value, oldValue) {
 			this.__contentContainer.removeAll();
@@ -146,7 +229,9 @@ qx.Class.define("ligamanager.MainWidget",
 			header.setAppearance("app-title");
 			
 		
-			var title = new qx.ui.basic.Atom("Hobbyliga", "ligamanager/fussball_gras.png");
+			var title = this.__title = new qx.ui.basic.Atom(
+				this.__design.Title, 
+				this.__settings.uploadPath + this.__design.Image);
 			header.add(title);
 			
 			//this.__activeWorkspaceLabel = new qx.ui.basic.Label();
@@ -334,6 +419,14 @@ qx.Class.define("ligamanager.MainWidget",
 				btDocumentsManager.addListener("execute", this.__onShowPage, this);
 				managerContainer.add(btDocumentsManager);
 			
+				var btSettingsManager = new qx.ui.form.Button(this.tr("Settings"), null);
+				btSettingsManager.setAppearance("sidebar/button");
+				btSettingsManager.setUserData("parentButton", btManager);
+				btSettingsManager.setUserData("page", ligamanager.pages.SettingsPage);
+				btSettingsManager.addListener("execute", this.__onBtExecuted, this);
+				btSettingsManager.addListener("execute", this.__onShowPage, this);
+				managerContainer.add(btSettingsManager);
+				
 				//
 				// liga manager
 				//
@@ -365,6 +458,15 @@ qx.Class.define("ligamanager.MainWidget",
 				btSaison.addListener("execute", this.__onBtExecuted, this);
 				btSaison.addListener("execute", this.__onShowPage, this);
 				ligaContainer.add(btSaison);
+				
+				
+				var btMasterDataLiga = new qx.ui.form.Button(this.tr("Matches"), null);
+				btMasterDataLiga.setAppearance("sidebar/button");
+				btMasterDataLiga.setUserData("parentButton", btLiga);
+				btMasterDataLiga.setUserData("page", ligamanager.pages.MatchesPage);
+				btMasterDataLiga.addListener("execute", this.__onBtExecuted, this);
+				btMasterDataLiga.addListener("execute", this.__onShowPage, this);
+				ligaContainer.add(btMasterDataLiga);
 				
 			}
 			
@@ -464,7 +566,7 @@ qx.Class.define("ligamanager.MainWidget",
 			var pageClass = target.getUserData("page");
 			
 			if (!ligamanager.Utils.isInstanceOf(this.getActivePage(), pageClass)) {
-				this.setActivePage(new pageClass());
+				this.setActivePage(new pageClass(this));
 			}
 		},
 		

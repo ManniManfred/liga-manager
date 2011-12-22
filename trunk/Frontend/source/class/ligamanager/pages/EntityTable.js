@@ -117,8 +117,7 @@ qx.Class.define("ligamanager.pages.EntityTable",
 		},
 		
 		__onNew : function(evt) {
-			var newRow = {};
-			this.__entitiesTableModel.addNewRow(newRow);
+			this.__entitiesTableModel.addNewRow();
 		},
 		
 		__onDelete : function(evt) {
