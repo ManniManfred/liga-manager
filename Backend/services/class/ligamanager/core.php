@@ -7,6 +7,54 @@ require_once "db.php";
 class class_Core extends ServiceIntrospection
 {
 
+
+	function method_GetDesign($params, $error)
+    {
+        if (count($params) != 0)
+        {
+            $error->SetError(JsonRpcError_ParameterMismatch,
+                             "Expected 0 parameter; got " . count($params));
+            return $error;
+        }
+		
+		$db = CreateDbConnection();
+		
+		$entries = $db->queryFetchAll("SELECT * from settings S where S.key like 'design.%'");
+		$designPrefixLength = strlen('design.');
+		
+		$design = array();
+		for ($i = 0; $i < count($entries); $i++) {
+			$key = $entries[$i]['key'];
+			$key = substr($key, $designPrefixLength);
+			$value = $entries[$i]['value'];
+			$design[$key] = $value;
+		}
+		return $design;
+    }
+
+	function method_SetDesign($params, $error)
+    {
+        if (count($params) != 1)
+        {
+            $error->SetError(JsonRpcError_ParameterMismatch,
+                             "Expected 1 parameter; got " . count($params));
+            return $error;
+        }
+		
+		$db = CreateDbConnection();
+		
+		$design = $params[0];
+		
+		foreach($design as $key => $value) {
+			$key = 'design.' . mysql_real_escape_string($key);
+			$value = "'" . mysql_real_escape_string($value) . "'";
+			
+			$sql = "INSERT INTO settings (`key`, `value`) VALUES ('$key', $value)"
+				. " ON DUPLICATE KEY UPDATE `value`=$value;";
+			$db->query($sql);
+		}
+    }
+
 	
     /**
      * Echo the (one and only) parameter.
@@ -103,6 +151,10 @@ class class_Core extends ServiceIntrospection
 	
 	
 	
+	
+	
+	
+	
 	//
 	// crud actions for entities
 	//
@@ -110,26 +162,45 @@ class class_Core extends ServiceIntrospection
 	
 	function method_GetEntitiesCount($params, $error) 
 	{
-        if (count($params) != 1)
+        if (count($params) < 1)
         {
             $error->SetError(JsonRpcError_ParameterMismatch,
                              "Expected 1 parameter; got " . count($params));
             return $error;
         }
-		$tableName = $params[0];
+		$tableName = mysql_real_escape_string($params[0]);
+		$sqlQuery = "select count(*) from `$tableName`";
+		if (isset($params[1])) {
+			$filter = $params[1];
+			if ($this->isFilterOk($filter)) {
+				$sqlQuery .= "where " . $filter;
+			}
+		}
 		
 		$db = CreateDbConnection();
-		$result = $db->queryFetchAll("select count(*) from $tableName");
+		$result = $db->queryFetchAll($sqlQuery);
 		return $result == null ? 0 : $result[0]["count(*)"];
 	}
 	
+	function isFilterOk($filter) {
+		// TODO: check filter (SQL Injection)
+		return $filter != null;
+	}
 
 	function method_GetEntities($params, $error) 
 	{
+		
 		$db = CreateDbConnection();
 		
-		$tableName = $params[0];
-		$sqlQuery = "select * from $tableName";
+		$tableName = mysql_real_escape_string($params[0]);
+		$sqlQuery = "select * from `$tableName`";
+		
+		if (isset($params[5])) {
+			$filter = $params[5];
+			if ($this->isFilterOk($filter)) {
+				$sqlQuery .= "where " . $filter;
+			}
+		}
 		
 		if (isset($params[1]) && isset($params[2])) {
 			$sortField = $params[1];
@@ -159,7 +230,7 @@ class class_Core extends ServiceIntrospection
 		
 		// TODO: check for rights!!!
 		
-		$tableName = $params[0];
+		$tableName = mysql_real_escape_string($params[0]);
 		
 		$db = CreateDbConnection();
 		

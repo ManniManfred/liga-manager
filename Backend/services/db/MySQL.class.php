@@ -115,7 +115,7 @@ class MySQL {
 	function fetch_fields($result, $table) {
         // LIMIT 1 means to only read rows before row 1 (0-indexed)
 		if ($table != null) {
-			$describe = mysql_query("SHOW COLUMNS FROM $table");
+			$describe = mysql_query("SHOW COLUMNS FROM `$table`");
 		}
         $num = mysql_num_fields($result);
         $output = array();
@@ -179,11 +179,20 @@ class MySQL {
 		if ($cellValue == null) {
 			return $cellValue;
 		}
-		
 		if ($fieldMeta->definition == "tinyint(1)") {
 			return (bool)$cellValue;
 		} else if ($fieldMeta->type == "int") {
 			return (int)$cellValue;
+		} else if ($fieldMeta->type == "datetime") {
+			// $obj = new stdClass();
+			// $obj->now = strtotime($cellValue);
+			// $obj->json = new JSON_Date(strtotime($cellValue));
+			// return $obj;
+			
+			return $cellValue;
+			//return new JSON_Date(strtotime($cellValue));
+		} else {
+			//print_r($fieldMeta);
 		}
 		return $cellValue;
 	}
@@ -290,7 +299,7 @@ class MySQL {
 	public function deleteEntities($tableName, $doc_ids) {
 		$sqlIDs = implode(', ', array_map('mysql_escape_string', $doc_ids));
 		
-		$this->query("delete from $tableName where id in ($sqlIDs)");
+		$this->query("delete from `$tableName` where id in ($sqlIDs)");
 	}
 	
 	

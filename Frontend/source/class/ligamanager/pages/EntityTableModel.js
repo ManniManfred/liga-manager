@@ -16,13 +16,36 @@ qx.Class.define("ligamanager.pages.EntityTableModel",
 		// init members
 		//
 		this.__toAdd = [];
-		this.__toUpdate = [];
+		this.__toUpdate = {};
 		this.__toDelete = [];
 		
 		this.__idName = "id";
 		
 		this.__tableName = tableName;
 		this.__rpc = new qx.io.remote.Rpc(ligamanager.Core.RPC_BACKEND , "ligamanager.Core");
+		
+	},
+	
+	
+	/*
+	* ****************************************************************************
+	* PROPERTIES
+	* ****************************************************************************
+	*/
+
+	properties: {
+		filter : {
+			check : "String",
+			nullable : true,
+			init : null,
+			apply : "__applyFilter"
+		},
+		
+		newRowDefaults : {
+			check : "Map",
+			nullable : true,
+			init : null
+		}
 		
 	},
 	
@@ -50,9 +73,22 @@ qx.Class.define("ligamanager.pages.EntityTableModel",
 		__toUpdate : null,
 		__toDelete : null,
 		
-		addNewRow : function(row) {
+		__applyFilter : function(value, oldValue) {
+			if (value != oldValue) {
+				this.reloadData();
+			}
+		},
+		
+		
+		addNewRow : function() {
 			var rowCount = this.getRowCount();
 			
+			var rowDefaults = this.getNewRowDefaults();
+			var row;
+			if (rowDefaults != null)
+				row = qx.lang.Object.clone(rowDefaults);
+			else 
+				row = {};
 			this.__toAdd.push(row);
 			
 			// Inform the listeners
@@ -110,8 +146,8 @@ qx.Class.define("ligamanager.pages.EntityTableModel",
 				haveToUpdate = true;
 			}
 			
-			if (this.__toUpdate.length > 0) {
-				updates["toUpdate"] = this.__toUpdate;
+			if (!qx.lang.Object.isEmpty(this.__toUpdate)) {
+				updates["toUpdate"] = qx.lang.Object.getValues(this.__toUpdate);
 				haveToUpdate = true;
 			}
 			
@@ -139,7 +175,7 @@ qx.Class.define("ligamanager.pages.EntityTableModel",
 		
 		clearChanges : function() {
 			this.__toAdd = [];
-			this.__toUpdate = [];
+			this.__toUpdate = {};
 			this.__toDelete = [];
 		},
 		
@@ -184,7 +220,7 @@ qx.Class.define("ligamanager.pages.EntityTableModel",
 			var rowData = this.getRowData(rowIndex);
 			if (rowData[this.__idName] != null) {
 				// add the row data only if it isn't in the __toAdd array
-				this.__toUpdate.push(rowData);
+				this.__toUpdate[rowData[this.__idName]] = rowData;
 			}
 		},
 		
@@ -210,7 +246,7 @@ qx.Class.define("ligamanager.pages.EntityTableModel",
 				} else {
 					alert("Fehler beim Laden der Element der Tabelle " + this.__tableName);
 				}
-			}, "GetEntitiesCount", this.__tableName);
+			}, "GetEntitiesCount", this.__tableName, this.getFilter());
 		},
 
 		// overloaded - called whenever the table requests new data
@@ -257,7 +293,7 @@ qx.Class.define("ligamanager.pages.EntityTableModel",
 					alert("Fehler beim Laden der Saisons.");
 				}
 				
-			}, "GetEntities", this.__tableName, sortField, sortOrder, firstRow, lastRow);
+			}, "GetEntities", this.__tableName, sortField, sortOrder, firstRow, lastRow, this.getFilter());
 		}
 		
 	}
