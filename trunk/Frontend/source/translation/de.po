@@ -59,7 +59,7 @@ msgstr "Stammdaten"
 msgid "Saison"
 msgstr ""
 
-#: ligamanager/MainWidget.js:463 ligamanager/pages/MatchesPage.js:129
+#: ligamanager/MainWidget.js:463 ligamanager/pages/MatchesPage.js:130
 msgid "Matches"
 msgstr "Spiele"
 
@@ -154,7 +154,7 @@ msgstr ""
 msgid "Documents"
 msgstr "Dokumente"
 
-#: ligamanager/pages/EntityTableModel.js:186
+#: ligamanager/pages/EntityTableModel.js:207
 msgid "que_save_data"
 msgstr "In dieser Tabelle sind ungespeicherte Daten. Durch die aufgerufene Funktion würden diese verloren gehen. Sollen die Änderungen vorher gespeichert werden?"
 
@@ -167,7 +167,7 @@ msgid "The message was succesfully entered."
 msgstr "Der Eintrag wurde erfolgreich hinzugefügt."
 
 #: ligamanager/pages/LigaMasterDataPage.js:111
-#: ligamanager/pages/EntityTable.js:90
+#: ligamanager/pages/EntityTable.js:102
 #: ligamanager/pages/SaisonManagerPage.js:156
 #: ligamanager/pages/SaisonManagerPage.js:283
 #: ligamanager/pages/UserManagerPage.js:150
@@ -175,13 +175,13 @@ msgid "Refresh"
 msgstr "Aktualisieren"
 
 #: ligamanager/pages/LigaMasterDataPage.js:117
-#: ligamanager/pages/EntityTable.js:96
+#: ligamanager/pages/MatchesPage.js:144 ligamanager/pages/EntityTable.js:111
 #: ligamanager/pages/UserManagerPage.js:159
 msgid "New"
 msgstr "Neu"
 
 #: ligamanager/pages/LigaMasterDataPage.js:122
-#: ligamanager/pages/EntityTable.js:101
+#: ligamanager/pages/MatchesPage.js:147 ligamanager/pages/EntityTable.js:117
 msgid "Remove"
 msgstr "Entfernen"
 
@@ -238,6 +238,10 @@ msgstr "Anmeldung fehlgeschlagen: %1"
 #: ligamanager/pages/LoginPage.js:190
 msgid "Connection error"
 msgstr "Verbindungsfehler"
+
+#: ligamanager/pages/MatchesPage.js:240
+msgid "hint_matches_exist"
+msgstr "Es können keine neuen Spiele hinzugefügt werden, da schon Spiele existieren."
 
 #: ligamanager/pages/RegisterPage.js:94
 msgid "Register to"
@@ -316,7 +320,7 @@ msgstr "Textfarbe der Navigation"
 msgid "HighlightColor"
 msgstr "Überfahrfarbe"
 
-#: ligamanager/pages/SettingsPage.js:186 ligamanager/pages/EntityTable.js:107
+#: ligamanager/pages/SettingsPage.js:186 ligamanager/pages/EntityTable.js:125
 #: ligamanager/pages/SaisonManagerPage.js:162
 #: ligamanager/pages/SaisonManagerPage.js:289
 msgid "Save"

@@ -62,8 +62,11 @@
         {
           "manifest" : "contrib://UploadWidget/trunk/Manifest.json"
         },
+        //{
+        //  "manifest" : "contrib://Dialog/trunk/Manifest.json"
+        //}
         {
-          "manifest" : "contrib://Dialog/trunk/Manifest.json"
+          "manifest" : "libs/Dialog/trunk/Manifest.json"
         }
       ]
     },

@@ -79,6 +79,27 @@ qx.Class.define("ligamanager.pages.EntityTableModel",
 			}
 		},
 		
+		addNewRows : function(rows) {
+			var rowCount = this.getRowCount();
+			
+			for (var i = 0; i < rows.length; i++) {
+				this.__toAdd.push(rows[i]);
+			}
+			
+			// Inform the listeners
+			if (this.hasListener("dataChanged"))
+			{
+			  var data =
+			  {
+				firstRow    : rowCount,
+				lastRow     : rowCount,
+				firstColumn : 0,
+				lastColumn  : this.getColumnCount() - 1
+			  };
+
+			  this.fireDataEvent("dataChanged", data);
+			}
+		},
 		
 		addNewRow : function() {
 			var rowCount = this.getRowCount();
@@ -218,7 +239,7 @@ qx.Class.define("ligamanager.pages.EntityTableModel",
 			this.base(arguments, colIndex, rowIndex, value);
 			
 			var rowData = this.getRowData(rowIndex);
-			if (rowData[this.__idName] != null) {
+			if (rowData != null && rowData[this.__idName] != null) {
 				// add the row data only if it isn't in the __toAdd array
 				this.__toUpdate[rowData[this.__idName]] = rowData;
 			}

@@ -123,6 +123,7 @@ qx.Class.define("ligamanager.pages.MatchesPage",
 		//
 		
 		__matchesTable : null,
+		__saisonTeams : null,
 		
 		__createMatchPart : function() {
 		
@@ -132,10 +133,23 @@ qx.Class.define("ligamanager.pages.MatchesPage",
 			
 			this.__matchesTable = new ligamanager.pages.EntityTable("match", 
 				["Id", "Datum", "Mannschaft 1", "Mannschaft 2", "Tore 1", "Tore 2"], 
-				["id", "date", "id_saison_team1", "id_saison_team2", "goal1", "goal2"]);
+				["id", "date", "id_saison_team1", "id_saison_team2", "goal1", "goal2"],
+				false, false, true);
 			this.__matchesTable.setHeight(300);
 			this.__matchesTable.setAllowGrowX(false);
 			this.__content.add(this.__matchesTable);
+			
+			
+			// add create matches button
+			var btCreateMatches = new qx.ui.toolbar.Button(this.tr("New"), "icon/22/actions/list-add.png");
+			btCreateMatches.addListener("execute", this.__onCreateMatches, this);
+			
+			var btDelete = new qx.ui.toolbar.Button(this.tr("Remove"), "icon/22/actions/list-remove.png");
+			btDelete.addListener("execute", this.__onClearMatches, this);
+				
+			this.__matchesTable.addToolbarButtons([new qx.ui.toolbar.Separator(),
+				btCreateMatches, btDelete]);
+			
 			
 			var table = this.__matchesTable.getTable();
 			table.setColumnWidth( 0, 50 );
@@ -146,10 +160,8 @@ qx.Class.define("ligamanager.pages.MatchesPage",
 			table.setColumnWidth( 5, 50 );
 			
 			var model = table.getTableModel();
-			
-			// set row defaults
-			model.setNewRowDefaults({ "date" : new Date() });
-			
+			model.setColumnEditable(2, false);
+			model.setColumnEditable(3, false);
 			
 			
 			var tcm = table.getTableColumnModel();
@@ -159,8 +171,10 @@ qx.Class.define("ligamanager.pages.MatchesPage",
 			// tcm.setCellEditorFactory(4, new qx.ui.table.celleditor.CheckBox());
 			
 			// date renderer / editor
-			//var dateRenderer = new qx.ui.table.cellrenderer.Date();
-			//tcm.setDataCellRenderer(1, dateRenderer);
+			var dateRenderer = new ligamanager.ui.DateCellRenderer();
+			dateRenderer.setDateFormat(new qx.util.format.DateFormat("dd.MM.yyyy HH:mm"));
+			
+			tcm.setDataCellRenderer(1, dateRenderer);
 			tcm.setCellEditorFactory(1, new ligamanager.ui.DateCellEditor()); 
 			
 			
@@ -171,9 +185,10 @@ qx.Class.define("ligamanager.pages.MatchesPage",
 			tcm.setDataCellRenderer(3, this.__teamReplaceRenderer);
 			
 			
-			this.__teamSelectBox = new qx.ui.table.celleditor.SelectBox();
-			tcm.setCellEditorFactory(2, this.__teamSelectBox);
-			tcm.setCellEditorFactory(3, this.__teamSelectBox);
+			//this.__teamSelectBox = new qx.ui.table.celleditor.SelectBox();
+			//tcm.setCellEditorFactory(2, this.__teamSelectBox);
+			//tcm.setCellEditorFactory(3, this.__teamSelectBox);
+			
 		},
 		
 		__updateMatches : function(saison) {
@@ -182,7 +197,7 @@ qx.Class.define("ligamanager.pages.MatchesPage",
 			
 			
 			// create select box with teams
-			var saisonTeams = this.__ligaManagerRpc.callSync("GetOnlyTeamsOfSaison", saison.id);
+			var saisonTeams = this.__saisonTeams = this.__ligaManagerRpc.callSync("GetOnlyTeamsOfSaison", saison.id);
 			
 			
 			if (saisonTeams == null || this.__matchesTable == null) return;
@@ -195,7 +210,7 @@ qx.Class.define("ligamanager.pages.MatchesPage",
 				teams.push([row["name"], null, row["id"]]);
 			}
 			
-			this.__teamSelectBox.setListData(teams);
+			//this.__teamSelectBox.setListData(teams);
 			this.__teamReplaceRenderer.setReplaceMap(replaceMap);
 			//this.__teamReplaceRenderer.addReversedReplaceMap();
 			
@@ -206,7 +221,129 @@ qx.Class.define("ligamanager.pages.MatchesPage",
 			var model = this.__matchesTable.getTableModel();
 			var filter = "id_saison_team1 in (select id from saison_team where id_saison = " + saison.id + ")";
 			model.setFilter(filter);
-		}
+		},
 		
+		__onClearMatches : function() {
+			var tableModel = this.__matchesTable.getTableModel();
+			
+			for (var i = 0, l = tableModel.getRowCount(); i < l; i++) {
+				tableModel.removeRow(0);
+			}
+		},
+		
+		__onCreateMatches : function() {
+			if (this.__saisonTeams == null) return;
+			
+			var tableModel = this.__matchesTable.getTableModel();
+			
+			if (tableModel.getRowCount() > 0) {
+				dialog.Dialog.alert(qx.locale.Manager.tr("hint_matches_exist"));
+				return;
+			}
+			
+			
+			  /*
+			   * wizard widget
+			   */
+			  var pageData = 
+			  [
+			   {
+				 "message" : "<p style='font-weight:bold'>Spiele erzeugen</p><p>W&auml;hle den Spielmodus aus</p>",
+				 "formData" : {
+				   "mode" : {
+					 "type" : "radiogroup",
+					 "label": "Spielmodus",
+					 "options" : 
+					 [
+					  { "label" : "Jeder gegen Jeden", "value" : "AnyVsAny" }
+					 ]
+				   }
+				 }
+			   },
+			   {
+				 "message" : "<p style='font-weight:bold'>Start</p><p>Geben Sie den Begin der Saison an</p>",
+				 "formData" : {
+				   "round1" : {
+					 "type" : "datefield",
+					 "label" : "Hinrunde",
+					 "value" : new Date(),
+					 "validation" : {
+					   "required" : true
+					 }
+				   },
+				   "round2" : {
+					 "type" : "datefield",
+					 "label": "R&uuml;ckrunde",
+					 "value" : new Date(),
+					 "validation" : {
+					   "required" : true
+					 }
+				   },
+				   "periode" : {
+					 "type" : "textfield",
+					 "label": "Spielabstand (in Tage)",
+					 "value": "7",
+					 "validation" : {
+					   "required" : true
+					 }
+				   }
+				 }
+			   }
+			  ];
+			  var wizard = new dialog.Wizard({
+				width       : 500,
+				maxWidth    : 500,
+				pageData    : pageData, 
+				allowCancel : true,
+				callback    : this.__generateMatches,
+				context     : this
+			  });
+			  wizard.start();
+		},
+		
+		__generateMatches : function(map) {
+		
+			var matches = [];
+			
+			if (map.mode == "AnyVsAny") {
+				var dateFormat = new qx.util.format.DateFormat("yyyy-MM-dd HH:mm:ss");
+				var periode = parseInt(map.periode);
+				var workDate;
+				
+				for (var z = 0; z < this.__saisonTeams.length; z++) {
+					for (var s = 0; s < this.__saisonTeams.length; s++) {
+						if (z == s) continue;
+						
+						if (z < s) {
+							// Hinrunde
+							workDate = this.addDays(map.round1, (s - z) * periode);
+						} else {
+							// Rueckrunde
+							workDate = this.addDays(map.round2, (z - s) * periode);
+						}
+						var row = {"id" : null, 
+							"date" : dateFormat.format(workDate),
+							"id_saison_team1" : this.__saisonTeams[z].id,
+							"id_saison_team2" : this.__saisonTeams[s].id,
+							"goal1" : null,
+							"goal2" : null};
+						
+						matches.push(row);
+					}
+				}
+			}
+			
+			if (matches.length > 0) {
+				var tableModel = this.__matchesTable.getTableModel();
+				tableModel.addNewRows(matches);
+			}
+		},
+		
+		
+		addDays : function(myDate, days) {
+			return new Date(myDate.getTime() + days*24*60*60*1000);
+		}
 	}
+	
+	
 });
