@@ -59,7 +59,7 @@ msgstr ""
 msgid "Saison"
 msgstr ""
 
-#: ligamanager/MainWidget.js:463 ligamanager/pages/MatchesPage.js:129
+#: ligamanager/MainWidget.js:463 ligamanager/pages/MatchesPage.js:130
 msgid "Matches"
 msgstr ""
 
@@ -154,7 +154,7 @@ msgstr ""
 msgid "Documents"
 msgstr ""
 
-#: ligamanager/pages/EntityTableModel.js:186
+#: ligamanager/pages/EntityTableModel.js:207
 msgid "que_save_data"
 msgstr ""
 
@@ -167,7 +167,7 @@ msgid "The message was succesfully entered."
 msgstr ""
 
 #: ligamanager/pages/LigaMasterDataPage.js:111
-#: ligamanager/pages/EntityTable.js:90
+#: ligamanager/pages/EntityTable.js:102
 #: ligamanager/pages/SaisonManagerPage.js:156
 #: ligamanager/pages/SaisonManagerPage.js:283
 #: ligamanager/pages/UserManagerPage.js:150
@@ -175,13 +175,13 @@ msgid "Refresh"
 msgstr ""
 
 #: ligamanager/pages/LigaMasterDataPage.js:117
-#: ligamanager/pages/EntityTable.js:96
+#: ligamanager/pages/MatchesPage.js:144 ligamanager/pages/EntityTable.js:111
 #: ligamanager/pages/UserManagerPage.js:159
 msgid "New"
 msgstr ""
 
 #: ligamanager/pages/LigaMasterDataPage.js:122
-#: ligamanager/pages/EntityTable.js:101
+#: ligamanager/pages/MatchesPage.js:147 ligamanager/pages/EntityTable.js:117
 msgid "Remove"
 msgstr ""
 
@@ -237,6 +237,10 @@ msgstr ""
 
 #: ligamanager/pages/LoginPage.js:190
 msgid "Connection error"
+msgstr ""
+
+#: ligamanager/pages/MatchesPage.js:240
+msgid "hint_matches_exist"
 msgstr ""
 
 #: ligamanager/pages/RegisterPage.js:94
@@ -316,7 +320,7 @@ msgstr ""
 msgid "HighlightColor"
 msgstr ""
 
-#: ligamanager/pages/SettingsPage.js:186 ligamanager/pages/EntityTable.js:107
+#: ligamanager/pages/SettingsPage.js:186 ligamanager/pages/EntityTable.js:125
 #: ligamanager/pages/SaisonManagerPage.js:162
 #: ligamanager/pages/SaisonManagerPage.js:289
 msgid "Save"

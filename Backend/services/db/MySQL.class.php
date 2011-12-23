@@ -34,6 +34,16 @@ public function __destruct()
 
 */
 
+function phpValueToSQL($phpValue) {
+	if (is_null($phpValue)) {
+		return 'NULL';
+	} else if (is_string($phpValue)) {
+		return "'" . mysql_real_escape_string($phpValue) . "'";
+	} else {
+		return $phpValue;
+	}
+}
+
 class MySQLException extends Exception { }
 
 
@@ -199,10 +209,10 @@ class MySQL {
 
 
 	public function insert($table, $inserts) {
-		$values = array_map('mysql_real_escape_string', array_values($inserts));
+		$values = array_map('phpValueToSQL', array_values($inserts));
 		$keys = array_keys($inserts);
 			
-		return $this->query('INSERT INTO `'.$table.'` (`'.implode('`,`', $keys).'`) VALUES (\''.implode('\',\'', $values).'\')');
+		return $this->query('INSERT INTO `'.$table.'` (`'.implode('`,`', $keys).'`) VALUES ('.implode(',', $values).')');
 	}
 	
 	public function update($table, $updates, $id_col="id") {

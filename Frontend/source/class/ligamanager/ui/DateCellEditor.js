@@ -1,30 +1,66 @@
 qx.Class.define("ligamanager.ui.DateCellEditor",
 {
-   extend : qx.ui.table.celleditor.AbstractField,
+	extend : qx.ui.table.celleditor.AbstractField,
 
-   members :
-   {
-     _createEditor : function()
-     {
-       var cellEditor = new qx.ui.form.DateField();
-       return cellEditor;
-     },
+	
+	/*
+	* ****************************************************************************
+	* PROPERTIES
+	* ****************************************************************************
+	*/
 
-     createCellEditor : function(cellInfo)
-     {
-       var cellEditor = this._createEditor();
+	properties: {
+		displayFormat : {
+			check : "qx.util.format.DateFormat",
+			nullable : false,
+			init : new qx.util.format.DateFormat("dd.MM.yyyy HH:mm")
+		},
+		
+		sourceFormat : {
+			check : "qx.util.format.DateFormat",
+			nullable : false,
+			init : new qx.util.format.DateFormat("yyyy-MM-dd HH:mm:ss")
+		}
+	},
+	
+	members :
+	{
 
-       cellEditor.originalValue = cellInfo.value;
-       if (cellInfo.value === null || cellInfo.value === undefined) {
-         cellInfo.value = new Date();
-       }
-       cellEditor.setValue(cellInfo.value);
+		_createEditor : function()
+		{
+			var cellEditor = new qx.ui.form.DateField();
+			cellEditor.setDateFormat(this.getDisplayFormat());
+			return cellEditor;
+		},
 
-       cellEditor.addListener("appear", function() {
-         cellEditor.selectAllText();
-       });
+		createCellEditor : function(cellInfo)
+		{
+			var cellEditor = this._createEditor();
 
-       return cellEditor;
-     }
-   }
+			var value = cellInfo.value;
+			if (value == null) {
+				value = new Date();
+			} else if (typeof(value) == 'string') {
+				if (value.length == 0) {
+					value = new Date();
+				} else {
+					value = this.getSourceFormat().parse(value);
+				}
+			}
+			
+			cellEditor.originalValue = value;
+			cellEditor.setValue(value);
+
+			cellEditor.addListener("appear", function() {
+				cellEditor.selectAllText();
+			});
+
+			return cellEditor;
+		},
+		
+		getCellEditorValue : function(cellEditor) {
+			return this.getSourceFormat().format(cellEditor.getValue());
+		}
+	
+	}
 }); 
