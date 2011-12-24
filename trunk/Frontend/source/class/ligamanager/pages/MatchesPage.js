@@ -11,6 +11,18 @@ qx.Class.define("ligamanager.pages.MatchesPage",
 	implement: [ligamanager.pages.IPage],
 
 	/*
+	*****************************************************************************
+	STATICS
+	*****************************************************************************
+	*/
+
+	statics: {
+		DISPLAY_FORMAT : new qx.util.format.DateFormat("dd.MM.yyyy HH:mm"),
+		SOURCE_FORMAT : new qx.util.format.DateFormat("yyyy-MM-dd HH:mm:ss")
+	},
+	
+	
+	/*
 	 * ****************************************************************************
 	 * CONSTRUCTOR
 	 * ****************************************************************************
@@ -172,7 +184,7 @@ qx.Class.define("ligamanager.pages.MatchesPage",
 			
 			// date renderer / editor
 			var dateRenderer = new ligamanager.ui.DateCellRenderer();
-			dateRenderer.setDateFormat(new qx.util.format.DateFormat("dd.MM.yyyy HH:mm"));
+			dateRenderer.setDateFormat(ligamanager.pages.MatchesPage.DISPLAY_FORMAT);
 			
 			tcm.setDataCellRenderer(1, dateRenderer);
 			tcm.setCellEditorFactory(1, new ligamanager.ui.DateCellEditor()); 
@@ -266,6 +278,7 @@ qx.Class.define("ligamanager.pages.MatchesPage",
 				   "round1" : {
 					 "type" : "datefield",
 					 "label" : "Hinrunde",
+					 "dateFormat" : ligamanager.pages.MatchesPage.DISPLAY_FORMAT,
 					 "value" : new Date(),
 					 "validation" : {
 					   "required" : true
@@ -274,6 +287,7 @@ qx.Class.define("ligamanager.pages.MatchesPage",
 				   "round2" : {
 					 "type" : "datefield",
 					 "label": "R&uuml;ckrunde",
+					 "dateFormat" : ligamanager.pages.MatchesPage.DISPLAY_FORMAT,
 					 "value" : new Date(),
 					 "validation" : {
 					   "required" : true
@@ -303,26 +317,33 @@ qx.Class.define("ligamanager.pages.MatchesPage",
 		
 		__generateMatches : function(map) {
 		
+			if (map == null) return;
+			
 			var matches = [];
 			
 			if (map.mode == "AnyVsAny") {
-				var dateFormat = new qx.util.format.DateFormat("yyyy-MM-dd HH:mm:ss");
 				var periode = parseInt(map.periode);
-				var workDate;
 				
-				for (var z = 0; z < this.__saisonTeams.length; z++) {
-					for (var s = 0; s < this.__saisonTeams.length; s++) {
+				var mCount = this.__saisonTeams.length;
+				var workDate;
+				var playDay;
+				
+				for (var z = 0; z < mCount; z++) {
+					for (var s = 0; s < mCount; s++) {
 						if (z == s) continue;
 						
-						if (z < s) {
+						playDay = (z + s - 1) % mCount;
+						
+						if ((z < s && (z + s) % 2 == 0)
+							|| (z > s && (z + s) % 2 != 0)) {
 							// Hinrunde
-							workDate = this.addDays(map.round1, (s - z) * periode);
+							workDate = this.addDays(map.round1, playDay * periode);
 						} else {
 							// Rueckrunde
-							workDate = this.addDays(map.round2, (z - s) * periode);
+							workDate = this.addDays(map.round2, playDay * periode);
 						}
 						var row = {"id" : null, 
-							"date" : dateFormat.format(workDate),
+							"date" : ligamanager.pages.MatchesPage.SOURCE_FORMAT.format(workDate),
 							"id_saison_team1" : this.__saisonTeams[z].id,
 							"id_saison_team2" : this.__saisonTeams[s].id,
 							"goal1" : null,

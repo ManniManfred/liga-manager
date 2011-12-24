@@ -15,7 +15,7 @@ qx.Class.define("ligamanager.pages.EntityTable",
 	 * ****************************************************************************
 	 */
 
-	construct: function(tableName, colTitles, colKeys, canAdd, canRemove, canStore) {
+	construct: function(tableName, colTitles, colKeys, canAdd, canRemove, canStore, startRpc) {
 		this.base(arguments, new qx.ui.layout.Dock());
 		
 		this.__tableName = tableName;
@@ -23,13 +23,14 @@ qx.Class.define("ligamanager.pages.EntityTable",
 		this.__canRemove = canRemove === undefined ? true : canRemove
 		this.__canStore = canStore === undefined ? true : canStore
 		
+		
 		this.__createToolbar();
 		
 		
 		//
 		// table view
 		//
-		this.__entitiesTableModel = new ligamanager.pages.EntityTableModel(this.__tableName);
+		this.__entitiesTableModel = new ligamanager.pages.EntityTableModel(this.__tableName, startRpc);
 		this.__entitiesTableModel.setColumns(colTitles, colKeys);
 		
 		for (var i = 0; i < colTitles.length; i++) {
