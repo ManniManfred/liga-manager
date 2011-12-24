@@ -9,12 +9,13 @@ qx.Class.define("ligamanager.pages.EntityTableModel",
 	 * ****************************************************************************
 	 */
 
-	construct: function(tableName) {
+	construct: function(tableName, startRpc) {
 		this.base(arguments);
 		
 		//
 		// init members
 		//
+		this.__startRpc = startRpc === undefined ? true : startRpc;
 		this.__toAdd = [];
 		this.__toUpdate = {};
 		this.__toDelete = [];
@@ -68,7 +69,8 @@ qx.Class.define("ligamanager.pages.EntityTableModel",
 		__rpc : null,
 		__tableName : null,
 		__idName : null,
-
+		
+		__startRpc : null,
 		__toAdd : null,
 		__toUpdate : null,
 		__toDelete : null,
@@ -245,6 +247,16 @@ qx.Class.define("ligamanager.pages.EntityTableModel",
 			}
 		},
 		
+		startRpc : function() {
+			
+			if (!this.__startRpc) {
+				this.__startRpc = true;
+				if (this.__inLoadRowCount) {
+					this.__loadRowCount();
+				}
+			}
+		},
+		
 		// overloaded - called whenever the table requests the row count
 		_loadRowCount : function()
 		{
@@ -253,21 +265,28 @@ qx.Class.define("ligamanager.pages.EntityTableModel",
 		},
 
 		__loadRowCount : function(changesWereSaved) {
-		
-			this.clearChanges();
-			var self = this;
+			this.__inLoadRowCount = true;
 			
-			// send request
-			this.__rpc.callAsync(function(result, ex) {
-				if (ex == null) {
-					if (result != null) {
-						// Apply it to the model - the method "_onRowCountLoaded" has to be called
-						self._onRowCountLoaded(result);
+			if (this.__startRpc) {
+				this.clearChanges();
+				var self = this;
+				
+				// send request
+				this.__rpc.callAsync(function(result, ex) {
+					try {
+						if (ex == null) {
+							if (result != null) {
+								// Apply it to the model - the method "_onRowCountLoaded" has to be called
+								self._onRowCountLoaded(result);
+							}
+						} else {
+							alert("Fehler beim Laden der Element der Tabelle " + this.__tableName);
+						}
+					} finally {
+						self.__inLoadRowCount = false;
 					}
-				} else {
-					alert("Fehler beim Laden der Element der Tabelle " + this.__tableName);
-				}
-			}, "GetEntitiesCount", this.__tableName, this.getFilter());
+				}, "GetEntitiesCount", this.__tableName, this.getFilter());
+			}
 		},
 
 		// overloaded - called whenever the table requests new data
