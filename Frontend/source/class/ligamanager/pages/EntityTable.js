@@ -3,7 +3,7 @@
 #asset(qx/icon/${qx.icontheme}/22/actions/view-refresh.png)
 #asset(qx/icon/${qx.icontheme}/22/actions/list-add.png)
 #asset(qx/icon/${qx.icontheme}/22/actions/list-remove.png)
-#asset(ligamanager/22/default.png)
+#asset(ligamanager/22/*)
 */
 qx.Class.define("ligamanager.pages.EntityTable",
 {
@@ -17,6 +17,9 @@ qx.Class.define("ligamanager.pages.EntityTable",
 
 	construct: function(tableName, colTitles, colKeys, canAdd, canRemove, canStore, startRpc) {
 		this.base(arguments, new qx.ui.layout.Dock());
+		
+		this.__colKeys = colKeys;
+		this.__colTitles = colTitles;
 		
 		this.__tableName = tableName;
 		this.__canAdd = canAdd === undefined ? true : canAdd;
@@ -69,6 +72,9 @@ qx.Class.define("ligamanager.pages.EntityTable",
 
 	members:
 	{
+		__colKeys : null,
+		__colTitles : null,
+		
 		__canAdd : null,
 		__canRemove : null,
 		__canStore : null,
@@ -79,6 +85,13 @@ qx.Class.define("ligamanager.pages.EntityTable",
 		__toolbar : null,
 		__mainPart : null,
 		
+		getColKeys : function() {
+			return this.__colKeys;
+		},
+		
+		getColTitles : function() {
+			return this.__colTitles;
+		},
 		
 		getTableModel : function() {
 			return this.__entitiesTableModel;
@@ -128,6 +141,15 @@ qx.Class.define("ligamanager.pages.EntityTable",
 				part.add(btSave);
 			}
 			
+			
+			part.add(new qx.ui.toolbar.Separator());
+				
+			var btCSV = new qx.ui.toolbar.Button(qx.locale.Manager.tr("CSV Export"), 
+				"ligamanager/22/file_export_to_file.png");
+			btCSV.addListener("execute", this.__onCSV, this);
+			btCSV.setToolTipText(qx.locale.Manager.tr("Export data as CSV"));
+			part.add(btCSV);
+			
 			toolbar.setShow("icon");
 		},
 		
@@ -172,6 +194,19 @@ qx.Class.define("ligamanager.pages.EntityTable",
 		 */
 		__onSave : function(evt) {
 			this.__entitiesTableModel.saveChanges();
+		},
+		
+		
+		__onCSV : function(evt) {
+			var model = this.__entitiesTableModel;
+			
+			var values = {
+				"output" : "CSV",
+				"colTitles" : qx.util.Json.stringify(this.getColTitles()),
+				"colKeys" : qx.util.Json.stringify(this.getColKeys()),
+				"rpc" : qx.util.Json.stringify(model.getRpcParams())
+			};
+			ligamanager.Utils.postToURL(ligamanager.Core.EXPORT, values);
 		}
 	}
 });

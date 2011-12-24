@@ -29,8 +29,6 @@ qx.Class.define("ligamanager.MainWidget",
 	construct: function() {
 		this.base(arguments);
 
-		this.__settings = { uploadPath : "/LigaManager/Backend/services/upload/" };
-		
 		this.__coreRpc = new qx.io.remote.Rpc(ligamanager.Core.RPC_BACKEND , "ligamanager.Core");
 		
 		var core = ligamanager.Core.getInstance();
@@ -133,6 +131,10 @@ qx.Class.define("ligamanager.MainWidget",
 		__btLogin : null,
 		__btRegister : null,
 		
+		getSettings : function() {
+			return this.__settings;
+		},
+		
 		/**
 		 * Loads the design stored in the server
 		 * and sets the appearance.
@@ -174,7 +176,7 @@ qx.Class.define("ligamanager.MainWidget",
 			//
 			if (this.__title != null) {
 				this.__title.setLabel(design.Title);
-				this.__title.setIcon(this.__settings.uploadPath + design.Image);
+				this.__title.setIcon(ligamanager.Core.DOCUMENT_FOLDER + design.Image);
 			}
 			
 			appearance["app-title"].style = function(states) {
@@ -231,7 +233,7 @@ qx.Class.define("ligamanager.MainWidget",
 		
 			var title = this.__title = new qx.ui.basic.Atom(
 				this.__design.Title, 
-				this.__settings.uploadPath + this.__design.Image);
+				ligamanager.Core.DOCUMENT_FOLDER + this.__design.Image);
 			header.add(title);
 			
 			//this.__activeWorkspaceLabel = new qx.ui.basic.Label();

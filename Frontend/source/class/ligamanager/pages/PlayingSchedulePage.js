@@ -1,4 +1,7 @@
 
+/*
+#asset(ligamanager/22/*)
+*/
 
 qx.Class.define("ligamanager.pages.PlayingSchedulePage",
 {
@@ -131,6 +134,7 @@ qx.Class.define("ligamanager.pages.PlayingSchedulePage",
 		
 		__matchesTable : null,
 		__saisonTeams : null,
+		__filterRadioGroup : null,
 		
 		
 		__createMatchPart : function() {
@@ -216,7 +220,7 @@ qx.Class.define("ligamanager.pages.PlayingSchedulePage",
 			
 			if (saisonTeams == null || this.__matchesTable == null) return;
 			
-			var filterRadioGroup = new qx.ui.form.RadioGroup();
+			var filterRadioGroup = this.__filterRadioGroup =  new qx.ui.form.RadioGroup();
 			filterRadioGroup.addListener("changeSelection", this.__onFilterTeam , this);
 		
 			this.__meTeams.removeAll();
@@ -264,5 +268,6 @@ qx.Class.define("ligamanager.pages.PlayingSchedulePage",
 			}
 			model.setFilter(filter);
 		}
+		
 	}
 });

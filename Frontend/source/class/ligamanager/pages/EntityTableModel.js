@@ -334,7 +334,14 @@ qx.Class.define("ligamanager.pages.EntityTableModel",
 				}
 				
 			}, "GetEntities", this.__tableName, sortField, sortOrder, firstRow, lastRow, this.getFilter());
-		}
+		},
 		
+		getRpcParams : function() {
+			var sortIndex = this.getSortColumnIndex();
+			var sortField = this.getColumnId(sortIndex);
+			var sortOrder =  this.isSortAscending() ? "asc" : "desc";
+			
+			return [this.__tableName, sortField, sortOrder, 0, this.getRowCount(), this.getFilter()];
+		}
 	}
 });
