@@ -332,27 +332,12 @@ msgstr "Die Einstellungen wurden erfolgreich gespeichert. Laden Sie diese Seite 
 
 #: ligamanager/pages/UserManagerPage.js:132
 msgid "User Manager"
-msgstr ""
+msgstr "Benutzerverwaltung"
 
 #: ligamanager/pages/UserManagerPage.js:163
 msgid "Delete"
-msgstr ""
+msgstr "Löschen"
 
 #: ligamanager/pages/UserManagerPage.js:168
 msgid "Edit"
-msgstr ""
-
-#~ msgid "Extra"
-#~ msgstr ""
-
-#~ msgid "Help"
-#~ msgstr "Hilfe"
-
-#~ msgid "Info"
-#~ msgstr ""
-
-#~ msgid "Nachricht"
-#~ msgstr ""
-
-#~ msgid "acadGraph Planinfo"
-#~ msgstr ""
+msgstr "Bearbeiten"

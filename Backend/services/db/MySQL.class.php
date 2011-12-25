@@ -224,12 +224,12 @@ class MySQL {
 			foreach($updates as $key => $value) {
 				if ($key != $id_col) {
 					$col = mysql_real_escape_string($key);
-					$val = mysql_real_escape_string($value);
+					$val = phpValueToSQL($value);
 					
 					if ($i > 0) {
 						$sql .= ", ";
 					}
-					$sql .= "`$key` = '$val'";
+					$sql .= "`$key` = $val";
 					
 					$i++;
 				} else {

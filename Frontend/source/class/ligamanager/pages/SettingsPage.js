@@ -1,4 +1,7 @@
 
+/*
+#asset(qx/icon/${qx.icontheme}/22/actions/document-save.png)
+*/
 
 qx.Class.define("ligamanager.pages.SettingsPage",
 {
@@ -17,10 +20,13 @@ qx.Class.define("ligamanager.pages.SettingsPage",
 		this.__docsRpc = new qx.io.remote.Rpc(ligamanager.Core.RPC_BACKEND , "ligamanager.Documents");
 		this.__coreRpc = new qx.io.remote.Rpc(ligamanager.Core.RPC_BACKEND , "ligamanager.Core");
 		this.__mainWidget = mainWidget;
+		
 		this.__content = new qx.ui.container.Composite(new qx.ui.layout.VBox(20));
 		this.__content.setPadding(20);
 		this.add(this.__content);
 		
+		
+		//this.__createServerUi();
 		
 		this.__createDesingUi();
 
@@ -183,7 +189,7 @@ qx.Class.define("ligamanager.pages.SettingsPage",
 			*/
 			
 			// add save button
-			var btSend = new qx.ui.form.Button(this.tr("Save"));
+			var btSend = new qx.ui.form.Button(this.tr("Save"), "icon/22/actions/document-save.png");
 			btSend.setTabIndex(tabIndex++);
 			btSend.addListener("execute", this.__onBtSend, this);
 			buttonContainer.add(btSend);

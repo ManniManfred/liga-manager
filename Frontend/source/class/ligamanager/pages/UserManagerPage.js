@@ -7,7 +7,7 @@
 
 qx.Class.define("ligamanager.pages.UserManagerPage",
 {
-	extend: qx.ui.container.Composite,
+	extend: qx.ui.container.Scroll,
 	implement: [ligamanager.pages.IPage],
 
 	/*
@@ -17,13 +17,20 @@ qx.Class.define("ligamanager.pages.UserManagerPage",
 	 */
 
 	construct: function() {
-		this.base(arguments, new qx.ui.layout.Canvas);
+		this.base(arguments);
 		
-		this.__userRpc = new qx.io.remote.Rpc(ligamanager.Core.RPC_BACKEND , "ligamanager.Usermanager");
+		this.__coreRpc = new qx.io.remote.Rpc(ligamanager.Core.RPC_BACKEND , "ligamanager.Core");
 
-		this.__createUI();
 		
-		this.__updateUserTable();
+		this.__content = new qx.ui.container.Composite(new qx.ui.layout.VBox(20));
+		this.__content.setPadding(20);
+		this.add(this.__content);
+		
+		
+		this.__createUI();
+		this.__updateTeams();
+		
+		this.__usersTable.getTableModel().startRpc();
 	},
 
 	/*
@@ -52,169 +59,101 @@ qx.Class.define("ligamanager.pages.UserManagerPage",
 
 	members:
 	{
-		__userRpc : null,
-		__userTable : null,
-		__userModel : null,
-		
-		__btnNew : null,
-		__btnDelete : null,
-		__btnEdit : null,
-		
-		
-		
-		//
-		// Event-Handler
-		//
-		
-		__onKeyPressed : function(e) {
-			if (e.getKeyIdentifier() == "Enter") {
-				this.__showUserDialog();
-			}
-		},
-				
-		__onChangeSelection : function(e) {
-			var selection = this.__userTable.getSelectionModel();
-			if( selection.isSelectionEmpty() ) {
-				this.__btnDelete.setEnabled(false);
-				this.__btnEdit.setEnabled(false);
-			} else {
-				this.__btnDelete.setEnabled(true);
-				this.__btnEdit.setEnabled(true);
-			}
-		},
-		
-		__onDblClick : function() {
-			this.__showUserDialog();
-		},
-		
-		__onRefresh : function() {
-			this.__updateUserTable();
-		},
-		
-		__onEdit : function() {
-			this.__showUserDialog();
-		},
-
-		__onDelete : function() {
-			var selection = this.__userTable.getSelectionModel();
-			var	selectedData = null;
-			var userId = null;
-			if( selection.isSelectionEmpty() == false ) {
-			
-				var selectedRanges = selection.getSelectedRanges();
-				for (var i=0; i<selectedRanges.length; i++ ) {
-					for (var index=selectedRanges[i]["minIndex"]; index <= selectedRanges[i]["maxIndex"]; index++ ) {
-						selectedData = this.__userTableModel.getRowDataAsMap(index);
-						userId = selectedData["id"];
-						this.__userRpc.callSync("RemoveUser", userId );
-						this.__userTableModel.removeRows( index, 1 );
-					}
-				}
-			}
-		},
-
-		__onNew : function() {
-			this.__showUserDialog();
-		},
-		
-		//
-		// Data
-		//
-		
-		
-		// show User-Edit Dialog
-		__showUserDialog : function() {
-		},
+		__coreRpc : null,
+		__usersTable : null,
 		
 		
 		__createUI : function() {
 		
 			var laCaption = new qx.ui.basic.Label(this.tr("User Manager"));
 			laCaption.setAppearance("label-sep");
-			this.add(laCaption, {left:20, top:20, right:20} );
+			this.__content.add(laCaption);
 	
 	
-			var container = new qx.ui.container.Composite( new qx.ui.layout.Dock() );
+			this.__usersTable = new ligamanager.pages.EntityTable("users", 
+				["Id", "Benutzername", "Passwort", "Vorname", "Nachname", "E-Mail", "Mannschaft", "Rechte"], 
+				["id", "username", "password", "firstname", "lastname", "email", "id_team", "rights"],
+				true, true, true, false);
+			this.__usersTable.setHeight(300);
+			this.__usersTable.setAllowGrowX(false);
+			this.__content.add(this.__usersTable);
 			
-			// 
-			// Toolbar
+			//
+			// modify table model
+			//
+			var model = this.__usersTable.getTableModel();
+			model.sortByColumn(1, true);
+			model.setColumnEditable(0, false);
+			model.setColumnEditable(1, false);
+			
+			
+			//
+			// modify table columns
 			//
 			
-			var bar = new qx.ui.toolbar.ToolBar();
-			var button, part;
+			var table = this.__usersTable.getTable();
+			table.setColumnWidth( 0, 30 );
+			table.setColumnWidth( 1, 100 );
+			table.setColumnWidth( 2, 80 );
+			table.setColumnWidth( 3, 150 );
+			table.setColumnWidth( 4, 150 );
+			table.setColumnWidth( 5, 200 );
+			table.setColumnWidth( 6, 150 );
+			table.setColumnWidth( 7, 100 );
 			
-			// refresh
-			part = new qx.ui.toolbar.Part();
-			bar.add(part);
-			
-			button = new qx.ui.toolbar.Button(this.tr("Refresh"), "icon/22/actions/view-refresh.png" );
-			button.addListener("execute", this.__onRefresh, this );
-			part.add(button);
-			
-			
-			// edit, delete, new
-			part = new qx.ui.toolbar.Part();
-			bar.add(part);
-			
-			this.__btnNew = new qx.ui.toolbar.Button(this.tr("New"), "icon/22/actions/list-add.png" );
-			this.__btnNew.addListener("execute", this.__onNew, this );
-			part.add(this.__btnNew);
+			var tcm = table.getTableColumnModel();
 
-			this.__btnDelete = new qx.ui.toolbar.Button(this.tr("Delete"), "icon/22/actions/list-remove.png" );
-			this.__btnDelete.addListener("execute", this.__onDelete, this );
-			this.__btnDelete.setEnabled( false );
-			part.add(this.__btnDelete);
+			// password renderer / editor
+			tcm.setDataCellRenderer(2, new qx.ui.table.cellrenderer.Password());
+			tcm.setCellEditorFactory(2, new qx.ui.table.celleditor.PasswordField()); 
 			
-			this.__btnEdit = new qx.ui.toolbar.Button(this.tr("Edit"), "icon/22/actions/document-properties.png" );
-			this.__btnEdit.addListener("execute", this.__onEdit, this );
-			this.__btnEdit.setEnabled( false );
-			part.add(this.__btnEdit);
-
-			// tbd.
-			part = new qx.ui.toolbar.Part();
-			bar.add(part);
+			// rights editor
+			//'USER','TEAM_ADMIN','LIGA_AMIN','ADMIN'
+			var rightsSelectBox = new qx.ui.table.celleditor.SelectBox();
+			rightsSelectBox.setListData([
+				["USER", null, "USER"],
+				["TEAM_ADMIN", null, "TEAM_ADMIN"],
+				["LIGA_AMIN", null, "LIGA_AMIN"],
+				["ADMIN", null, "ADMIN"]
+				]);
+			tcm.setCellEditorFactory(7, rightsSelectBox);
 			
+			// select box for teams
+			this.__teamReplaceRenderer = new qx.ui.table.cellrenderer.Replace();
+			this.__teamReplaceRenderer.setUseAutoAlign(false);
+			tcm.setDataCellRenderer(6, this.__teamReplaceRenderer);
 			
-			//this.add( bar, {left:20, top:20} );
-			container.add( bar, {edge:"north"} );
-
-			
-			this.__userTableModel = new qx.ui.table.model.Simple();
-			
-			this.__userTableModel.setColumns( ["id","username", "firstname", "lastname", "email"] );
-			this.__userTableModel.setColumnNamesById( {"id":"Id","username":"Benutzer","firstname":"Vorname", "lastname":"Nachname", "email":"E-Mail"} );
-
-			this.__userTable = new qx.ui.table.Table(this.__userTableModel);
-			
-			this.__userTable.setColumnWidth( 0, 40 );
-			this.__userTable.setColumnWidth( 1, 200 );
-			this.__userTable.setColumnWidth( 2, 200 );
-			this.__userTable.setColumnWidth( 3, 200 );
-			this.__userTable.setColumnWidth( 4, 200 );
-			
-			this.__userTable.setShowCellFocusIndicator( false );
-			
-			this.__userTable.addListener( "dblclick", this.__onDblClick, this );
-			this.__userTable.addListener( "keypress", this.__onKeyPressed, this );
-			
-			var selectionModel = new qx.ui.table.selection.Model();
-			selectionModel.setSelectionMode( qx.ui.table.selection.Model.SINGLE_SELECTION );
-			selectionModel.addListener( "changeSelection", this.__onChangeSelection, this );
-			this.__userTable.setSelectionModel( selectionModel );
-			
-			container.add( this.__userTable, {edge:"center"} );
-			
-			this.add( container, {left:20, top:70, bottom:20 } );
-	
+			this.__teamSelectBox = new qx.ui.table.celleditor.SelectBox();
+			tcm.setCellEditorFactory(6, this.__teamSelectBox);
 		},
 		
 		
-		// update data in usertable
-		__updateUserTable : function() {
+		__updateTeams : function() {
 		
-			var Users = this.__userRpc.callSync("GetUsers");
+			// create select box with teams
+			var teams = this.__coreRpc.callSync("GetEntities", "team");
 			
-			this.__userTableModel.setDataAsMapArray( Users );
+			
+			if (teams == null) return;
+			
+			var replaceMap = {};
+			var teamsMap = [];
+			
+			replaceMap[null] = "-";
+			teamsMap.push(["-", null, null]);
+			
+			for (var i = 0; i < teams.length; i++) {
+				var row = teams[i];
+				replaceMap[row["id"]] = row["name"];
+				teamsMap.push([row["name"], null, row["id"]]);
+			}
+			
+			this.__teamSelectBox.setListData(teamsMap);
+			this.__teamReplaceRenderer.setReplaceMap(replaceMap);
+			//this.__teamReplaceRenderer.addReversedReplaceMap();
+			
+			//this.__matchesTable.getTable().updateContent();
+			
 		}
 			
 	}
