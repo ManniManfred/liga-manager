@@ -1,5 +1,6 @@
 
 /*
+#asset(qx/icon/${qx.icontheme}/22/actions/document-save.png)
 #asset(qx/icon/${qx.icontheme}/22/actions/view-refresh.png)
 #asset(qx/icon/${qx.icontheme}/22/actions/list-add.png)
 #asset(qx/icon/${qx.icontheme}/22/actions/list-remove.png)
@@ -42,6 +43,7 @@ qx.Class.define("ligamanager.pages.EntityTable",
 		
 		
 		this.__entitiesTable = new qx.ui.table.Table(this.__entitiesTableModel);
+		this.__entitiesTable.getSelectionModel().addListener("changeSelection", this.__onChangeSelection, this);
 		this.add(this.__entitiesTable, {edge:"center"});
 	},
 
@@ -114,6 +116,7 @@ qx.Class.define("ligamanager.pages.EntityTable",
 			toolbar.add(part);
 
 			var btRefresh = new qx.ui.toolbar.Button(this.tr("Refresh"), "icon/22/actions/view-refresh.png" );
+			btRefresh.setToolTipText(this.tr("Refresh"));
 			btRefresh.addListener("execute", this.__onRefresh, this );
 			part.add(btRefresh);
 			
@@ -123,12 +126,14 @@ qx.Class.define("ligamanager.pages.EntityTable",
 			
 			if (this.__canAdd) {
 				var btNew = new qx.ui.toolbar.Button(this.tr("New"), "icon/22/actions/list-add.png");
+				btNew.setToolTipText(this.tr("New"));
 				btNew.addListener("execute", this.__onNew, this);
 				part.add(btNew);
 			}
 
 			if (this.__canRemove) {
-				var btDelete = new qx.ui.toolbar.Button(this.tr("Remove"), "icon/22/actions/list-remove.png");
+				var btDelete = this.__btDelete = new qx.ui.toolbar.Button(this.tr("Remove"), "icon/22/actions/list-remove.png");
+				btDelete.setToolTipText(this.tr("Remove"));
 				btDelete.addListener("execute", this.__onDelete, this);
 				part.add(btDelete);
 			}
@@ -137,6 +142,7 @@ qx.Class.define("ligamanager.pages.EntityTable",
 				part.add(new qx.ui.toolbar.Separator());
 				
 				var btSave = new qx.ui.toolbar.Button(this.tr("Save"), "icon/22/actions/document-save.png");
+				btSave.setToolTipText(this.tr("Save"));
 				btSave.addListener("execute", this.__onSave, this);
 				part.add(btSave);
 			}
@@ -146,8 +152,8 @@ qx.Class.define("ligamanager.pages.EntityTable",
 				
 			var btCSV = new qx.ui.toolbar.Button(qx.locale.Manager.tr("CSV Export"), 
 				"ligamanager/22/file_export_to_file.png");
-			btCSV.addListener("execute", this.__onCSV, this);
 			btCSV.setToolTipText(qx.locale.Manager.tr("Export data as CSV"));
+			btCSV.addListener("execute", this.__onCSV, this);
 			part.add(btCSV);
 			
 			toolbar.setShow("icon");
@@ -164,6 +170,17 @@ qx.Class.define("ligamanager.pages.EntityTable",
 			
 			this.__toolbar.setShow("label");
 			this.__toolbar.setShow("icon");
+		},
+		
+		__onChangeSelection : function(e) {
+			if (this.__btDelete != null) {
+				var selection = this.__entitiesTable.getSelectionModel();
+				if( selection.isSelectionEmpty() ) {
+					this.__btDelete.setEnabled(false);
+				} else {
+					this.__btDelete.setEnabled(true);
+				}
+			}
 		},
 		
 		__onRefresh : function(evt) {
