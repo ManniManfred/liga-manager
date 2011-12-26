@@ -219,9 +219,9 @@ qx.Class.define("ligamanager.pages.EntityTable",
 			
 			var values = {
 				"output" : "CSV",
-				"colTitles" : qx.util.Json.stringify(this.getColTitles()),
-				"colKeys" : qx.util.Json.stringify(this.getColKeys()),
-				"rpc" : qx.util.Json.stringify(model.getRpcParams())
+				"colTitles" : qx.lang.Json.stringify(this.getColTitles()),
+				"colKeys" : qx.lang.Json.stringify(this.getColKeys()),
+				"rpc" : qx.lang.Json.stringify(model.getRpcParams())
 			};
 			ligamanager.Utils.postToURL(ligamanager.Core.EXPORT, values);
 		}
