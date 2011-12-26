@@ -14,10 +14,10 @@ qx.Class.define("ligamanager.Core",
 	*/
 
 	statics: {
-		DOCUMENT_FOLDER : "/LigaManager/Backend/services/upload/",
-		UPLOAD_BACKEND : "/LigaManager/Backend/services/upload.php",
-		RPC_BACKEND : "/LigaManager/Backend/services/index.php",
-		EXPORT : "/LigaManager/Backend/services/export_entities.php"
+		DOCUMENT_FOLDER : "../../Backend/services/upload/",
+		UPLOAD_BACKEND : "../../Backend/services/upload.php",
+		RPC_BACKEND : "../../Backend/services/index.php",
+		EXPORT : "../../Backend/services/export_entities.php"
 	},
 
 
