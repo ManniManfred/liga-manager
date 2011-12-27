@@ -82,9 +82,10 @@ qx.Class.define("ligamanager.pages.UserManagerPage",
 			// modify table model
 			//
 			var model = this.__usersTable.getTableModel();
+			model.setNewRowDefaults({"password" : null}); // workaround for password renderer
 			model.sortByColumn(1, true);
-			model.setColumnEditable(0, false);
-			model.setColumnEditable(1, false);
+			//model.setColumnEditable(0, false);
+			//model.setColumnEditable(1, false);
 			
 			
 			//
@@ -140,6 +141,7 @@ qx.Class.define("ligamanager.pages.UserManagerPage",
 			var teamsMap = [];
 			
 			replaceMap[null] = "-";
+			replaceMap[Number.NaN] = "-";
 			teamsMap.push(["-", null, null]);
 			
 			for (var i = 0; i < teams.length; i++) {
