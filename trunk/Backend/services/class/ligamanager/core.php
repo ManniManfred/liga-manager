@@ -159,23 +159,59 @@ class class_Core extends ServiceIntrospection
 	// crud actions for entities
 	//
 	
+	function getSelectStatement($params, $onlyCount) {
+		
+		$tableName = mysql_real_escape_string($params[0]);
+		
+		$sqlQuery;
+		
+		if ($onlyCount) {
+			$sqlQuery = "select count(*) from `$tableName`";
+			if (isset($params[1])) {
+				$filter = $params[1];
+				if ($this->isFilterOk($filter)) {
+					$sqlQuery .= "where " . $filter;
+				}
+			}
+		} else {
+			
+			if ($tableName == "play_table") {
+				$sqlQuery = "select @rownum:=@rownum+1 as rank, t.*,"
+					. " (t.wins * 3 + t.stand_off) as points,"
+					. " (t.shoot - t.got) as goals_diff, "
+					. " concat(shoot, ':', got) as goals"
+					. " from play_table t, (SELECT @rownum:=0) r";
+			} else {
+				$sqlQuery = "select * from `$tableName`";
+			}
+			
+			if (isset($params[5])) {
+				$filter = $params[5];
+				if ($this->isFilterOk($filter)) {
+					$sqlQuery .= " where " . $filter;
+				}
+			}
+			
+			if (isset($params[1]) && isset($params[2])) {
+				$sortField = $params[1];
+				$sortOrder = $params[2];
+				
+				$sqlQuery .= " order by $sortField $sortOrder";
+			}
+			
+			if (isset($params[3]) && isset($params[4])) {
+				$firstIndex = $params[3];
+				$maxRows = $params[4] - $firstIndex ;
+				
+				$sqlQuery .= " limit $firstIndex, $maxRows";
+			}
+		}
+		return $sqlQuery;
+	}
 	
 	function method_GetEntitiesCount($params, $error) 
 	{
-        if (count($params) < 1)
-        {
-            $error->SetError(JsonRpcError_ParameterMismatch,
-                             "Expected 1 parameter; got " . count($params));
-            return $error;
-        }
-		$tableName = mysql_real_escape_string($params[0]);
-		$sqlQuery = "select count(*) from `$tableName`";
-		if (isset($params[1])) {
-			$filter = $params[1];
-			if ($this->isFilterOk($filter)) {
-				$sqlQuery .= "where " . $filter;
-			}
-		}
+		$sqlQuery = $this->getSelectStatement($params, true);
 		
 		$db = CreateDbConnection();
 		$result = $db->queryFetchAll($sqlQuery);
@@ -189,32 +225,10 @@ class class_Core extends ServiceIntrospection
 
 	function method_GetEntities($params, $error) 
 	{
+		$sqlQuery = $this->getSelectStatement($params, false);
 		
 		$db = CreateDbConnection();
 		
-		$tableName = mysql_real_escape_string($params[0]);
-		$sqlQuery = "select * from `$tableName`";
-		
-		if (isset($params[5])) {
-			$filter = $params[5];
-			if ($this->isFilterOk($filter)) {
-				$sqlQuery .= "where " . $filter;
-			}
-		}
-		
-		if (isset($params[1]) && isset($params[2])) {
-			$sortField = $params[1];
-			$sortOrder = $params[2];
-			
-			$sqlQuery .= " order by $sortField $sortOrder";
-		}
-		
-		if (isset($params[3]) && isset($params[4])) {
-			$firstIndex = $params[3];
-			$maxRows = $params[4] - $firstIndex ;
-			
-			$sqlQuery .= " limit $firstIndex, $maxRows";
-		}
 		return $db->queryFetchAll($sqlQuery, $tableName);
 	}
 	
