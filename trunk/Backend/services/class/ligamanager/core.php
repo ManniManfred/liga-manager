@@ -174,8 +174,10 @@ class class_Core extends ServiceIntrospection
 				}
 			}
 		} else {
-			
-			if ($tableName == "play_table") {
+			if ($tableName == "users") {
+				// change password to a dummy value
+				$sqlQuery = "SELECT id, username, 'dummy' as `password`, firstname, lastname, email, id_team, rights FROM `users`";
+			} else if ($tableName == "play_table") {
 				$sqlQuery = "select @rownum:=@rownum+1 as rank, t.*,"
 					. " (t.wins * 3 + t.stand_off) as points,"
 					. " (t.shoot - t.got) as goals_diff, "
@@ -250,9 +252,28 @@ class class_Core extends ServiceIntrospection
 		
 		$updates = (array)$params[1];
 		if (isset($updates["toAdd"])) {
+			if ($tableName == "users") {
+				// hash password
+				$toAdd = $updates["toAdd"];
+				for ($i = 0; $i < count($toAdd); $i++) {
+					$toAdd[$i]->password = hash(PASSWORD_HASH_ALGO, $toAdd[$i]->password);
+				}
+			}
 			$db->addEntities($tableName, $updates["toAdd"]);
 		}
 		if (isset($updates["toUpdate"])) {
+			if ($tableName == "users") {
+				// hash password
+				$toUpdate = $updates["toUpdate"];
+				for ($i = 0; $i < count($toUpdate); $i++) {
+					$password = $toUpdate[$i]->password;
+					if ($password != "dummy") {
+						$toUpdate[$i]->password = hash(PASSWORD_HASH_ALGO, $password);
+					} else {
+						unset($toUpdate[$i]->password);
+					}
+				}
+			}
 			$db->updateEntities($tableName, $updates["toUpdate"]);
 		}
 		if (isset($updates["toDelete"])) {
