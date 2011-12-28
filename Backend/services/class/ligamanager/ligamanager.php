@@ -17,7 +17,7 @@ class class_LigaManager extends ServiceIntrospection
         }
 		
 		$db = CreateDbConnection();
-		return $db->queryFetchAll('select * from saison');
+		return $db->queryFetchAll("select * from `" . $_ENV["table_prefix"] . "saison`");
     }
 	
 	function method_SetDefaultSaison($params, $error)
@@ -32,8 +32,8 @@ class class_LigaManager extends ServiceIntrospection
 		$saison_id = (int)$params[0];
 		
 		$db = CreateDbConnection();
-		$db->query("update saison set isDefault = false");
-		$db->query("update saison set isDefault = true where id = $saison_id");
+		$db->query("update `" . $_ENV["table_prefix"] . "saison` set isDefault = false");
+		$db->query("update `" . $_ENV["table_prefix"] . "saison` set isDefault = true where id = $saison_id");
     }
 	
 	function method_CreateSaison($params, $error)
@@ -49,7 +49,7 @@ class class_LigaManager extends ServiceIntrospection
 		$saison = (array)$params[0];
 		unset($saison["copy"]);
 		
-		$db->insert('saison', $saison);
+		$db->insert($_ENV["table_prefix"] . 'saison', $saison);
     }
 	
 	function method_RemoveSaison($params, $error)
@@ -64,7 +64,7 @@ class class_LigaManager extends ServiceIntrospection
 		
 		$saison_id = (int)$params[0];
 		$db = CreateDbConnection();
-		$db->query("delete from saison where id = $saison_id");
+		$db->query("delete from `" . $_ENV["table_prefix"] . "saison` where id = $saison_id");
     }
 	
 	function method_GetSaisonTeams($params, $error)
@@ -81,8 +81,8 @@ class class_LigaManager extends ServiceIntrospection
 		$db = CreateDbConnection();
 		
 		$sql = "select T.id, T.name,"
-			. " (select id from saison_team ST where ST.id_saison = $saison_id and ST.id_team = T.id) as id_saison_team"
-			. " from team T";
+			. " (select id from `" . $_ENV["table_prefix"] . "saison_team` ST where ST.id_saison = $saison_id and ST.id_team = T.id) as id_saison_team"
+			. " from `" . $_ENV["table_prefix"] . "team` T";
 		return $db->queryFetchAll($sql);
 		
 	}
@@ -106,13 +106,13 @@ class class_LigaManager extends ServiceIntrospection
 		// handle insert / relations added
 		for ($i = 0; $i < count($relsToAdd); $i++) {
 			$team_id = (int)$relsToAdd[$i];
-			$sql = "insert into saison_team (id_team, id_saison) values ($team_id, $saison_id)";
+			$sql = "insert into `" . $_ENV["table_prefix"] . "saison_team` (id_team, id_saison) values ($team_id, $saison_id)";
 			$db->query($sql);
 		}
 		
 		// handle deletes
 		if (count($relsToDel) > 0) {
-			$db->deleteEntities("saison_team", $relsToDel);
+			$db->deleteEntities($_ENV["table_prefix"] . "saison_team", $relsToDel);
 		}
 	}
 	
@@ -131,8 +131,8 @@ class class_LigaManager extends ServiceIntrospection
 		
 		$db = CreateDbConnection();
 		
-		$sql = "select ST.id, T.name from saison_team ST"
-			. " left join team T on T.id = ST.id_team"
+		$sql = "select ST.id, T.name from `" . $_ENV["table_prefix"] . "saison_team` ST"
+			. " left join `" . $_ENV["table_prefix"] . "team` T on T.id = ST.id_team"
 			. " where id_saison = $saison_id";
 		return $db->queryFetchAll($sql);
 	}
@@ -152,11 +152,11 @@ class class_LigaManager extends ServiceIntrospection
 		$db = CreateDbConnection();
 		
 		$sql = "select P.id, P.firstname, P.lastname,"
-			. " (select id from saison_player SP"
+			. " (select id from `" . $_ENV["table_prefix"] . "saison_player` SP"
 			. " where SP.id_saison_team = $saison_team_id"
 			. " and SP.id_player = P.id) as id_saison_player"
-			. " from player P"
-			. " where P.id_team IN (select id_team from saison_team where id = $saison_team_id)"
+			. " from `" . $_ENV["table_prefix"] . "player` P"
+			. " where P.id_team IN (select id_team from `" . $_ENV["table_prefix"] . "saison_team` where id = $saison_team_id)"
 			. " order by P.firstname";
 
 		return $db->queryFetchAll($sql);
@@ -182,13 +182,13 @@ class class_LigaManager extends ServiceIntrospection
 		// handle insert / relations added
 		for ($i = 0; $i < count($relsToAdd); $i++) {
 			$player_id = (int)$relsToAdd[$i];
-			$sql = "insert into saison_player (id_saison_team, id_player) values ($id_saison_team, $player_id)";
+			$sql = "insert into `" . $_ENV["table_prefix"] . "saison_player` (id_saison_team, id_player) values ($id_saison_team, $player_id)";
 			$db->query($sql);
 		}
 		
 		// handle deletes
 		if (count($relsToDel) > 0) {
-			$db->deleteEntities("saison_player", $relsToDel);
+			$db->deleteEntities($_ENV["table_prefix"] . "saison_player", $relsToDel);
 		}
 	}
 }

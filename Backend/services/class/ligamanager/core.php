@@ -19,7 +19,7 @@ class class_Core extends ServiceIntrospection
 		
 		$db = CreateDbConnection();
 		
-		$entries = $db->queryFetchAll("SELECT * from settings S where S.key like 'design.%'");
+		$entries = $db->queryFetchAll("SELECT * from `" . $_ENV["table_prefix"] . "settings` S where S.key like 'design.%'");
 		$designPrefixLength = strlen('design.');
 		
 		$design = array();
@@ -46,10 +46,10 @@ class class_Core extends ServiceIntrospection
 		$design = $params[0];
 		
 		foreach($design as $key => $value) {
-			$key = 'design.' . mysql_real_escape_string($key);
-			$value = "'" . mysql_real_escape_string($value) . "'";
+			$key = 'design.' . $db->escape_string($key);
+			$value = "'" . $db->escape_string($value) . "'";
 			
-			$sql = "INSERT INTO settings (`key`, `value`) VALUES ('$key', $value)"
+			$sql = "INSERT INTO `" . $_ENV["table_prefix"] . "settings` (`key`, `value`) VALUES ('$key', $value)"
 				. " ON DUPLICATE KEY UPDATE `value`=$value;";
 			$db->query($sql);
 		}
@@ -118,9 +118,9 @@ class class_Core extends ServiceIntrospection
 		$passHash = hash(PASSWORD_HASH_ALGO, $password);
 		
 		
-		$query = sprintf("select * from users where username='%s' and password='%s'",
-            mysql_real_escape_string($username),
-            mysql_real_escape_string($passHash));
+		$query = sprintf("select * from `" . $_ENV["table_prefix"] . "users` where username='%s' and password='%s'",
+            $db->escape_string($username),
+            $db->escape_string($passHash));
 		
 		
 		$resultArr = $db->queryFetchAll($query);
@@ -159,14 +159,15 @@ class class_Core extends ServiceIntrospection
 	// crud actions for entities
 	//
 	
-	function getSelectStatement($params, $onlyCount) {
+	function getSelectStatement($db, $params, $onlyCount) {
 		
-		$tableName = mysql_real_escape_string($params[0]);
+		$tableName = $db->escape_string($params[0], $db);
+		$tableNameWithPrefix = $_ENV["table_prefix"] . $tableName;
 		
 		$sqlQuery;
 		
 		if ($onlyCount) {
-			$sqlQuery = "select count(*) from `$tableName`";
+			$sqlQuery = "select count(*) from `$tableNameWithPrefix`";
 			if (isset($params[1])) {
 				$filter = $params[1];
 				if ($this->isFilterOk($filter)) {
@@ -176,15 +177,15 @@ class class_Core extends ServiceIntrospection
 		} else {
 			if ($tableName == "users") {
 				// change password to a dummy value
-				$sqlQuery = "SELECT id, username, 'dummy' as `password`, firstname, lastname, email, id_team, rights FROM `users`";
+				$sqlQuery = "SELECT id, username, 'dummy' as `password`, firstname, lastname, email, id_team, rights FROM `$tableNameWithPrefix`";
 			} else if ($tableName == "play_table") {
 				$sqlQuery = "select @rownum:=@rownum+1 as rank, t.*,"
 					. " (t.wins * 3 + t.stand_off) as points,"
 					. " (t.shoot - t.got) as goals_diff, "
 					. " concat(shoot, ':', got) as goals"
-					. " from play_table t, (SELECT @rownum:=0) r";
+					. " from `$tableNameWithPrefix` t, (SELECT @rownum:=0) r";
 			} else {
-				$sqlQuery = "select * from `$tableName`";
+				$sqlQuery = "select * from `$tableNameWithPrefix`";
 			}
 			
 			if (isset($params[5])) {
@@ -213,9 +214,9 @@ class class_Core extends ServiceIntrospection
 	
 	function method_GetEntitiesCount($params, $error) 
 	{
-		$sqlQuery = $this->getSelectStatement($params, true);
-		
 		$db = CreateDbConnection();
+		$sqlQuery = $this->getSelectStatement($db, $params, true);
+		
 		$result = $db->queryFetchAll($sqlQuery);
 		return $result == null ? 0 : $result[0]["count(*)"];
 	}
@@ -227,9 +228,9 @@ class class_Core extends ServiceIntrospection
 
 	function method_GetEntities($params, $error) 
 	{
-		$sqlQuery = $this->getSelectStatement($params, false);
-		
 		$db = CreateDbConnection();
+		
+		$sqlQuery = $this->getSelectStatement($db, $params, false);
 		
 		return $db->queryFetchAll($sqlQuery, $tableName);
 	}
@@ -246,9 +247,11 @@ class class_Core extends ServiceIntrospection
 		
 		// TODO: check for rights!!!
 		
-		$tableName = mysql_real_escape_string($params[0]);
-		
 		$db = CreateDbConnection();
+		
+		$tableName = $db->escape_string($params[0]);
+		$tableNameWithPrefix = $_ENV["table_prefix"] . $tableName;
+		
 		
 		$updates = (array)$params[1];
 		if (isset($updates["toAdd"])) {
@@ -259,7 +262,7 @@ class class_Core extends ServiceIntrospection
 					$toAdd[$i]->password = hash(PASSWORD_HASH_ALGO, $toAdd[$i]->password);
 				}
 			}
-			$db->addEntities($tableName, $updates["toAdd"]);
+			$db->addEntities($tableNameWithPrefix, $updates["toAdd"]);
 		}
 		if (isset($updates["toUpdate"])) {
 			if ($tableName == "users") {
@@ -274,10 +277,10 @@ class class_Core extends ServiceIntrospection
 					}
 				}
 			}
-			$db->updateEntities($tableName, $updates["toUpdate"]);
+			$db->updateEntities($tableNameWithPrefix, $updates["toUpdate"]);
 		}
 		if (isset($updates["toDelete"])) {
-			$db->deleteEntities($tableName, $updates["toDelete"]);
+			$db->deleteEntities($tableNameWithPrefix, $updates["toDelete"]);
 		}
 	}
 	
