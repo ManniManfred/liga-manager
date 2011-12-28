@@ -1,38 +1,5 @@
 <?php
 
-// pkrawczak@gmail.com, 2008-03-07
-// ...
-// pkrawczak@gmail.com, 2009-11-17
-	
-
-
-
-
-
-// requires ErrorManager class
-
-
-
-/*
-interface:
-
-public function __construct()
-
-public function connect($host, $base, $user, $password, $enconding = "utf8")
-public function query($string)
-public function fetchAll($result)
-public function queryFetchAll($query)
-
-public function getHost()
-public function getBaseName()
-public function getUser()
-
-public function getLastId()
-public function getQueries()
-
-public function __destruct()
-
-*/
 
 function phpValueToSQL($phpValue) {
 	if (is_null($phpValue)) {
@@ -104,6 +71,9 @@ class MySQL {
 	
 
 
+	public function escape_string($string) {
+		return mysql_real_escape_string($string, $this->id);
+	}
 
 
 	public function getLastId() {
@@ -139,7 +109,7 @@ class MySQL {
 					// Create the column_definition
 					$field->definition = mysql_result($describe, $i, 'Type');
 					if ($field->not_null && !$field->primary_key) $field->definition .= ' NOT NULL';
-					if ($field->def) $field->definition .= " DEFAULT '" . mysql_real_escape_string($field->def) . "'";
+					if ($field->def) $field->definition .= " DEFAULT '" . $this->escape_string($field->def) . "'";
 					if ($field->auto_increment) $field->definition .= ' AUTO_INCREMENT';
 					if ($key = mysql_result($describe, $i, 'Key')) {
 							if ($field->primary_key) $field->definition .= ' PRIMARY KEY';
@@ -223,7 +193,7 @@ class MySQL {
 			$id_val = null;
 			foreach($updates as $key => $value) {
 				if ($key != $id_col) {
-					$col = mysql_real_escape_string($key);
+					$col = $this->escape_string($key);
 					$val = phpValueToSQL($value);
 					
 					if ($i > 0) {
@@ -233,7 +203,7 @@ class MySQL {
 					
 					$i++;
 				} else {
-					$id_val = mysql_real_escape_string($value);
+					$id_val = $this->escape_string($value);
 				}				
 			}
 			

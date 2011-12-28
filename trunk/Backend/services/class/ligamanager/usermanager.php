@@ -23,7 +23,7 @@ class class_usermanager extends ServiceIntrospection
 		unset($entry['ConfirmPassword']);
 		unset($entry['Team']);
 		
-		$db->insert('users', $entry);
+		$db->insert($_ENV["table_prefix"] . 'users', $entry);
     }
 	
 	function method_RemoveUser($params, $error)
@@ -37,7 +37,7 @@ class class_usermanager extends ServiceIntrospection
 
 		$db = CreateDbConnection();
 		$user_id = (int)$params[0];
-		$db->query("delete from users where id = $user_id");
+		$db->query("delete from `" . $_ENV["table_prefix"] . "users` where id = $user_id");
 	}
 	
 	function method_GetUsers($params, $error)
@@ -50,7 +50,7 @@ class class_usermanager extends ServiceIntrospection
         }
 		
 		$db = CreateDbConnection();
-		return $db->queryFetchAll('select * from users');
+		return $db->queryFetchAll('select * from `' . $_ENV["table_prefix"] . 'users`');
 	}
 
 }

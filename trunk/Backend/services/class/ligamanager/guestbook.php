@@ -33,7 +33,7 @@ class class_guestbook extends ServiceIntrospection
 		$entry = (array)$params[0];
 		$entry['message'] = htmlentities($entry['message']);
 		$entry['date'] = date('c');
-		$db->insert('guestbook', $entry);
+		$db->insert($_ENV["table_prefix"] . 'guestbook', $entry);
     }
 	
 	
@@ -47,7 +47,7 @@ class class_guestbook extends ServiceIntrospection
         }
 		
 		$db = CreateDbConnection();
-		return $db->queryFetchAll('select * from guestbook');
+		return $db->queryFetchAll('select * from `' .$_ENV["table_prefix"] . 'guestbook`');
 	}
 
 }
