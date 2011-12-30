@@ -18,6 +18,7 @@ qx.Class.define("ligamanager.pages.PlayingSchedulePage",
 		this.base(arguments, new qx.ui.layout.Canvas());
 		
 		this.__mainWidget = mainWidget;
+		this.__saisonFilter = { "saison_id" : null, "team_id" : null };
 		
 		var layout = new qx.ui.layout.VBox();
 		layout.setSpacing(20);
@@ -245,7 +246,7 @@ qx.Class.define("ligamanager.pages.PlayingSchedulePage",
 			
 			// set filter
 			var model = this.__matchesTable.getTableModel();
-			this.__saisonFilter = "id_saison_team1 in (select id from saison_team where id_saison = " + saison.id + ")";
+			this.__saisonFilter["saison_id"] = saison.id;
 			model.setFilter(this.__saisonFilter);
 			model.startRpc();
 		},
@@ -261,12 +262,8 @@ qx.Class.define("ligamanager.pages.PlayingSchedulePage",
 			
 			var model = this.__matchesTable.getTableModel();
 			
-			var filter = this.__saisonFilter;
-			if (team != null) {
-				filter += " and (id_saison_team1 = " + team.id
-					+ " or id_saison_team2 = " + team.id + ")";
-			}
-			model.setFilter(filter);
+			this.__saisonFilter["team_id"] = team != null ? team.id : null;
+			model.setFilter(this.__saisonFilter);
 		}
 		
 	}

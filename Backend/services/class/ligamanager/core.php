@@ -152,7 +152,21 @@ class class_Core extends ServiceIntrospection
 	
 	
 	
-	
+	function getFilter($tableName, $filterMap) {
+		$filter = '';
+		if ($tableName == "match") {
+			$filter = " where id_saison_team1 in (select id from `" . $_ENV["table_prefix"] 
+				. "saison_team` where id_saison = " . ((int)$filterMap->saison_id) . ")";
+				
+			if (isset($filterMap->team_id) && $filterMap->team_id != null) {
+				$filter .= " and (id_saison_team1 = " . ((int)$filterMap->team_id)
+					. " or id_saison_team2 = " . ((int)$filterMap->team_id) . ")";
+			}
+		} else if ($tableName == "play_table") {
+			$filter = " where id_saison = " . ((int)$filterMap->saison_id);
+		}
+		return $filter;
+	}
 	
 	
 	//
@@ -169,10 +183,7 @@ class class_Core extends ServiceIntrospection
 		if ($onlyCount) {
 			$sqlQuery = "select count(*) from `$tableNameWithPrefix`";
 			if (isset($params[1])) {
-				$filter = $params[1];
-				if ($this->isFilterOk($filter)) {
-					$sqlQuery .= "where " . $filter;
-				}
+				$sqlQuery .= $this->getFilter($tableName, $params[1]);
 			}
 		} else {
 			if ($tableName == "users") {
@@ -189,10 +200,7 @@ class class_Core extends ServiceIntrospection
 			}
 			
 			if (isset($params[5])) {
-				$filter = $params[5];
-				if ($this->isFilterOk($filter)) {
-					$sqlQuery .= " where " . $filter;
-				}
+				$sqlQuery .= $this->getFilter($tableName, $params[5]);
 			}
 			
 			if (isset($params[1]) && isset($params[2])) {
@@ -209,6 +217,7 @@ class class_Core extends ServiceIntrospection
 				$sqlQuery .= " limit $firstIndex, $maxRows";
 			}
 		}
+		//	echo $sqlQuery;
 		return $sqlQuery;
 	}
 	
@@ -221,11 +230,6 @@ class class_Core extends ServiceIntrospection
 		return $result == null ? 0 : $result[0]["count(*)"];
 	}
 	
-	function isFilterOk($filter) {
-		// TODO: check filter (SQL Injection)
-		return $filter != null;
-	}
-
 	function method_GetEntities($params, $error) 
 	{
 		$db = CreateDbConnection();

@@ -231,7 +231,7 @@ qx.Class.define("ligamanager.pages.MatchesPage",
 			
 			// set filter
 			var model = this.__matchesTable.getTableModel();
-			var filter = "id_saison_team1 in (select id from saison_team where id_saison = " + saison.id + ")";
+			var filter = { "saison_id" : saison.id };
 			model.setFilter(filter);
 		},
 		

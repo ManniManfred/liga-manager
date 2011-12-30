@@ -35,12 +35,6 @@ qx.Class.define("ligamanager.pages.EntityTableModel",
 	*/
 
 	properties: {
-		filter : {
-			check : "String",
-			nullable : true,
-			init : null,
-			apply : "__applyFilter"
-		},
 		
 		newRowDefaults : {
 			check : "Map",
@@ -75,10 +69,15 @@ qx.Class.define("ligamanager.pages.EntityTableModel",
 		__toUpdate : null,
 		__toDelete : null,
 		
-		__applyFilter : function(value, oldValue) {
-			if (value != oldValue) {
-				this.reloadData();
-			}
+		__filter : null,
+		
+		getFilter : function() {
+			return this.__filter;
+		},
+		
+		setFilter : function(filter) {
+			this.__filter = filter;
+			this.reloadData();
 		},
 		
 		addNewRows : function(rows) {
