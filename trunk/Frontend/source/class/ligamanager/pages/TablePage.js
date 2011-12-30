@@ -76,7 +76,6 @@ qx.Class.define("ligamanager.pages.TablePage",
 		__mainWidget : null,
 		__content : null,
 		__ligaManagerRpc : null,
-		__saisonFilter : null,
 		
 		__applyCurrentSaison : function(value, oldValue) {
 			this.__updateMatches(value);
@@ -183,8 +182,7 @@ qx.Class.define("ligamanager.pages.TablePage",
 			
 			// set filter
 			var model = this.__matchesTable.getTableModel();
-			this.__saisonFilter = "id_saison = " + saison.id;
-			model.setFilter(this.__saisonFilter);
+			model.setFilter({ "saison_id" : saison.id });
 			model.startRpc();
 		}
 	}
