@@ -74,8 +74,23 @@ qx.Class.define("m_ligamanager.pages.TablePage",
 		__mainWidget : null,
 		
 		__initialize : function() {
-			var label = new qx.ui.mobile.basic.Label("SpielTablle ...");
-			this.getContent().add(label);
+		
+			var coreRpc = new qx.io.remote.Rpc(m_ligamanager.Core.RPC_BACKEND , "ligamanager.Core");
+			var playTable = coreRpc.callSync("GetEntities", "play_table");
+				
+		   
+			// Create the list with a delegate that
+			// configures the list item.
+			var list = new qx.ui.mobile.list.List({
+				configureItem : function(item, data, row)
+				{
+					item.setSelectable(false);
+					item.setTitle(data.rank + ". " + data.name);
+					item.setSubTitle("Punkte: " + data.points);
+				}
+			});
+			list.setModel(new qx.data.Array(playTable));
+			this.getContent().add(list);
 		}
 
 	}
