@@ -6,8 +6,10 @@ class OutputCSV extends AbstractOutput
 {
 	public function SendResponse($output)
 	{
-		header('Content-type: text/csv');
+		header('Content-type: text/csv;charset=UTF-8');
 		header('Content-Disposition: attachment; filename="' . $this->tableName . '.csv"');
+		
+		echo "\xEF\xBB\xBF"; // UTF-8 BOM
 		
 		if (!isset($this->header_keys)) {
 			if (count($output) <= 0) return;
