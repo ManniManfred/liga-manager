@@ -147,14 +147,14 @@ qx.Class.define("ligamanager.pages.EntityTable",
 				part.add(btSave);
 			}
 			
-			
-			part.add(new qx.ui.toolbar.Separator());
+			// TODO: first solve problem with id's in resulting csv file
+			// part.add(new qx.ui.toolbar.Separator());
 				
-			var btCSV = new qx.ui.toolbar.Button(qx.locale.Manager.tr("CSV Export"), 
-				"ligamanager/22/file_export_to_file.png");
-			btCSV.setToolTipText(qx.locale.Manager.tr("Export data as CSV"));
-			btCSV.addListener("execute", this.__onCSV, this);
-			part.add(btCSV);
+			// var btCSV = new qx.ui.toolbar.Button(qx.locale.Manager.tr("CSV Export"), 
+				// "ligamanager/22/file_export_to_file.png");
+			// btCSV.setToolTipText(qx.locale.Manager.tr("Export data as CSV"));
+			// btCSV.addListener("execute", this.__onCSV, this);
+			// part.add(btCSV);
 			
 			toolbar.setShow("icon");
 		},

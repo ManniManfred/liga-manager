@@ -135,7 +135,7 @@ qx.Class.define("ligamanager.pages.TablePage",
 		
 		__createMatchPart : function() {
 		
-			var laTeams = new qx.ui.basic.Label(this.tr("Matches"));
+			var laTeams = new qx.ui.basic.Label(this.tr("Table"));
 			laTeams.setAppearance("label-sep");
 			this.__content.add(laTeams);
 			
@@ -151,7 +151,6 @@ qx.Class.define("ligamanager.pages.TablePage",
 			// modify table model
 			//
 			var model = this.__matchesTable.getTableModel();
-			model.sortByColumn(5, false);
 			model.setColumnEditable(0, false);
 			model.setColumnEditable(1, false);
 			model.setColumnEditable(2, false);
@@ -159,6 +158,12 @@ qx.Class.define("ligamanager.pages.TablePage",
 			model.setColumnEditable(4, false);
 			model.setColumnEditable(5, false);
 			
+			model.setColumnSortable(0, false);
+			model.setColumnSortable(1, false);
+			model.setColumnSortable(2, false);
+			model.setColumnSortable(3, false);
+			model.setColumnSortable(4, false);
+			model.setColumnSortable(5, false);
 			
 			//
 			// modify table columns

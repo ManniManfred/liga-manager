@@ -15,7 +15,7 @@ qx.Class.define("ligamanager.pages.RegisterPage",
 		this.base(arguments, new qx.ui.layout.Canvas());
 
 		this.__userRpc = new qx.io.remote.Rpc(ligamanager.Core.RPC_BACKEND, "ligamanager.Usermanager");
-		
+		this.__coreRpc = new qx.io.remote.Rpc(ligamanager.Core.RPC_BACKEND, "ligamanager.Core");
 		this.createUi();
 	},
 
@@ -51,6 +51,7 @@ qx.Class.define("ligamanager.pages.RegisterPage",
 	members:
 	{
 		__userRpc : null,
+		__coreRpc : null,
 		
 		__userField : null,
 		__firstNameField : null,
@@ -141,14 +142,25 @@ qx.Class.define("ligamanager.pages.RegisterPage",
 			form.add(this.__emailField, "", qx.util.Validate.email(), "EMail");
 			
 		   
-			// team label
+			// team
 			var nameLabel = new qx.ui.basic.Label(this.tr("Team") + suffix);
 			contentPane.add(nameLabel, { row: 5, column: 0 });
-			// team textbox
-			this.__teamField = new qx.ui.form.TextField();
+			
+			// team select box
+			this.__teamField = new qx.ui.form.SelectBox();
 			this.__teamField.setTabIndex(tabIndex++);
 			contentPane.add(this.__teamField, { row: 5, column: 1});
-			//form.add(this.__teamField, "", null, "Team");
+			form.add(this.__teamField, "", null, "id_team");
+			
+			this.__teamField.add(new qx.ui.form.ListItem("-- Keine --", null, null));
+			
+			// add teams to select list
+			var teams = this.__coreRpc.callSync("GetEntities", "team");
+			if (teams != null) {
+				for (var i = 0, l = teams.length; i < l; i++) {
+					this.__teamField.add(new qx.ui.form.ListItem(teams[i].name, null, teams[i].id));
+				}
+			}
 			
 			// password label
 			var passwordLabel = new qx.ui.basic.Label(this.tr("Password") + requireSuffix);

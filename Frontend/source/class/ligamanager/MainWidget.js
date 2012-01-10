@@ -384,26 +384,46 @@ qx.Class.define("ligamanager.MainWidget",
 			// Verwaltung
 			//
 			
+			sidebar.add(new qx.ui.core.Spacer(this.__blockSpace, this.__blockSpace));
+				
+			var btManager = new qx.ui.form.Button(this.tr("Manager"), null);
+			btManager.setAppearance("sidebar/button");
+			btManager.setUserData("page", ligamanager.pages.EmptyPage);
+			btManager.addListener("execute", this.__onBtExecuted, this);
+			btManager.addListener("execute", this.__onShowPage, this);
+			sidebar.add(btManager);
+			
+			var managerContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox().set({spacing : this.__innerSpace}));
+			managerContainer.setPaddingLeft(20);
+			sidebar.add(managerContainer);
+			
 			var userRights = this.__isLoggedIn && this.__coreRpc.callSync("GetUserRights");
 
-			if (userRights == "USER") {
-				// nothing: keine besonderen Berechtigungen..
-			} else if (userRights == "ADMIN_LIGA" || userRights == "ADMIN") {
-				
-				sidebar.add(new qx.ui.core.Spacer(this.__blockSpace, this.__blockSpace));
-				
-				var btManager = new qx.ui.form.Button(this.tr("Manager"), null);
-				btManager.setAppearance("sidebar/button");
-				btManager.setUserData("page", ligamanager.pages.ManagerPage);
-				btManager.addListener("execute", this.__onBtExecuted, this);
-				btManager.addListener("execute", this.__onShowPage, this);
-				sidebar.add(btManager);
+			if (userRights == "USER" || userRights == "TEAM_ADMIN" || 
+					userRights == "LIGA_AMIN" || userRights == "ADMIN") {
 			
+				var btUserSettings = new qx.ui.form.Button(this.tr("User Settings"), null);
+				btUserSettings.setAppearance("sidebar/button");
+				btUserSettings.setUserData("parentButton", btManager);
+				btUserSettings.setUserData("page", ligamanager.pages.UserSettingsPage);
+				btUserSettings.addListener("execute", this.__onBtExecuted, this);
+				btUserSettings.addListener("execute", this.__onShowPage, this);
+				managerContainer.add(btUserSettings);
 				
-				var managerContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox().set({spacing : this.__innerSpace}));
-				managerContainer.setPaddingLeft(20);
-				sidebar.add(managerContainer);
+			}
+			
+			if (userRights == "TEAM_ADMIN" || userRights == "LIGA_AMIN" || userRights == "ADMIN") {
 				
+				var btMatches = new qx.ui.form.Button(this.tr("Matches"), null);
+				btMatches.setAppearance("sidebar/button");
+				btMatches.setUserData("parentButton", btManager);
+				btMatches.setUserData("page", ligamanager.pages.ManageMatchesPage);
+				btMatches.addListener("execute", this.__onBtExecuted, this);
+				btMatches.addListener("execute", this.__onShowPage, this);
+				managerContainer.add(btMatches);
+			}
+			
+			if (userRights == "LIGA_AMIN" || userRights == "ADMIN") {
 				var btUserManager = new qx.ui.form.Button(this.tr("User"), null);
 				btUserManager.setAppearance("sidebar/button");
 				btUserManager.setUserData("parentButton", btManager);
