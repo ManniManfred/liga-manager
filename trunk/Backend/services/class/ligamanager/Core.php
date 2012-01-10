@@ -152,15 +152,38 @@ class class_Core extends ServiceIntrospection
 	
 	
 	
-	function getFilter($tableName, $filterMap) {
+	function getFilter($db, $tableName, $filterMap) {
 		$filter = '';
 		if ($tableName == "match") {
-			$filter = " where id_saison_team1 in (select id from `" . $_ENV["table_prefix"] 
-				. "saison_team` where id_saison = " . ((int)$filterMap->saison_id) . ")";
+		
+			if (isset($filterMap->matchesOfUser) && $filterMap->matchesOfUser == true) {
 				
-			if (isset($filterMap->team_id) && $filterMap->team_id != null) {
-				$filter .= " and (id_saison_team1 = " . ((int)$filterMap->team_id)
-					. " or id_saison_team2 = " . ((int)$filterMap->team_id) . ")";
+				$team_id = $_SESSION["user"]["id_team"];
+				//print_r($_SESSION["user"]);
+				
+				if ($team_id != null) {
+					
+					// get id saison team
+					$queryResult = $db->queryFetchAll("select ST.id from `" . $_ENV["table_prefix"] . "saison_team` ST"
+						. " left join `" . $_ENV["table_prefix"] . "saison` S on ST.id_saison = S.id"
+						. " where S.isDefault and ST.id_team = $team_id");
+					
+					$id_saison_team = $queryResult[0]["id"];
+					
+					$filter = " where id_saison_team1 = $id_saison_team or id_saison_team2 = $id_saison_team";
+				} else {
+					$filter = " where false";
+				}
+			} else {
+	
+				$filter = " where id_saison_team1 in (select id from `" . $_ENV["table_prefix"] 
+					. "saison_team` where id_saison = " . $filterMap->saison_id . ")";
+				
+				if (isset($filterMap->team_id)) {
+					$team_id = (int)$filterMap->team_id;
+					$filter .= " and (id_saison_team1 = " . $team_id
+						. " or id_saison_team2 = " . $team_id . ")";
+				}
 			}
 		} else if ($tableName == "play_table") {
 			$filter = " where id_saison = " . ((int)$filterMap->saison_id);
@@ -183,7 +206,7 @@ class class_Core extends ServiceIntrospection
 		if ($onlyCount) {
 			$sqlQuery = "select count(*) from `$tableNameWithPrefix`";
 			if (isset($params[1])) {
-				$sqlQuery .= $this->getFilter($tableName, $params[1]);
+				$sqlQuery .= $this->getFilter($db, $tableName, $params[1]);
 			}
 		} else {
 			if ($tableName == "users") {
@@ -199,17 +222,26 @@ class class_Core extends ServiceIntrospection
 				$sqlQuery = "select * from `$tableNameWithPrefix`";
 			}
 			
+			// set filter
 			if (isset($params[5])) {
-				$sqlQuery .= $this->getFilter($tableName, $params[5]);
+				$sqlQuery .= $this->getFilter($db, $tableName, $params[5]);
 			}
 			
-			if (isset($params[1]) && isset($params[2])) {
-				$sortField = $params[1];
-				$sortOrder = $params[2];
-				
-				$sqlQuery .= " order by $sortField $sortOrder";
+			// set order
+			if ($tableName == "play_table") {
+				$sqlQuery .= " order by points desc, goals_diff desc";
+			} else {
+				if (isset($params[1]) && isset($params[2])) {
+					
+					$sortField = $params[1];
+					$sortOrder = $params[2];
+					
+					$sqlQuery .= " order by $sortField $sortOrder";
+					
+				}
 			}
 			
+			// set limit
 			if (isset($params[3]) && isset($params[4])) {
 				$firstIndex = $params[3];
 				$maxRows = $params[4] - $firstIndex ;
@@ -232,6 +264,7 @@ class class_Core extends ServiceIntrospection
 	
 	function method_GetEntities($params, $error) 
 	{
+		//sleep(1);
 		$db = CreateDbConnection();
 		
 		$sqlQuery = $this->getSelectStatement($db, $params, false);
