@@ -145,10 +145,12 @@ qx.Class.define("ligamanager.pages.PlayingSchedulePage",
 			this.__content.add(laTeams);
 			
 			this.__matchesTable = new ligamanager.pages.EntityTable("match", 
-				["Id", "Datum", "Mannschaft 1", "Mannschaft 2", "Tore 1", "Tore 2"], 
-				["id", "date", "id_saison_team1", "id_saison_team2", "goal1", "goal2"],
+				["Datum", "Mannschaft 1", "Mannschaft 2", "Tore 1", "Tore 2"], 
+				["date", "id_saison_team1", "id_saison_team2", "goal1", "goal2"],
 				false, false, false, false);
-			this.__matchesTable.setHeight(300);
+			this.__matchesTable.setHeight(400);
+			this.__matchesTable.setWidth(400);
+			//this.__matchesTable.set
 			this.__matchesTable.setAllowGrowX(false);
 			this.__content.add(this.__matchesTable);
 			
@@ -171,13 +173,12 @@ qx.Class.define("ligamanager.pages.PlayingSchedulePage",
 			// modify table model
 			//
 			var model = this.__matchesTable.getTableModel();
-			model.sortByColumn(1, true);
+			model.sortByColumn(0, true);
 			model.setColumnEditable(0, false);
 			model.setColumnEditable(1, false);
 			model.setColumnEditable(2, false);
 			model.setColumnEditable(3, false);
 			model.setColumnEditable(4, false);
-			model.setColumnEditable(5, false);
 			
 			
 			
@@ -187,12 +188,11 @@ qx.Class.define("ligamanager.pages.PlayingSchedulePage",
 			//
 			
 			var table = this.__matchesTable.getTable();
-			table.setColumnWidth( 0, 50 );
-			table.setColumnWidth( 1, 150 );
+			table.setColumnWidth( 0, 150 );
+			table.setColumnWidth( 1, 200 );
 			table.setColumnWidth( 2, 200 );
-			table.setColumnWidth( 3, 200 );
+			table.setColumnWidth( 3, 50 );
 			table.setColumnWidth( 4, 50 );
-			table.setColumnWidth( 5, 50 );
 			
 			var tcm = table.getTableColumnModel();
 
@@ -200,15 +200,15 @@ qx.Class.define("ligamanager.pages.PlayingSchedulePage",
 			var dateRenderer = new ligamanager.ui.DateCellRenderer();
 			dateRenderer.setDateFormat(ligamanager.pages.MatchesPage.DISPLAY_FORMAT);
 			
-			tcm.setDataCellRenderer(1, dateRenderer);
-			tcm.setCellEditorFactory(1, new ligamanager.ui.DateCellEditor()); 
+			tcm.setDataCellRenderer(0, dateRenderer);
+			tcm.setCellEditorFactory(0, new ligamanager.ui.DateCellEditor()); 
 			
 			
 			// select box for teams
 			this.__teamReplaceRenderer = new qx.ui.table.cellrenderer.Replace();
 			this.__teamReplaceRenderer.setUseAutoAlign(false);
+			tcm.setDataCellRenderer(1, this.__teamReplaceRenderer);
 			tcm.setDataCellRenderer(2, this.__teamReplaceRenderer);
-			tcm.setDataCellRenderer(3, this.__teamReplaceRenderer);
 		},
 		
 		

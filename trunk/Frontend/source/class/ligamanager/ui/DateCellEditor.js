@@ -51,9 +51,9 @@ qx.Class.define("ligamanager.ui.DateCellEditor",
 			cellEditor.originalValue = value;
 			cellEditor.setValue(value);
 
-			cellEditor.addListener("appear", function() {
-				cellEditor.selectAllText();
-			});
+			// cellEditor.addListener("appear", function() {
+				// cellEditor.selectAllText();
+			// });
 
 			return cellEditor;
 		},
