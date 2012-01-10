@@ -81,7 +81,8 @@ class class_LigaManager extends ServiceIntrospection
 		$db = CreateDbConnection();
 		
 		$sql = "select T.id, T.name,"
-			. " (select id from `" . $_ENV["table_prefix"] . "saison_team` ST where ST.id_saison = $saison_id and ST.id_team = T.id) as id_saison_team"
+			. " (select id from `" . $_ENV["table_prefix"] . "saison_team` ST"
+				. " where ST.id_saison = $saison_id and ST.id_team = T.id) as id_saison_team"
 			. " from `" . $_ENV["table_prefix"] . "team` T";
 		return $db->queryFetchAll($sql);
 		
@@ -132,8 +133,14 @@ class class_LigaManager extends ServiceIntrospection
 		$db = CreateDbConnection();
 		
 		$sql = "select ST.id, T.name from `" . $_ENV["table_prefix"] . "saison_team` ST"
-			. " left join `" . $_ENV["table_prefix"] . "team` T on T.id = ST.id_team"
-			. " where id_saison = $saison_id";
+			. " left join `" . $_ENV["table_prefix"] . "team` T on T.id = ST.id_team";
+			
+		if ($saison_id == -1) {
+			$sql .= " left join `" . $_ENV["table_prefix"] . "saison` S on S.id = ST.id_saison"
+				. " where S.isDefault";
+		} else {
+			$sql .= " where id_saison = $saison_id";
+		}
 		return $db->queryFetchAll($sql);
 	}
 	
