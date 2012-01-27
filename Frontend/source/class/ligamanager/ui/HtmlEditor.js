@@ -34,7 +34,7 @@ qx.Class.define("ligamanager.ui.HtmlEditor",
 		this.setLayout(new qx.ui.layout.VBox(0));
 		this.setBackgroundColor("white");
 		
-		this.__htmlArea = new qx.ui.embed.HtmlArea("", null, "blank.html");
+		this.__htmlArea = new qx.ui.embed.HtmlArea("", null, null);
 		this.__htmlArea.set({
 			margin: 5
 		});
@@ -81,7 +81,11 @@ qx.Class.define("ligamanager.ui.HtmlEditor",
 		},
 		
 		setValue : function(value) {
-			this.__htmlArea.setValue(value);
+			if (value == null) {
+				this.__htmlArea.setValue("");
+			} else {
+				this.__htmlArea.setValue(value);
+			}
 		},
 		
 		/**

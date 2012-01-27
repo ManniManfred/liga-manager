@@ -37,7 +37,7 @@ msgstr "Verwaltung"
 
 #: ligamanager/MainWidget.js:405
 msgid "User Settings"
-msgstr ""
+msgstr "Benutzer Einstellungen"
 
 #: ligamanager/MainWidget.js:427
 msgid "User"
@@ -162,13 +162,6 @@ msgstr ""
 msgid "Documents"
 msgstr "Dokumente"
 
-#: ligamanager/pages/EntityTable.js:144 ligamanager/pages/EntityTable.js:145
-#: ligamanager/pages/SaisonManagerPage.js:162
-#: ligamanager/pages/SaisonManagerPage.js:289
-#: ligamanager/pages/SettingsPage.js:192
-msgid "Save"
-msgstr "Speichern"
-
 #: ligamanager/pages/EntityTableModel.js:208
 msgid "que_save_data"
 msgstr "In dieser Tabelle sind ungespeicherte Daten. Durch die aufgerufene Funktion würden diese verloren gehen. Sollen die Änderungen vorher gespeichert werden?"
@@ -242,11 +235,35 @@ msgstr "Anmeldung fehlgeschlagen: %1"
 msgid "Connection error"
 msgstr "Verbindungsfehler"
 
-#: ligamanager/pages/ManageMatchesPage.js:96
+#: ligamanager/pages/ManageMatchesPage.js:99
 #: ligamanager/pages/PlayingSchedulePage.js:143 ligamanager/MainWidget.js:417
 #: ligamanager/MainWidget.js:485 ligamanager/pages/MatchesPage.js:142
 msgid "Matches"
 msgstr "Spiele"
+
+#: ligamanager/pages/ManageMatchesPage.js:149
+msgid "Details"
+msgstr ""
+
+#: ligamanager/pages/ManageMatchesPage.js:157
+msgid "Date"
+msgstr "Datum"
+
+#: ligamanager/pages/ManageMatchesPage.js:168
+msgid "Goals"
+msgstr "Tore"
+
+#: ligamanager/pages/ManageMatchesPage.js:174
+msgid " vs "
+msgstr ""
+
+#: ligamanager/pages/ManageMatchesPage.js:217
+#: ligamanager/pages/EntityTable.js:144 ligamanager/pages/EntityTable.js:145
+#: ligamanager/pages/SaisonManagerPage.js:162
+#: ligamanager/pages/SaisonManagerPage.js:289
+#: ligamanager/pages/SettingsPage.js:192
+msgid "Save"
+msgstr "Speichern"
 
 #: ligamanager/pages/MatchesPage.js:252
 msgid "hint_matches_exist"
@@ -254,15 +271,15 @@ msgstr "Es können keine neuen Spiele hinzugefügt werden, da schon Spiele exist
 
 #: ligamanager/pages/PlayingSchedulePage.js:163
 msgid "Team Filter"
-msgstr ""
+msgstr "Manschaft"
 
 #: ligamanager/pages/PlayingSchedulePage.js:165
 msgid "Choose a team to filter"
-msgstr ""
+msgstr "Eine Mannschaft wählen, nach der gefilter wird"
 
 #: ligamanager/pages/PlayingSchedulePage.js:228
 msgid "All Teams"
-msgstr ""
+msgstr "Alle Mannschaften"
 
 #: ligamanager/pages/RegisterPage.js:95
 msgid "Register to"
@@ -356,6 +373,9 @@ msgstr "Benutzerverwaltung"
 #~ msgid "CSV Export"
 #~ msgstr "CSV Export"
 
+#~ msgid "Datum"
+#~ msgstr ""
+
 #~ msgid "Delete"
 #~ msgstr "Löschen"
 
@@ -364,3 +384,6 @@ msgstr "Benutzerverwaltung"
 
 #~ msgid "Export data as CSV"
 #~ msgstr "Tabelle als CSV-Datei speichern"
+
+#~ msgid "Tore"
+#~ msgstr ""

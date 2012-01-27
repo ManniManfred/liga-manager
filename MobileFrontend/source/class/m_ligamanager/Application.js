@@ -57,9 +57,39 @@ qx.Class.define("m_ligamanager.Application",
       -------------------------------------------------------------------------
       */
 
-	  var mainWidget = new m_ligamanager.MainWidget();
-	  mainWidget.show();
+	  //var mainWidget = new m_ligamanager.MainWidget();
+	  //mainWidget.show();
 	  
+var page = new qx.ui.mobile.page.NavigationPage();
+page.setTitle("Hello World");
+
+var secondPage = new qx.ui.mobile.page.NavigationPage();
+secondPage.setTitle("2. Page");
+
+secondPage.addListener("initialize", function() {
+  var addButton = new qx.ui.mobile.form.Button("Add New Button");
+  this.getContent().add(addButton);
+  
+  addButton.addListener("tap", function() {
+    this.getContent().add(new qx.ui.mobile.form.Button("Second Button"));
+  }, secondPage);
+
+}, secondPage);
+
+
+
+page.addListener("initialize", function() {
+  var button = new qx.ui.mobile.form.Button("First Button");
+  page.getContent().add(button);          
+
+  button.addListener("tap", function() {
+    secondPage.show();
+  }, this);
+},this);
+
+
+
+page.show();
 	  
     }
   }
