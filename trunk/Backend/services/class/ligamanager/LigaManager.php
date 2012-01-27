@@ -198,6 +198,41 @@ class class_LigaManager extends ServiceIntrospection
 			$db->deleteEntities($_ENV["table_prefix"] . "saison_player", $relsToDel);
 		}
 	}
+	
+	
+	function method_StoreMatch($params, $error)
+    {
+        if (count($params) != 1)
+        {
+            $error->SetError(JsonRpcError_ParameterMismatch,
+                             "Expected 1 parameter; got " . count($params));
+            return $error;
+        }
+		
+		$match = $params[0];
+		$tableNameWithPrefix = $_ENV["table_prefix"] . "match";
+		
+		$db = CreateDbConnection();
+		$db->updateEntities($tableNameWithPrefix, array($match));
+		
+	}
+	
+	/**
+	 * Returns all saison players of the current saison.
+	 */
+	function method_GetAllSaisonPlayers($params, $error)
+    {
+		$sql = "select SP.id, SP.id_saison_team, P.firstname, P.lastname, T.name as team_name from `". $_ENV["table_prefix"] . "saison_player` SP"
+			. " left join `" . $_ENV["table_prefix"] . "player` P on P.id = SP.id_player"
+			. " left join `" . $_ENV["table_prefix"] . "saison_team` ST on ST.id = SP.id_saison_team"
+			. " left join `" . $_ENV["table_prefix"] . "saison` S on ST.id_saison = S.id"
+			. " left join `" . $_ENV["table_prefix"] . "team` T on ST.id_team = T.id"
+			. " where S.isDefault"
+			. " order by SP.id_saison_team, P.firstname, P.lastname";
+			
+		$db = CreateDbConnection();
+		return $db->queryFetchAll($sql);
+	}
 }
 
 ?>

@@ -149,8 +149,6 @@ qx.Class.define("ligamanager.pages.PlayingSchedulePage",
 				["date", "id_saison_team1", "id_saison_team2", "goal1", "goal2"],
 				false, false, false, false);
 			this.__matchesTable.setHeight(400);
-			this.__matchesTable.setWidth(400);
-			//this.__matchesTable.set
 			this.__matchesTable.setAllowGrowX(false);
 			this.__content.add(this.__matchesTable);
 			
@@ -194,11 +192,13 @@ qx.Class.define("ligamanager.pages.PlayingSchedulePage",
 			table.setColumnWidth( 3, 50 );
 			table.setColumnWidth( 4, 50 );
 			
+			this.__matchesTable.setWidth(650 + 20);
+			
 			var tcm = table.getTableColumnModel();
 
 			// date renderer / editor
 			var dateRenderer = new ligamanager.ui.DateCellRenderer();
-			dateRenderer.setDateFormat(ligamanager.pages.MatchesPage.DISPLAY_FORMAT);
+			dateRenderer.setDateFormat(ligamanager.Core.DISPLAY_FORMAT);
 			
 			tcm.setDataCellRenderer(0, dateRenderer);
 			tcm.setCellEditorFactory(0, new ligamanager.ui.DateCellEditor()); 

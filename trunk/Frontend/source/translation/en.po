@@ -162,13 +162,6 @@ msgstr ""
 msgid "Documents"
 msgstr ""
 
-#: ligamanager/pages/EntityTable.js:144 ligamanager/pages/EntityTable.js:145
-#: ligamanager/pages/SaisonManagerPage.js:162
-#: ligamanager/pages/SaisonManagerPage.js:289
-#: ligamanager/pages/SettingsPage.js:192
-msgid "Save"
-msgstr ""
-
 #: ligamanager/pages/EntityTableModel.js:208
 msgid "que_save_data"
 msgstr ""
@@ -242,10 +235,34 @@ msgstr ""
 msgid "Connection error"
 msgstr ""
 
-#: ligamanager/pages/ManageMatchesPage.js:96
+#: ligamanager/pages/ManageMatchesPage.js:99
 #: ligamanager/pages/PlayingSchedulePage.js:143 ligamanager/MainWidget.js:417
 #: ligamanager/MainWidget.js:485 ligamanager/pages/MatchesPage.js:142
 msgid "Matches"
+msgstr ""
+
+#: ligamanager/pages/ManageMatchesPage.js:149
+msgid "Details"
+msgstr ""
+
+#: ligamanager/pages/ManageMatchesPage.js:157
+msgid "Date"
+msgstr ""
+
+#: ligamanager/pages/ManageMatchesPage.js:168
+msgid "Goals"
+msgstr ""
+
+#: ligamanager/pages/ManageMatchesPage.js:174
+msgid " vs "
+msgstr ""
+
+#: ligamanager/pages/ManageMatchesPage.js:217
+#: ligamanager/pages/EntityTable.js:144 ligamanager/pages/EntityTable.js:145
+#: ligamanager/pages/SaisonManagerPage.js:162
+#: ligamanager/pages/SaisonManagerPage.js:289
+#: ligamanager/pages/SettingsPage.js:192
+msgid "Save"
 msgstr ""
 
 #: ligamanager/pages/MatchesPage.js:252
@@ -356,6 +373,9 @@ msgstr ""
 #~ msgid "CSV Export"
 #~ msgstr ""
 
+#~ msgid "Datum"
+#~ msgstr ""
+
 #~ msgid "Delete"
 #~ msgstr ""
 
@@ -375,6 +395,9 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Nachricht"
+#~ msgstr ""
+
+#~ msgid "Tore"
 #~ msgstr ""
 
 #~ msgid "acadGraph Planinfo"
