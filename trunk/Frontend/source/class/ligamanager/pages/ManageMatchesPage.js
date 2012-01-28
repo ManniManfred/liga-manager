@@ -114,6 +114,7 @@ qx.Class.define("ligamanager.pages.ManageMatchesPage",
 			table.setColumnWidth( 3, 200 );
 			table.setColumnWidth( 4, 50 );
 			table.setColumnWidth( 5, 50 );
+			table.setWidth(720);
 			
 			var model = table.getTableModel();
 			model.sortByColumn(1, true);
@@ -140,14 +141,19 @@ qx.Class.define("ligamanager.pages.ManageMatchesPage",
 		
 		
 		__createDetailsPart : function() {
-		
+			var layout = new qx.ui.layout.VBox();
+			layout.setSpacing(20);
+			this.__paDetails = new qx.ui.container.Composite(layout);
+			this.__paDetails.setEnabled(false);
+			this.__content.add(this.__paDetails);
+			
 			var laDetails = this.__laDetails = new qx.ui.basic.Label(this.tr("Details"));
 			laDetails.setAppearance("label-sep");
-			this.__content.add(laDetails);
+			this.__paDetails.add(laDetails);
 			
 			
 			var hbox = new qx.ui.container.Composite(new qx.ui.layout.HBox(2).set({alignY : "middle"}));
-			this.__content.add(hbox);
+			this.__paDetails.add(hbox);
 			
 			var laDate = new qx.ui.basic.Label(this.tr("Date"));
 			hbox.add(laDate);
@@ -164,11 +170,13 @@ qx.Class.define("ligamanager.pages.ManageMatchesPage",
 			hbox.add(laGoals);
 			
 			var fiGoals1 = this.__fiGoals1 = new ligamanager.ui.NumberField();
+			fiGoals1.setWidth(40);
 			hbox.add(fiGoals1);
 			
 			hbox.add(new qx.ui.basic.Label(this.tr(" vs ")));
 			
 			var fiGoals2 = this.__fiGoals2 = new ligamanager.ui.NumberField();
+			fiGoals2.setWidth(40);
 			hbox.add(fiGoals2);
 			
 			//
@@ -182,7 +190,7 @@ qx.Class.define("ligamanager.pages.ManageMatchesPage",
 				true, true, false, false);
 			this.__playersTable.setHeight(300);
 			this.__playersTable.setAllowGrowX(false);
-			this.__content.add(this.__playersTable);
+			this.__paDetails.add(this.__playersTable);
 			
 			
 			var table = this.__playersTable.getTable();
@@ -194,12 +202,13 @@ qx.Class.define("ligamanager.pages.ManageMatchesPage",
 			table.setColumnWidth( 4, 50 );
 			table.setColumnWidth( 5, 50 );
 			table.setColumnWidth( 6, 50 );
+			table.setWidth(570);
 			
 			var model = table.getTableModel();
 			model.setColumnEditable(0, false);
 			
 			var tcm = table.getTableColumnModel();
-			var playersRenderer = new ligamanager.pages.SaisonPlayersRenderer();
+			var playersRenderer = this.__playersRenderer = new ligamanager.pages.SaisonPlayersRenderer();
 			playersRenderer.setPlayer(this.__saisonPlayers);
 			
 			tcm.setDataCellRenderer(1, playersRenderer);
@@ -219,17 +228,23 @@ qx.Class.define("ligamanager.pages.ManageMatchesPage",
 			tcm.setCellEditorFactory(5, new qx.ui.table.celleditor.CheckBox());
 			tcm.setCellEditorFactory(6, new qx.ui.table.celleditor.CheckBox());
 			
+			var laHint = new qx.ui.basic.Label();
+			laHint.setRich(true);
+			laHint.setValue("<b>Hinweis:</b><br> Spieler, die noch nicht in der Liste vorhanden sind,"
+				+ " einfach in dem Format \"&lt;Vorname&gt; &lt;Nachname&gt;\" angeben und die zugehörige Mannschaft auswählen. "
+				+ "Beispiel: Manuel Neuer");
+			this.__paDetails.add(laHint);
 			
 			
 			this.__fiDesc = new ligamanager.ui.HtmlEditor();
 			this.__fiDesc.setHeight(200);
 			this.__fiDesc.setAllowGrowX(false);
-			this.__content.add(this.__fiDesc);
+			this.__paDetails.add(this.__fiDesc);
 			
 			var btSave = new qx.ui.form.Button(this.tr("Save"), "icon/22/actions/document-save.png");
 			btSave.addListener("execute", this.__onSave, this);
 			btSave.setAllowGrowX(false);
-			this.__content.add(btSave);
+			this.__paDetails.add(btSave);
 		},
 		
 		__onPlayerEdited : function(evt) {
@@ -301,13 +316,17 @@ qx.Class.define("ligamanager.pages.ManageMatchesPage",
 			
 			var playersModel = this.__playersTable.getTableModel();
 			playersModel.setNewRowDefaults({"id_match" : match.id,
+				"id_saison_team" : match.id_saison_team1,
 				"hasYellowCard" : false, 
 				"hasYellowRedCard" : false, 
 				"hasRedCard" : false,
 				"goals" : 0});
 			playersModel.setFilter({"match_id" : match.id});
 			playersModel.startRpc();
+			
+			this.__paDetails.setEnabled(true);
 		},
+		
 		
 		__onSave : function(evt) {
 			var table = this.__matchesTable.getTable();
@@ -323,12 +342,20 @@ qx.Class.define("ligamanager.pages.ManageMatchesPage",
 				var desc = this.__fiDesc.getValue();
 				match.description = desc;
 				
-				//match.goal2 = this.__fiGoals2.getValue();
-				
 				this.__ligaManagerRpc.callSync("StoreMatch", match);
-				this.__playersTable.getTableModel().saveChanges();
 				
-				table.getTableModel().reloadData();
+				
+				var playersModel = this.__playersTable.getTableModel();
+				if (playersModel.hasChanges()) {
+					playersModel.saveChanges();
+			
+					// update players renderer
+					this.__saisonPlayers = this.__ligaManagerRpc.callSync("GetAllSaisonPlayers");
+					this.__playersRenderer.setPlayer(this.__saisonPlayers);
+					
+					playersModel.reloadData();
+				}
+				
 			}
 		},
 		
