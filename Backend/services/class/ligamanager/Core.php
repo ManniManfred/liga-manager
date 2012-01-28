@@ -277,9 +277,18 @@ class class_Core extends ServiceIntrospection {
 			$playerProps["lastname"] = "";
 		}
 		
-		// insert the new player
-		$db->insert($_ENV["table_prefix"] . 'player', $playerProps);
-		$player_id = $db->getLastId();
+		// check, if there is already a player with that name
+		$playerIdResult = $db->queryFetchAll("select id from `"  . $_ENV["table_prefix"] . 'player`'
+				. " where firstname = '" . mysql_real_escape_string($playerProps["firstname"]) . "'"
+				. " and lastname = '" . mysql_real_escape_string($playerProps["lastname"]) . "'");
+		
+		if (count($playerIdResult) > 0) {
+			$player_id = $playerIdResult[0]['id'];
+		} else {
+			// insert the new player
+			$db->insert($_ENV["table_prefix"] . 'player', $playerProps);
+			$player_id = $db->getLastId();
+		}
 		
 		// insert saison player
 		$saisonPlayerProps = array();
