@@ -496,6 +496,13 @@ qx.Class.define("ligamanager.MainWidget",
 				btSaison.addListener("execute", this.__onShowPage, this);
 				ligaContainer.add(btSaison);
 				
+				var btMatches = new qx.ui.form.Button(this.tr("Matches"), null);
+				btMatches.setAppearance("sidebar/button");
+				btMatches.setUserData("parentButton", btLiga);
+				btMatches.setUserData("page", ligamanager.pages.MatchesPage);
+				btMatches.addListener("execute", this.__onBtExecuted, this);
+				btMatches.addListener("execute", this.__onShowPage, this);
+				ligaContainer.add(btMatches);
 			}
 			
 		},

@@ -251,6 +251,48 @@ class class_Core extends ServiceIntrospection {
         return $db->queryFetchAll($sqlQuery, $tableNameWithPrefix);
     }
 
+	/**
+	 *
+	 * @param MySQL $db
+	 * @param string $player_name
+	 * @param string $saison_team_id
+	 * @return int The saison player id
+	 */
+	function createNewPlayer($db, $player_name, $saison_team_id) {
+		$playerProps = array();
+		
+		// set team id
+		$getTeamIdSql = 'select id_team from `' . $_ENV["table_prefix"] . 'saison_team`'
+				. ' where id = ' . ((int)$saison_team_id);
+		$teamIdResult = $db->queryFetchAll($getTeamIdSql);
+		$playerProps['id_team'] = $teamIdResult[0]['id_team'];
+		
+		// set first and last name
+		$name_parts = explode(' ', $player_name);
+		if (count($name_parts > 1)) {
+			$playerProps["firstname"] = trim($name_parts[0]);
+			$playerProps["lastname"] = trim($name_parts[1]);
+		} else {
+			$playerProps["firstname"] = trim($player_name);
+			$playerProps["lastname"] = "";
+		}
+		
+		// insert the new player
+		$db->insert($_ENV["table_prefix"] . 'player', $playerProps);
+		$player_id = $db->getLastId();
+		
+		// insert saison player
+		$saisonPlayerProps = array();
+		$saisonPlayerProps['id_saison_team'] = $saison_team_id;
+		$saisonPlayerProps['id_player'] = $player_id;
+		
+		// insert the new saison player
+		$db->insert($_ENV["table_prefix"] . 'saison_player', $saisonPlayerProps);
+		$saison_player_id = $db->getLastId();
+		
+		return $saison_player_id;
+	}
+	
     function method_UpdateEntities($params, $error) {
 
         if (count($params) != 2) {
@@ -273,6 +315,11 @@ class class_Core extends ServiceIntrospection {
             if ($tableName == "player_match") {
                 $toAdd = $updates["toAdd"];
                 for ($i = 0; $i < count($toAdd); $i++) {
+					if (is_string($toAdd[$i]->id_saison_player)) {
+						// create a new player with that name
+						$toAdd[$i]->id_saison_player = $this->createNewPlayer($db, $toAdd[$i]->id_saison_player, 
+								$toAdd[$i]->id_saison_team);
+					}
                     unset($toAdd[$i]->id_saison_team);
                 }
             }
