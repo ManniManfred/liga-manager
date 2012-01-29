@@ -176,9 +176,19 @@ qx.Class.define("ligamanager.pages.TablePage",
 			table.setColumnWidth( 3, 50 );
 			table.setColumnWidth( 4, 50 );
 			table.setColumnWidth( 5, 50 );
-			
+			table.addListener("cellDblclick", this.__onCellDblClick, this);
 		},
 		
+		__onCellDblClick : function(evt){
+			var model = this.__matchesTable.getTableModel();
+			var team = model.getRowData(evt.getRow());
+			
+			if (team.homepage != null && team.homepage.length > 0) {
+				window.open(team.homepage)
+			} else {
+				alert("Bei der Mannschaft \"" + team.name + "\" ist keine Homepage angegeben.")
+			}
+		},
 		
 		__updateMatches : function(saison) {
 		

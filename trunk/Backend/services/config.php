@@ -1,5 +1,6 @@
 <?php
 
+define('PASSWORD_DUMMY', 'DUMMY2');
 define("PASSWORD_HASH_ALGO", "sha1");
 
 $_ENV["db_server"] = "localhost";

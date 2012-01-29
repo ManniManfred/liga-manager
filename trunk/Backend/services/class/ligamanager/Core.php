@@ -12,7 +12,7 @@ class class_Core extends ServiceIntrospection {
             return $error;
         }
 
-        $db = CreateDbConnection();
+        $db = GetDbConnection();
 
         $entries = $db->queryFetchAll("SELECT * from `" . $_ENV["table_prefix"] . "settings` S where S.key like 'design.%'");
         $designPrefixLength = strlen('design.');
@@ -33,7 +33,7 @@ class class_Core extends ServiceIntrospection {
             return $error;
         }
 
-        $db = CreateDbConnection();
+        $db = GetDbConnection();
 
         $design = $params[0];
 
@@ -47,6 +47,25 @@ class class_Core extends ServiceIntrospection {
         }
     }
 
+	
+	function method_GetSelf() {
+		$result = null;
+		if (isset($_SESSION["user_id"])) {
+			
+			$db = GetDbConnection();
+			
+			$users = $db->queryFetchAll("select * from `" . $_ENV["table_prefix"] 
+					. "users` where id = " . ((int)$_SESSION["user_id"]));
+			if (count($users) > 0) {
+				$result = $users[0];
+				$result["password"] = PASSWORD_DUMMY;
+				$result["confirmPassword"] = PASSWORD_DUMMY;
+			}
+		}
+		return $result;
+	}
+	
+	
     /**
      * Echo the (one and only) parameter.
      *
@@ -66,11 +85,7 @@ class class_Core extends ServiceIntrospection {
             return $error;
         }
 
-        if (isset($_SESSION["user"])) {
-            // TODO: what about changes on the user during a session?
-            return true;
-        }
-        return false;
+		return $this->method_GetSelf() != null;
     }
 
     function method_GetUserRights($params, $error) {
@@ -79,9 +94,10 @@ class class_Core extends ServiceIntrospection {
             return $error;
         }
 
-        if (isset($_SESSION["user"])) {
+		$user = $this->method_GetSelf();
+        if ($user != null) {
             // changes during session are not considered! User has to logout and login
-            $group = $_SESSION["user"]["rights"];
+            $group = $user["rights"];
             return $group;
         }
         return null;
@@ -93,14 +109,16 @@ class class_Core extends ServiceIntrospection {
             return $error;
         }
 
-        $db = CreateDbConnection();
+        $db = GetDbConnection();
         $username = $params[0];
         $password = $params[1];
 
         $passHash = hash(PASSWORD_HASH_ALGO, $password);
 
 
-        $query = sprintf("select * from `" . $_ENV["table_prefix"] . "users` where username='%s' and password='%s'", $db->escape_string($username), $db->escape_string($passHash));
+        $query = sprintf("select * from `" . $_ENV["table_prefix"] 
+					. "users` where username='%s' and password='%s'", 
+				$db->escape_string($username), $db->escape_string($passHash));
 
 
         $resultArr = $db->queryFetchAll($query);
@@ -108,7 +126,7 @@ class class_Core extends ServiceIntrospection {
         $result = array("result" => false, "message" => "Benutzer Passwort Kombination ist falsch.");
 
         if (count($resultArr) == 1) {
-            $_SESSION["user"] = $resultArr[0];
+            $_SESSION["user_id"] = $resultArr[0]["id"];
             $result["result"] = true;
             $result["message"] = "ok";
         }
@@ -122,7 +140,7 @@ class class_Core extends ServiceIntrospection {
             return $error;
         }
 
-        unset($_SESSION["user"]);
+        unset($_SESSION["user_id"]);
     }
 
     function getFilter($db, $tableName, $filterMap) {
@@ -131,7 +149,9 @@ class class_Core extends ServiceIntrospection {
 
             if (isset($filterMap->matchesOfUser) && $filterMap->matchesOfUser == true) {
 
-                $team_id = $_SESSION["user"]["id_team"];
+				$user = $this->method_GetSelf();
+				
+                $team_id = $user["id_team"];
                 //print_r($_SESSION["user"]);
 
                 if ($team_id != null) {
@@ -174,8 +194,6 @@ class class_Core extends ServiceIntrospection {
 
         $tableName = $db->escape_string($params[0], $db);
         $tableNameWithPrefix = $_ENV["table_prefix"] . $tableName;
-
-        $sqlQuery;
 
         if ($onlyCount) {
             $sqlQuery = "select count(*) from `$tableNameWithPrefix`";
@@ -230,7 +248,7 @@ class class_Core extends ServiceIntrospection {
     }
 
     function method_GetEntitiesCount($params, $error) {
-        $db = CreateDbConnection();
+        $db = GetDbConnection();
         $sqlQuery = $this->getSelectStatement($db, $params, true);
 
         $result = $db->queryFetchAll($sqlQuery);
@@ -239,7 +257,7 @@ class class_Core extends ServiceIntrospection {
 
     function method_GetEntities($params, $error) {
         //sleep(1);
-        $db = CreateDbConnection();
+        $db = GetDbConnection();
 
         $tableName = $db->escape_string($params[0], $db);
         $tableNameWithPrefix = $_ENV["table_prefix"] . $tableName;
@@ -312,7 +330,7 @@ class class_Core extends ServiceIntrospection {
 
         // TODO: check for rights!!!
 
-        $db = CreateDbConnection();
+        $db = GetDbConnection();
 
         $tableName = $db->escape_string($params[0]);
         $tableNameWithPrefix = $_ENV["table_prefix"] . $tableName;
