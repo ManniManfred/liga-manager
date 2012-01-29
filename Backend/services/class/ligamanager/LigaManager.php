@@ -233,6 +233,28 @@ class class_LigaManager extends ServiceIntrospection
 		$db = GetDbConnection();
 		return $db->queryFetchAll($sql);
 	}
+	
+	function method_GetPublicPlayerMatchDetails($params, $error) {
+		
+        if (count($params) != 1)
+        {
+            $error->SetError(JsonRpcError_ParameterMismatch,
+                             "Expected 1 parameter; got " . count($params));
+            return $error;
+        }
+		
+		$match_id = $params[0];
+		
+		$sql = "select PM.*, SP.id_saison_team, P.firstname, P.lastname"
+			. " from `". $_ENV["table_prefix"] . "player_match` PM"
+			. " left join `" . $_ENV["table_prefix"] . "saison_player` SP on SP.id = PM.id_saison_player"
+			. " left join `" . $_ENV["table_prefix"] . "player` P on P.id = SP.id_player"
+			. " where PM.id_match = " . ((int)$match_id)
+			. " order by SP.id_saison_team, P.firstname, P.lastname";
+			
+		$db = GetDbConnection();
+		return $db->queryFetchAll($sql);
+	}
 }
 
 ?>

@@ -34,7 +34,7 @@ qx.Class.define("ligamanager.pages.PlayingSchedulePage",
 		
 		this.__createSaisonChoice();
 		this.__createMatchPart();
-		
+		this.__createDetailsPart();
 		
 		var selection = this.__lvSaison.getSelection();
 		if (selection == null || selection.length <= 0) {
@@ -186,6 +186,8 @@ qx.Class.define("ligamanager.pages.PlayingSchedulePage",
 			//
 			
 			var table = this.__matchesTable.getTable();
+			table.getSelectionModel().addListener("changeSelection", this.__updateDetails, this);
+			
 			table.setColumnWidth( 0, 150 );
 			table.setColumnWidth( 1, 200 );
 			table.setColumnWidth( 2, 200 );
@@ -230,7 +232,7 @@ qx.Class.define("ligamanager.pages.PlayingSchedulePage",
 			filterRadioGroup.add(btAllTeams);
 			this.__meTeams.add(btAllTeams); 
 			
-			var replaceMap = {};
+			var replaceMap = this.__replaceMap = {};
 			for (var i = 0; i < saisonTeams.length; i++) {
 				var row = saisonTeams[i];
 				replaceMap[row["id"]] = row["name"];
@@ -264,6 +266,75 @@ qx.Class.define("ligamanager.pages.PlayingSchedulePage",
 			
 			this.__saisonFilter["team_id"] = team != null ? team.id : null;
 			model.setFilter(this.__saisonFilter);
+		},
+		
+		
+		
+		
+		
+		__createDetailsPart : function() {
+			var layout = new qx.ui.layout.VBox();
+			layout.setSpacing(20);
+			this.__paDetails = new qx.ui.container.Composite(layout);
+			this.__paDetails.setEnabled(false);
+			this.__content.add(this.__paDetails);
+			
+			var laDetails = this.__laDetails = new qx.ui.basic.Label(this.tr("Details"));
+			laDetails.setAppearance("label-sep");
+			this.__paDetails.add(laDetails);
+			
+			
+			var laDesc = this.__laDesc = new qx.ui.basic.Label();
+			laDesc.setRich(true);
+			this.__paDetails.add(laDesc);
+			
+			
+		},
+		
+		__updateDetails : function() {
+			var table = this.__matchesTable.getTable();
+			
+			var matchIndex = table.getSelectionModel().getLeadSelectionIndex();
+			var match = this.__currentMatch = table.getTableModel().getRowData(matchIndex);
+			
+			var desc = "<h2>"
+				+ this.__replaceMap[match.id_saison_team1]
+				+ " vs "
+				+ this.__replaceMap[match.id_saison_team2]
+				+ ((match.goal1 == null || match.goal2 == null) ? "" : (" " + match.goal1 + ":" + match.goal2))
+				+ "</h2>"
+				+ "<p><b>Datum: </b>" + ligamanager.Core.DISPLAY_FORMAT.format(ligamanager.Core.SOURCE_FORMAT.parse(match.date)) + "</p>";
+			
+			if (match.description != null) {
+				desc += match.description;
+			}
+			
+			var details = this.__ligaManagerRpc.callSync("GetPublicPlayerMatchDetails", match.id);
+			
+			desc +="<h3>Besondere Vorkommnisse</h3>"
+			
+			if (details != null) {
+				desc += "<p>";
+				for (var i = 0; i < details.length; i++) {
+					desc += details[i].firstname + " " + details[i].lastname
+						+ " (" + this.__replaceMap[details[i].id_saison_team] + ")";
+					
+					if (details[i].hasYellowCard) desc += " Gelbe Karte";
+					if (details[i].hasYellowRedCard) desc += " Gelb-Rote Karte";
+					if (details[i].hasRedCard) desc += " Rote Karte";
+					
+					if (details[i].goals > 0 ) desc += " Tore " +  details[i].goals;
+					
+					desc += "<br>";
+				}
+				
+				desc += "</p>";
+			}
+			
+			this.__laDesc.setValue(desc);
+			
+			
+			this.__paDetails.setEnabled(true);
 		}
 		
 	}
