@@ -16,7 +16,7 @@ class class_LigaManager extends ServiceIntrospection
             return $error;
         }
 		
-		$db = CreateDbConnection();
+		$db = GetDbConnection();
 		return $db->queryFetchAll("select * from `" . $_ENV["table_prefix"] . "saison`");
     }
 	
@@ -31,7 +31,7 @@ class class_LigaManager extends ServiceIntrospection
 		
 		$saison_id = (int)$params[0];
 		
-		$db = CreateDbConnection();
+		$db = GetDbConnection();
 		$db->query("update `" . $_ENV["table_prefix"] . "saison` set isDefault = false");
 		$db->query("update `" . $_ENV["table_prefix"] . "saison` set isDefault = true where id = $saison_id");
     }
@@ -45,7 +45,7 @@ class class_LigaManager extends ServiceIntrospection
             return $error;
         }
 		
-		$db = CreateDbConnection();
+		$db = GetDbConnection();
 		$saison = (array)$params[0];
 		unset($saison["copy"]);
 		
@@ -63,7 +63,7 @@ class class_LigaManager extends ServiceIntrospection
 		
 		
 		$saison_id = (int)$params[0];
-		$db = CreateDbConnection();
+		$db = GetDbConnection();
 		$db->query("delete from `" . $_ENV["table_prefix"] . "saison` where id = $saison_id");
     }
 	
@@ -78,7 +78,7 @@ class class_LigaManager extends ServiceIntrospection
 		
 		$saison_id = (int)$params[0];
 		
-		$db = CreateDbConnection();
+		$db = GetDbConnection();
 		
 		$sql = "select T.id, T.name,"
 			. " (select id from `" . $_ENV["table_prefix"] . "saison_team` ST"
@@ -102,7 +102,7 @@ class class_LigaManager extends ServiceIntrospection
 		$relsToAdd = $params[1];
 		$relsToDel = $params[2];
 		
-		$db = CreateDbConnection();
+		$db = GetDbConnection();
 		
 		// handle insert / relations added
 		for ($i = 0; $i < count($relsToAdd); $i++) {
@@ -130,7 +130,7 @@ class class_LigaManager extends ServiceIntrospection
 		
 		$saison_id = (int)$params[0];
 		
-		$db = CreateDbConnection();
+		$db = GetDbConnection();
 		
 		$sql = "select ST.id, T.name from `" . $_ENV["table_prefix"] . "saison_team` ST"
 			. " left join `" . $_ENV["table_prefix"] . "team` T on T.id = ST.id_team";
@@ -156,7 +156,7 @@ class class_LigaManager extends ServiceIntrospection
 		
 		$saison_team_id = (int)$params[0];
 		
-		$db = CreateDbConnection();
+		$db = GetDbConnection();
 		
 		$sql = "select P.id, P.firstname, P.lastname,"
 			. " (select id from `" . $_ENV["table_prefix"] . "saison_player` SP"
@@ -184,7 +184,7 @@ class class_LigaManager extends ServiceIntrospection
 		$relsToAdd = $params[1];
 		$relsToDel = $params[2];
 		
-		$db = CreateDbConnection();
+		$db = GetDbConnection();
 		
 		// handle insert / relations added
 		for ($i = 0; $i < count($relsToAdd); $i++) {
@@ -212,7 +212,7 @@ class class_LigaManager extends ServiceIntrospection
 		$match = $params[0];
 		$tableNameWithPrefix = $_ENV["table_prefix"] . "match";
 		
-		$db = CreateDbConnection();
+		$db = GetDbConnection();
 		$db->updateEntities($tableNameWithPrefix, array($match));
 		
 	}
@@ -230,7 +230,7 @@ class class_LigaManager extends ServiceIntrospection
 			. " where S.isDefault"
 			. " order by SP.id_saison_team, P.firstname, P.lastname";
 			
-		$db = CreateDbConnection();
+		$db = GetDbConnection();
 		return $db->queryFetchAll($sql);
 	}
 }
