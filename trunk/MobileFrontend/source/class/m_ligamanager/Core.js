@@ -17,7 +17,11 @@ qx.Class.define("m_ligamanager.Core",
 		DOCUMENT_FOLDER : "../../Backend/services/upload/",
 		UPLOAD_BACKEND : "../../Backend/services/upload.php",
 		RPC_BACKEND : "../../Backend/services/index.php",
-		EXPORT : "../../Backend/services/export_entities.php"
+		EXPORT : "../../Backend/services/export_entities.php",
+		
+		// is set in constructor
+		DISPLAY_FORMAT : null,
+		SOURCE_FORMAT : null
 	},
 
 
@@ -34,6 +38,9 @@ qx.Class.define("m_ligamanager.Core",
 	{
 		this.base(arguments);
 
+		m_ligamanager.Core.DISPLAY_FORMAT = new qx.util.format.DateFormat("dd.MM.yyyy HH:mm");
+		m_ligamanager.Core.SOURCE_FORMAT = new qx.util.format.DateFormat("yyyy-MM-dd HH:mm:ss");
+		
 		this.__rpc = new qx.io.remote.Rpc(m_ligamanager.Core.RPC_BACKEND , "ligamanager.Core");
 	},
 

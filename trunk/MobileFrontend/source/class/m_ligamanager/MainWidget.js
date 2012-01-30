@@ -87,33 +87,22 @@ qx.Class.define("m_ligamanager.MainWidget",
 		
 		__initialize : function() {
 		
-			var secondPage = new qx.ui.mobile.page.NavigationPage();
-			secondPage.setTitle("2. Page");
-			secondPage.setShowBackButton(true);
-			secondPage.setBackButtonText("Back");
-
-			secondPage.addListener("initialize", function() {
-			  var addButton = new qx.ui.mobile.form.Button("Add New Button");
-			  this.getContent().add(addButton);
-			  
-			  addButton.addListener("tap", function() {
-				this.getContent().add(new qx.ui.mobile.form.Button("Second Button"));
-			  }, secondPage);
-
-			}, secondPage);
-
-		
-		
 			var tablePage = new m_ligamanager.pages.TablePage(this);
-		
-			var button = new qx.ui.mobile.form.Button("Tabelle");
-			this.getContent().add(button);
-
-			button.addListener("tap", function() {
-				//this.getContent().add(new qx.ui.mobile.form.Button("bt 2"));
-				secondPage.show();
-				//tablePage.show();
+			var btTable = new qx.ui.mobile.form.Button("Tabelle");
+			this.getContent().add(btTable);
+			btTable.addListener("tap", function() {
+				tablePage.show();
 			}, this);
+			
+			
+			var playingPage = new m_ligamanager.pages.PlayingSchedulePage(this);
+			var btPlaying = new qx.ui.mobile.form.Button("Spielplan");
+			this.getContent().add(btPlaying);
+			btPlaying.addListener("tap", function() {
+				playingPage.show();
+			}, this);
+			
+			
 		},
 		
 		/**

@@ -134,7 +134,7 @@ class class_LigaManager extends ServiceIntrospection
 		
 		$sql = "select ST.id, T.name from `" . $_ENV["table_prefix"] . "saison_team` ST"
 			. " left join `" . $_ENV["table_prefix"] . "team` T on T.id = ST.id_team";
-			
+
 		if ($saison_id == -1) {
 			$sql .= " left join `" . $_ENV["table_prefix"] . "saison` S on S.id = ST.id_saison"
 				. " where S.isDefault";

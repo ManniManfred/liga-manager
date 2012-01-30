@@ -313,6 +313,14 @@ qx.Class.define("ligamanager.MainWidget",
 			btPlayings.addListener("execute", this.__onShowPage, this);
 			sidebar.add(btPlayings);
 			
+			var btLocks = new qx.ui.form.Button(this.tr("Locks"), null);
+			btLocks.setAppearance("sidebar/button");
+			btLocks.setUserData("page", ligamanager.pages.PlayerLockPage);
+			btLocks.addListener("execute", this.__onBtExecuted, this);
+			btLocks.addListener("execute", this.__onShowPage, this);
+			sidebar.add(btLocks);
+			
+			
 			var btContact = new qx.ui.form.Button(this.tr("Contact"), null);
 			btContact.setAppearance("sidebar/button");
 			btContact.setUserData("page", ligamanager.pages.ContactPage);

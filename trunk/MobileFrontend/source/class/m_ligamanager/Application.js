@@ -20,77 +20,47 @@
  */
 qx.Class.define("m_ligamanager.Application",
 {
-  extend : qx.application.Mobile,
+	extend : qx.application.Mobile,
 
 
 
-  /*
+	/*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
 
-  members :
-  {
-    /**
+	members :
+	{
+		/**
      * This method contains the initial application code and gets called 
      * during startup of the application
      */
-    main : function()
-    {
-      // Call super class
-      this.base(arguments);
+		main : function()
+		{
+			// Call super class
+			this.base(arguments);
 
-      // Enable logging in debug variant
-      if (qx.core.Environment.get("qx.debug"))
-      {
-        // support native logging capabilities, e.g. Firebug for Firefox
-        qx.log.appender.Native;
-        // support additional cross-browser console. Press F7 to toggle visibility
-        qx.log.appender.Console;
-      }
+			// Enable logging in debug variant
+			if (qx.core.Environment.get("qx.debug"))
+			{
+				// support native logging capabilities, e.g. Firebug for Firefox
+				qx.log.appender.Native;
+				// support additional cross-browser console. Press F7 to toggle visibility
+				qx.log.appender.Console;
+			}
 
-      /*
-      -------------------------------------------------------------------------
-        Below is your actual application code...
-        Remove or edit the following code to create your application.
-      -------------------------------------------------------------------------
-      */
+			/*
+			-------------------------------------------------------------------------
+				Below is your actual application code...
+				Remove or edit the following code to create your application.
+			-------------------------------------------------------------------------
+			*/
 
-	  //var mainWidget = new m_ligamanager.MainWidget();
-	  //mainWidget.show();
+			var mainWidget = new m_ligamanager.MainWidget();
+			mainWidget.show();
+	 
 	  
-var page = new qx.ui.mobile.page.NavigationPage();
-page.setTitle("Hello World");
-
-var secondPage = new qx.ui.mobile.page.NavigationPage();
-secondPage.setTitle("2. Page");
-
-secondPage.addListener("initialize", function() {
-  var addButton = new qx.ui.mobile.form.Button("Add New Button");
-  this.getContent().add(addButton);
-  
-  addButton.addListener("tap", function() {
-    this.getContent().add(new qx.ui.mobile.form.Button("Second Button"));
-  }, secondPage);
-
-}, secondPage);
-
-
-
-page.addListener("initialize", function() {
-  var button = new qx.ui.mobile.form.Button("First Button");
-  page.getContent().add(button);          
-
-  button.addListener("tap", function() {
-    secondPage.show();
-  }, this);
-},this);
-
-
-
-page.show();
-	  
-    }
-  }
+		}
+	}
 });
