@@ -169,9 +169,17 @@ class class_Core extends ServiceIntrospection {
                 }
             } else {
 
-                $filter = " where id_saison_team1 in (select id from `" . $_ENV["table_prefix"]
-                        . "saison_team` where id_saison = " . $filterMap->saison_id . ")";
-
+				$filter = " where id_saison_team1 in (select ST.id from `" . $_ENV["table_prefix"]
+					. "saison_team` ST";
+				
+				if ($filterMap->saison_id == "current") {
+					$filter .= " left join `" . $_ENV["table_prefix"] . "saison` S on ST.id_saison = S.id"
+							. " where S.isDefault";
+				} else {
+					$filter .= " where ST.id_saison = " . $filterMap->saison_id;
+				}
+				$filter .= ")";
+				
                 if (isset($filterMap->team_id)) {
                     $team_id = (int) $filterMap->team_id;
                     $filter .= " and (id_saison_team1 = " . $team_id
@@ -179,7 +187,11 @@ class class_Core extends ServiceIntrospection {
                 }
             }
         } else if ($tableName == "play_table") {
-            $filter = " where id_saison = " . ((int) $filterMap->saison_id);
+			if ($filterMap->saison_id == "current") {
+				$filter = " where id_saison in (select id from `" . $_ENV["table_prefix"] . "saison` where isDefault)";
+			} else {
+				$filter = " where id_saison = " . ((int) $filterMap->saison_id);
+			}
         } else if ($tableName == "player_match") {
             $filter = " where id_match = " . ((int) $filterMap->match_id);
         }
