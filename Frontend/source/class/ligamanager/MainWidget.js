@@ -29,6 +29,8 @@ qx.Class.define("ligamanager.MainWidget",
 	construct: function() {
 		this.base(arguments);
 
+		this.__navi = ligamanager.ui.Navigation.getInstance();
+		this.__navi.addListener("changeActivePage", this.__onActivePageChanged, this);
 		this.__coreRpc = new qx.io.remote.Rpc(ligamanager.Core.RPC_BACKEND , "ligamanager.Core");
 		
 		var core = ligamanager.Core.getInstance();
@@ -73,8 +75,9 @@ qx.Class.define("ligamanager.MainWidget",
 		
 		this.__updateSideBar();
 		
-	 
-		this.setActivePage(null);
+		
+		this.__navi.setActivePage(null);
+		this.__navi.showPage(qx.bom.History.getInstance().getState());
 	},
 
 	/*
@@ -84,12 +87,6 @@ qx.Class.define("ligamanager.MainWidget",
 	*/
 
 	properties: {
-		activePage : {
-			check : "ligamanager.pages.IPage",
-			nullable : true,
-			init : null,
-			apply : "__applyActivePage"
-		}
 	},
 
 	/*
@@ -119,6 +116,11 @@ qx.Class.define("ligamanager.MainWidget",
 		__emptyPage : null,
 		__isLoggedIn : null,
 		
+		__navi : null,
+		
+		__blockSpace : 15,
+		__innerSpace : 5,
+		
 		__userMenuContainer : null,
 		
 		// contains the side bar for a logged in user
@@ -128,14 +130,24 @@ qx.Class.define("ligamanager.MainWidget",
 		__outBar : null,
 	
 		
-		__blockSpace : 15,
-		__innerSpace : 5,
-		
 		//
 		// buttons for login, register
 		//
 		__btLogin : null,
 		__btRegister : null,
+		
+		
+		__onActivePageChanged : function(e) {
+			var page = e.getData();
+			
+			this.__contentContainer.removeAll();
+			
+			if (page != null) {
+				this.__contentContainer.add(page);
+			} else {
+				this.__contentContainer.add(this.__emptyPage);
+			}
+		},
 		
 		getSettings : function() {
 			return this.__settings;
@@ -217,15 +229,6 @@ qx.Class.define("ligamanager.MainWidget",
 			}
 		},
 		
-		__applyActivePage : function(value, oldValue) {
-			this.__contentContainer.removeAll();
-			
-			if (value != null) {
-				this.__contentContainer.add(value);
-			} else {
-				this.__contentContainer.add(this.__emptyPage);
-			}
-		},
 		
 		
 		/**
@@ -255,26 +258,17 @@ qx.Class.define("ligamanager.MainWidget",
 		
 		__createOutBar : function() {
 			
-			var layout = new qx.ui.layout.VBox();
-			var sidebar = new qx.ui.container.Composite(layout);
-			sidebar.setPadding(0);
-			sidebar.setAppearance("sidebar");
-			
-			var btLogin = this.__btLogin = new qx.ui.form.Button(this.tr("Login"), null);
-			btLogin.setAppearance("sidebar/button");
-			btLogin.addListener("execute", this.__onBtExecuted, this);
-			btLogin.addListener("execute", this.__onBtLogin, this);
-			sidebar.add(btLogin);
-			
-			
-			sidebar.add(new qx.ui.core.Spacer(this.__blockSpace, this.__blockSpace));
-			
-			var btRegister = this.__btRegister = new qx.ui.form.Button(this.tr("Register"), null);
-			btRegister.setAppearance("sidebar/button");
-			btRegister.addListener("execute", this.__onBtExecuted, this);
-			btRegister.addListener("execute", this.__onBtRegister, this);
-			sidebar.add(btRegister);
-			
+			var outMenuDef = [
+			{
+				"name" : this.tr("Login"), 
+				"page" :  ligamanager.pages.LoginPage
+			},
+			{
+				"name" : this.tr("Register"), 
+				"page" :  ligamanager.pages.RegisterPage
+			}];
+
+			var sidebar = this.__navi.createMenu(outMenuDef);
 			
 			return sidebar;
 		},
@@ -283,7 +277,7 @@ qx.Class.define("ligamanager.MainWidget",
 		__createInBar : function() {
 		
 			var layout = new qx.ui.layout.VBox();
-			layout.setSpacing(this.__innerSpace);
+			//layout.setSpacing(this.__innerSpace);
 			var sidebar = new qx.ui.container.Composite(layout);
 			sidebar.setPadding(0);
 			sidebar.setAppearance("sidebar");
@@ -291,54 +285,35 @@ qx.Class.define("ligamanager.MainWidget",
 			return sidebar;
 		},
 		
+		
 		__createSideBar : function() {
-			
-			var layout = new qx.ui.layout.VBox();
-			layout.setSpacing(this.__innerSpace);
-			var sidebar = new qx.ui.container.Composite(layout);
-			sidebar.setAppearance("sidebar");
-			
-			
-			var btTable = new qx.ui.form.Button(this.tr("Table"), null);
-			btTable.setAppearance("sidebar/button");
-			btTable.setUserData("page", ligamanager.pages.TablePage);
-			btTable.addListener("execute", this.__onBtExecuted, this);
-			btTable.addListener("execute", this.__onShowPage, this);
-			sidebar.add(btTable);
-			
-			var btPlayings = new qx.ui.form.Button(this.tr("Playing Schedule"), null);
-			btPlayings.setAppearance("sidebar/button");
-			btPlayings.setUserData("page", ligamanager.pages.PlayingSchedulePage);
-			btPlayings.addListener("execute", this.__onBtExecuted, this);
-			btPlayings.addListener("execute", this.__onShowPage, this);
-			sidebar.add(btPlayings);
-			
-			var btLocks = new qx.ui.form.Button(this.tr("Locks"), null);
-			btLocks.setAppearance("sidebar/button");
-			btLocks.setUserData("page", ligamanager.pages.PlayerLockPage);
-			btLocks.addListener("execute", this.__onBtExecuted, this);
-			btLocks.addListener("execute", this.__onShowPage, this);
-			sidebar.add(btLocks);
-			
-			
-			var btContact = new qx.ui.form.Button(this.tr("Contact"), null);
-			btContact.setAppearance("sidebar/button");
-			btContact.setUserData("page", ligamanager.pages.ContactPage);
-			btContact.addListener("execute", this.__onBtExecuted, this);
-			btContact.addListener("execute", this.__onShowPage, this);
-			sidebar.add(btContact);
-			
-			var btGuestbook = new qx.ui.form.Button(this.tr("Guestbook"), null);
-			btGuestbook.setAppearance("sidebar/button");
-			btGuestbook.setUserData("page", ligamanager.pages.Guestbook);
-			btGuestbook.addListener("execute", this.__onBtExecuted, this);
-			btGuestbook.addListener("execute", this.__onShowPage, this);
-			sidebar.add(btGuestbook);
-			
+			var menuDef = [
+			{
+				"name" : this.tr("Table"), 
+				"page" :  ligamanager.pages.TablePage
+			},
+			{
+				"name" : this.tr("Playing Schedule"), 
+				"page" :  ligamanager.pages.PlayingSchedulePage
+			},
+			{
+				"name" : this.tr("Locks"), 
+				"page" :  ligamanager.pages.PlayerLockPage
+			},
+			{
+				"name" : this.tr("Contact"), 
+				"page" :  ligamanager.pages.ContactPage
+			},
+			{
+				"name" : this.tr("Guestbook"), 
+				"page" :  ligamanager.pages.Guestbook
+			}];
+
+			var sidebar = this.__navi.createMenu(menuDef);
+
 			//
-			// Documents
+			// Add Documents
 			//
-			
 			var docs = this.__coreRpc.callSync("GetEntities", "document");
 			
 			if (docs != null && docs.length > 0) {
@@ -347,8 +322,8 @@ qx.Class.define("ligamanager.MainWidget",
 				
 				var btDocuments = this.__btDocuments = new qx.ui.form.Button(this.tr("Documents"), null);
 				btDocuments.setAppearance("sidebar/button");
-				btDocuments.addListener("execute", this.__onBtExecuted, this);
-				btDocuments.addListener("execute", this.__onBtShowEmptyPage, this);
+				//btDocuments.addListener("execute", this.__onBtExecuted, this);
+				//btDocuments.addListener("execute", this.__onBtShowEmptyPage, this);
 				sidebar.add(btDocuments);
 				
 				
@@ -365,8 +340,8 @@ qx.Class.define("ligamanager.MainWidget",
 					btDoc.setAppearance("sidebar/button");
 					btDoc.setUserData("parentButton", btDocuments);
 					btDoc.setUserData("pdfUrl", ligamanager.Core.DOCUMENT_FOLDER + docs[i].filename);
-					btDoc.addListener("execute", this.__onBtExecuted, this);
-					btDoc.addListener("execute", this.__onShowDocument, this);
+					//btDoc.addListener("execute", this.__onBtExecuted, this);
+					//btDoc.addListener("execute", this.__onShowDocument, this);
 					documentsContainer.add(btDoc);
 				}
 			}
@@ -391,8 +366,8 @@ qx.Class.define("ligamanager.MainWidget",
 			
 			var btLogout = new qx.ui.form.Button(this.tr("Logout"), null);
 			btLogout.setAppearance("sidebar/button");
-			btLogout.addListener("execute", this.__onBtExecuted, this);
-			btLogout.addListener("execute", this.__onBtLogout, this);
+			//btLogout.addListener("execute", this.__onBtExecuted, this);
+			//btLogout.addListener("execute", this.__onBtLogout, this);
 			sidebar.add(btLogout);
 			
 			
@@ -400,119 +375,62 @@ qx.Class.define("ligamanager.MainWidget",
 			// Verwaltung
 			//
 			
-			sidebar.add(new qx.ui.core.Spacer(this.__blockSpace, this.__blockSpace));
-				
-			var btManager = new qx.ui.form.Button(this.tr("Manager"), null);
-			btManager.setAppearance("sidebar/button");
-			btManager.setUserData("page", ligamanager.pages.EmptyPage);
-			btManager.addListener("execute", this.__onBtExecuted, this);
-			btManager.addListener("execute", this.__onShowPage, this);
-			sidebar.add(btManager);
-			
-			var managerContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox().set({
-				spacing : this.__innerSpace
-			}));
-			managerContainer.setPaddingLeft(20);
-			sidebar.add(managerContainer);
-			
-			var userRights = this.__isLoggedIn && this.__coreRpc.callSync("GetUserRights");
-
-			if (userRights == "USER" || userRights == "TEAM_ADMIN" || 
-				userRights == "LIGA_AMIN" || userRights == "ADMIN") {
-			
-				var btUserSettings = new qx.ui.form.Button(this.tr("User Settings"), null);
-				btUserSettings.setAppearance("sidebar/button");
-				btUserSettings.setUserData("parentButton", btManager);
-				btUserSettings.setUserData("page", ligamanager.pages.UserSettingsPage);
-				btUserSettings.addListener("execute", this.__onBtExecuted, this);
-				btUserSettings.addListener("execute", this.__onShowPage, this);
-				managerContainer.add(btUserSettings);
-				
-			}
-			
-			if (userRights == "TEAM_ADMIN" || userRights == "LIGA_AMIN" || userRights == "ADMIN") {
-				
-				var btMatches = new qx.ui.form.Button(this.tr("Matches"), null);
-				btMatches.setAppearance("sidebar/button");
-				btMatches.setUserData("parentButton", btManager);
-				btMatches.setUserData("page", ligamanager.pages.ManageMatchesPage);
-				btMatches.addListener("execute", this.__onBtExecuted, this);
-				btMatches.addListener("execute", this.__onShowPage, this);
-				managerContainer.add(btMatches);
-			}
-			
-			if (userRights == "LIGA_AMIN" || userRights == "ADMIN") {
-				
-				//
-				// liga manager
-				//
-				var btLiga = new qx.ui.form.Button(this.tr("LigaManager"), null);
-				btLiga.setAppearance("sidebar/button");
-				btLiga.setUserData("page", ligamanager.pages.LigaManagerPage);
-				btLiga.setUserData("parentButton", btManager);
-				btLiga.addListener("execute", this.__onBtExecuted, this);
-				btLiga.addListener("execute", this.__onShowPage, this);
-				managerContainer.add(btLiga);
-			
-				var ligaContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox().set({
-					spacing : this.__innerSpace
-				}));
-				ligaContainer.setPaddingLeft(20);
-				managerContainer.add(ligaContainer);
-				
-				
-				var btUserManager = new qx.ui.form.Button(this.tr("User"), null);
-				btUserManager.setAppearance("sidebar/button");
-				btUserManager.setUserData("parentButton", btLiga);
-				btUserManager.setUserData("page", ligamanager.pages.UserManagerPage);
-				btUserManager.addListener("execute", this.__onBtExecuted, this);
-				btUserManager.addListener("execute", this.__onShowPage, this);
-				ligaContainer.add(btUserManager);
-				
-				
-				var btDocumentsManager = new qx.ui.form.Button(this.tr("Documents"), null);
-				btDocumentsManager.setAppearance("sidebar/button");
-				btDocumentsManager.setUserData("parentButton", btLiga);
-				btDocumentsManager.setUserData("page", ligamanager.pages.DocumentsManagerPage);
-				btDocumentsManager.addListener("execute", this.__onBtExecuted, this);
-				btDocumentsManager.addListener("execute", this.__onShowPage, this);
-				ligaContainer.add(btDocumentsManager);
-			
-				var btSettingsManager = new qx.ui.form.Button(this.tr("Settings"), null);
-				btSettingsManager.setAppearance("sidebar/button");
-				btSettingsManager.setUserData("parentButton", btLiga);
-				btSettingsManager.setUserData("page", ligamanager.pages.SettingsPage);
-				btSettingsManager.addListener("execute", this.__onBtExecuted, this);
-				btSettingsManager.addListener("execute", this.__onShowPage, this);
-				ligaContainer.add(btSettingsManager);
-				
-			
-				var btMasterDataLiga = new qx.ui.form.Button(this.tr("MasterData"), null);
-				btMasterDataLiga.setAppearance("sidebar/button");
-				btMasterDataLiga.setUserData("parentButton", btLiga);
-				btMasterDataLiga.setUserData("page", ligamanager.pages.LigaMasterDataPage);
-				btMasterDataLiga.addListener("execute", this.__onBtExecuted, this);
-				btMasterDataLiga.addListener("execute", this.__onShowPage, this);
-				ligaContainer.add(btMasterDataLiga);
-				
-				
-				var btSaison = new qx.ui.form.Button(this.tr("Saison"), null);
-				btSaison.setAppearance("sidebar/button");
-				btSaison.setUserData("parentButton", btLiga);
-				btSaison.setUserData("page", ligamanager.pages.SaisonManagerPage);
-				btSaison.addListener("execute", this.__onBtExecuted, this);
-				btSaison.addListener("execute", this.__onShowPage, this);
-				ligaContainer.add(btSaison);
-				
-				var btMatches = new qx.ui.form.Button(this.tr("Matches"), null);
-				btMatches.setAppearance("sidebar/button");
-				btMatches.setUserData("parentButton", btLiga);
-				btMatches.setUserData("page", ligamanager.pages.MatchesPage);
-				btMatches.addListener("execute", this.__onBtExecuted, this);
-				btMatches.addListener("execute", this.__onShowPage, this);
-				ligaContainer.add(btMatches);
-			}
-			
+			var inMenuDef = [
+				{
+				"name" : this.tr("Manager"), 
+				"page" :  ligamanager.pages.EmptyPage,
+				"children" : [
+					{
+						"name" : this.tr("User Settings"), 
+						"page" :  ligamanager.pages.UserSettingsPage,
+						"userGroups" : ["USER", "TEAM_ADMIN", "LIGA_AMIN", "ADMIN"]
+					},
+					{
+						"name" : this.tr("Matches"), 
+						"page" :  ligamanager.pages.ManageMatchesPage,
+						"userGroups" : ["TEAM_ADMIN", "LIGA_AMIN", "ADMIN"]
+					},
+					{
+						"name" : this.tr("LigaManager"), 
+						"page" :  ligamanager.pages.LigaManagerPage,
+						"userGroups" : ["LIGA_AMIN", "ADMIN"],
+						"children" : [
+							{
+								"name" : this.tr("User"), 
+								"page" :  ligamanager.pages.UserManagerPage,
+								"userGroups" : ["LIGA_AMIN", "ADMIN"]
+							},
+							{
+								"name" : this.tr("Documents"), 
+								"page" :  ligamanager.pages.DocumentsManagerPage,
+								"userGroups" : ["LIGA_AMIN", "ADMIN"]
+							},
+							{
+								"name" : this.tr("Settings"), 
+								"page" :  ligamanager.pages.SettingsPage,
+								"userGroups" : ["LIGA_AMIN", "ADMIN"]
+							},
+							{
+								"name" : this.tr("MasterData"), 
+								"page" :  ligamanager.pages.LigaMasterDataPage,
+								"userGroups" : ["LIGA_AMIN", "ADMIN"]
+							},
+							{
+								"name" : this.tr("Saison"), 
+								"page" :  ligamanager.pages.SaisonManagerPage,
+								"userGroups" : ["LIGA_AMIN", "ADMIN"]
+							},
+							{
+								"name" : this.tr("Matches"), 
+								"page" :  ligamanager.pages.MatchesPage,
+								"userGroups" : ["LIGA_AMIN", "ADMIN"]
+							}
+						]
+					}]
+				}];
+	
+			var inMenu = this.__navi.createMenu(inMenuDef);
+			sidebar.add(inMenu);
 		},
 		
 		__updateSideBar : function() {
@@ -539,85 +457,15 @@ qx.Class.define("ligamanager.MainWidget",
 		// button actions
 		//
 		
-		__onBtExecuted : function(evt) {
-			this.__markNavigationItem(evt.getTarget());
-		},
-		
-		/**
-		 * Marks the specified button.
-		 */
-		__markNavigationItem : function(button) {
-			// clear state isIn button
-			if (this.__inButtons != null) {
-				for (var i = 0, l = this.__inButtons.length; i < l; i++) {
-					this.__inButtons[i].removeState("isIn");
-				}
-			}
-		
-			this.__inButtons = [];
-			this.__inButtons.push(button);
-			button.addState("isIn");
-			
-			var parentButton = button.getUserData("parentButton");
-			while (parentButton != undefined && parentButton != null) {
-				parentButton.addState("isIn");
-				this.__inButtons.push(parentButton);
-				var parentButton = parentButton.getUserData("parentButton");
-			}
-		},
 		
 		__onBtShowEmptyPage : function() {
 			this.setActivePage(null);
 		},
 		
 				
-		
-		__onBtLogin : function() {
-			
-			if (!ligamanager.Utils.isInstanceOf(this.getActivePage(), ligamanager.pages.LoginPage)) {
-				var loginPage = new ligamanager.pages.LoginPage();
-				loginPage.addListener("successfulLogin", this.__onSuccessfulLogin, this);
-				loginPage.addListener("showRegister", this.__onShowRegisterPage, this);
-				this.setActivePage(loginPage);
-			}
-		},
-		
-		__onShowRegisterPage : function() {
-			this.__onBtRegister();
-			this.__markNavigationItem(this.__btRegister);
-		},
-		
-		__onBtRegister : function() {
-			
-			if (!ligamanager.Utils.isInstanceOf(this.getActivePage(), ligamanager.pages.RegisterPage)) {
-				var registerPage = new ligamanager.pages.RegisterPage();
-				registerPage.addListener("successfulRegister", this.__onSuccessfulRegister, this);
-				this.setActivePage(registerPage);
-			}
-		},
-		
-		__onSuccessfulRegister : function() {
-			this.__onBtLogin();
-			this.__markNavigationItem(this.__btLogin);
-		},
 
 		
 		
-		
-		__onShowPage : function(evt) {
-			var target = evt.getTarget();
-			var pageClass = target.getUserData("page");
-			
-			if (!ligamanager.Utils.isInstanceOf(this.getActivePage(), pageClass)) {
-				this.setActivePage(new pageClass(this));
-			}
-		},
-		
-		__onBtTable : function() {
-			if (!ligamanager.Utils.isInstanceOf(this.getActivePage(), ligamanager.pages.TablePage)) {
-				this.setActivePage(new ligamanager.pages.TablePage());
-			}
-		},
 		
 		__onShowSite: function (evt) {
 			var target = evt.getTarget();
@@ -630,6 +478,7 @@ qx.Class.define("ligamanager.MainWidget",
 			var framePage = this.getActivePage();
 			framePage.setSource("/sites/" + site + "/");
 		},
+
 
 		__onShowDocument : function(evt) {
 		

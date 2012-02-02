@@ -2,7 +2,7 @@
 
 require_once "server/lib/JSON.phps";
 require_once "config.php";
-require_once "db.php";
+require_once "main.php";
 
 class class_LigaManager extends ServiceIntrospection
 {
@@ -215,6 +215,25 @@ class class_LigaManager extends ServiceIntrospection
 		$db = GetDbConnection();
 		$db->updateEntities($tableNameWithPrefix, array($match));
 		
+		// select all users that have to informed
+		$sql = "select U.* from `" . $_ENV["table_prefix"] . "users` U"
+				. " left join `" . $_ENV["table_prefix"] . "saison_team` ST on U.id_team = ST.id_team"
+				. " where ST.id = " . ((int) $match->id_saison_team1) . " or ST.id = " . ((int) $match->id_saison_team2);
+		$users = $db->queryFetchAll($sql);
+		
+		if ($users != null && count($users) > 0) {
+			$subject = "Spieländerung " . " Spiel-ID=" . $match->id;
+			$body = "Sehr geehrte Damen und Herren, \r\n \r\n"
+				. "das Spiel mit der Id " . $match->id . " wurde geändert."
+				. " Siehe " . $_ENV["web_url"] . "#Spielplan~" . $match->id;
+			
+			for ($i = 0; $i < count($users); $i++) {
+				$email = $users[$i]["email"];
+				if (isset($email)) {
+					sendMyMail($email, $subject, $body);
+				}
+			}
+		}
 	}
 	
 	/**
