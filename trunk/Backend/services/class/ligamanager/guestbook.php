@@ -1,7 +1,7 @@
 <?php
 
 require_once "server/lib/JSON.phps";
-require_once "db.php";
+require_once "main.php";
 
 class class_guestbook extends ServiceIntrospection
 {

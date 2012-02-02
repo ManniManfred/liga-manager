@@ -2,10 +2,62 @@
 
 require_once "server/lib/JSON.phps";
 require_once "config.php";
-require_once "db.php";
+require_once "main.php";
+
 
 class class_Core extends ServiceIntrospection {
 
+	
+	// ****************************************************
+	// Settins
+	// ****************************************************
+	
+	
+    function method_GetSettings($params, $error) {
+        if (count($params) != 0) {
+            $error->SetError(JsonRpcError_ParameterMismatch, "Expected 0 parameter; got " . count($params));
+            return $error;
+        }
+
+        $db = GetDbConnection();
+
+        $entries = $db->queryFetchAll("SELECT * from `" . $_ENV["table_prefix"] . "settings` S");
+       
+        $settings = array();
+        for ($i = 0; $i < count($entries); $i++) {
+            $key = $entries[$i]['key'];
+            $value = $entries[$i]['value'];
+			
+			if ($key == "mail_sendMails") {
+				$settings[$key] = (bool)$value;
+			} else {
+				$settings[$key] = $value;
+			}
+        }
+        return $settings;
+    }
+	
+    function method_SetSettings($params, $error) {
+        if (count($params) != 1) {
+            $error->SetError(JsonRpcError_ParameterMismatch, "Expected 1 parameter; got " . count($params));
+            return $error;
+        }
+
+        $db = GetDbConnection();
+
+        $settings = $params[0];
+
+        foreach ($settings as $key => $value) {
+            $key = $db->escape_string($key);
+            $value = "'" . $db->escape_string($value) . "'";
+
+            $sql = "INSERT INTO `" . $_ENV["table_prefix"] . "settings` (`key`, `value`) VALUES ('$key', $value)"
+                    . " ON DUPLICATE KEY UPDATE `value`=$value;";
+            $db->query($sql);
+        }
+    }
+	
+	
     function method_GetDesign($params, $error) {
         if (count($params) != 0) {
             $error->SetError(JsonRpcError_ParameterMismatch, "Expected 0 parameter; got " . count($params));
@@ -14,8 +66,8 @@ class class_Core extends ServiceIntrospection {
 
         $db = GetDbConnection();
 
-        $entries = $db->queryFetchAll("SELECT * from `" . $_ENV["table_prefix"] . "settings` S where S.key like 'design.%'");
-        $designPrefixLength = strlen('design.');
+        $entries = $db->queryFetchAll("SELECT * from `" . $_ENV["table_prefix"] . "settings` S where S.key like 'design_%'");
+        $designPrefixLength = strlen('design_');
 
         $design = array();
         for ($i = 0; $i < count($entries); $i++) {
@@ -27,25 +79,13 @@ class class_Core extends ServiceIntrospection {
         return $design;
     }
 
-    function method_SetDesign($params, $error) {
-        if (count($params) != 1) {
-            $error->SetError(JsonRpcError_ParameterMismatch, "Expected 1 parameter; got " . count($params));
-            return $error;
-        }
-
-        $db = GetDbConnection();
-
-        $design = $params[0];
-
-        foreach ($design as $key => $value) {
-            $key = 'design.' . $db->escape_string($key);
-            $value = "'" . $db->escape_string($value) . "'";
-
-            $sql = "INSERT INTO `" . $_ENV["table_prefix"] . "settings` (`key`, `value`) VALUES ('$key', $value)"
-                    . " ON DUPLICATE KEY UPDATE `value`=$value;";
-            $db->query($sql);
-        }
-    }
+	
+	
+	
+	
+	
+	
+	
 
 	
 	function method_GetSelf() {
