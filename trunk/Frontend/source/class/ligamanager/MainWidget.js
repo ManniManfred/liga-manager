@@ -298,6 +298,10 @@ qx.Class.define("ligamanager.MainWidget",
 				"page" :  ligamanager.pages.PlayerLockPage
 			},
 			{
+				"name" : this.tr("Impressum"), 
+				"url" :  ligamanager.Core.DOCUMENT_FOLDER + "Impressum.html"
+			},
+			{
 				"name" : this.tr("Contact"), 
 				"page" :  ligamanager.pages.ContactPage
 			},

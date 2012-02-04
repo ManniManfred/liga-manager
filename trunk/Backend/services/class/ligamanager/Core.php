@@ -8,6 +8,29 @@ require_once "main.php";
 class class_Core extends ServiceIntrospection {
 
 	
+	function method_SendContactRequest($params, $error) {
+        if (count($params) != 1) {
+            $error->SetError(JsonRpcError_ParameterMismatch, "Expected 1 parameter; got " . count($params));
+            return $error;
+        }
+		
+        $db = GetDbConnection();
+		
+		// send mail to admins
+		$admins = $db->queryFetchAll("select * from `" . $_ENV["table_prefix"] . "users`"
+				. " where rights='ADMIN' and email is not null");
+
+		if ($admins != null && count($admins) > 0) {
+			for ($i = 0; $i < count($admins); $i++) {
+				$subject = "Kontaktanfrage";
+				$body = "Es wurde folgende Kontaktanfrage gestellt: "
+					. print_r($params[0], true);
+				sendMyMail($admins[$i]["email"], $subject, $body);
+			}
+		}
+	}
+	
+	
 	// ****************************************************
 	// Settins
 	// ****************************************************
@@ -28,7 +51,7 @@ class class_Core extends ServiceIntrospection {
             $key = $entries[$i]['key'];
             $value = $entries[$i]['value'];
 			
-			if ($key == "mail_sendMails") {
+			if ($key == "mail_sendMails" || $key == "mail_guestbook") {
 				$settings[$key] = (bool)$value;
 			} else {
 				$settings[$key] = $value;

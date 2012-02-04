@@ -31,11 +31,44 @@ class class_guestbook extends ServiceIntrospection
 		
 		$db = GetDbConnection();
 		$entry = (array)$params[0];
+		$entry['name'] = htmlentities($entry['name']);
 		$entry['message'] = htmlentities($entry['message']);
 		$entry['date'] = date('c');
 		$db->insert($_ENV["table_prefix"] . 'guestbook', $entry);
+		
+		$mailSettings = getMailSettings();
+		
+		if (isset($mailSettings["guestbook"]) && $mailSettings["guestbook"]) {
+			// send mail to admins
+			$admins = $db->queryFetchAll("select * from `" . $_ENV["table_prefix"] . "users`"
+					. " where rights='ADMIN' and email is not null");
+			
+			if ($admins != null && count($admins) > 0) {
+				for ($i = 0; $i < count($admins); $i++) {
+					$subject = "Neuer Gästebucheintrag";
+					$body = "Auf der Seite " . $_ENV["web_url"] . "#Gästebuch ist eine neuer Eintrag.";
+					sendMyMail($admins[$i]["email"], $subject, $body);
+				}
+			}
+		}
+		
+		return $db->getLastId();
     }
 	
+    function method_RemoveEntry($params, $error)
+    {
+		checkRights(array("ADMIN"));
+        if (count($params) != 1)
+        {
+            $error->SetError(JsonRpcError_ParameterMismatch,
+                             "Expected 1 parameter; got " . count($params));
+            return $error;
+        }
+		
+		$db = GetDbConnection();
+		$entry_id = (int)$params[0];
+		$db->deleteEntities($_ENV["table_prefix"] . 'guestbook', array($entry_id));
+    }
 	
 	function method_GetEntries($params, $error)
     {

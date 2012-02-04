@@ -15,10 +15,10 @@ qx.Class.define("ligamanager.pages.Guestbook",
 		
 		this.__guestRpc = new qx.io.remote.Rpc(ligamanager.Core.RPC_BACKEND, "ligamanager.guestbook");
 		
-		
-		var props = qx.lang.Object.clone(qx.theme.modern.Font.fonts.bold);
-		props.size = 22;
-		this.__headerFont = qx.bom.Font.fromConfig(props);
+		var core = ligamanager.Core.getInstance();
+		var user = core.getUser();
+
+		this.__addDeleteButtons = user != null && user.rights == "ADMIN";
 		
 		this.__content = new qx.ui.container.Composite(new qx.ui.layout.VBox(20));
 		this.__content.setPadding(20);
@@ -26,6 +26,7 @@ qx.Class.define("ligamanager.pages.Guestbook",
 				
 		this.__createEntryInput();
 		this.__createEntries();
+		
 	},
 
 	/*
@@ -57,9 +58,9 @@ qx.Class.define("ligamanager.pages.Guestbook",
 		__guestRpc : null,
 		__model : null,
 		__form : null,
-		__headerFont : null,
 		__content : null,
 		__paGbContent : null,
+		__addDeleteButtons : null,
 		
 		__createEntryInput : function() {
 			
@@ -172,6 +173,7 @@ qx.Class.define("ligamanager.pages.Guestbook",
 			this.__content.add(paContent);
 			
 			var entries = this.__guestRpc.callSync("GetEntries");
+			
 			if (entries != null) {
 				for (var i = 0; i < entries.length; i++) {
 					this.__addItem(entries[i]);
@@ -182,37 +184,50 @@ qx.Class.define("ligamanager.pages.Guestbook",
 		
 		__addItem : function(entry) {
 		
-			var count = this.__paGbContent.getChildren().length;
+			var message = "<div style=\"border:2px solid #c0c0c1;\">"
+				+ "<div style=\"padding:1px;background:#F2F1DE;\">"
+					+ "<p style=\"margin-left: 8px; font-size: large; font-weight: bold\">"
+						+ (entry.email != null ? "<a style=\"color:black;\" href=\"mailto: " + entry.email + "\">" : "") 
+							+ entry.name
+							+ (entry.email != null ? "</a>" : "") 
+						+ "</p>"
+					+ "<p style=\"position:absolute; top: 0px; right: 8px;\">" 
+						+ ligamanager.Core.DISPLAY_FORMAT.format(ligamanager.Core.SOURCE_FORMAT.parse(entry.date))
+						+ "</p>"
+				+ "</div>"
 			
-			var paItem = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
-			paItem.setPadding(10);
+				+ "<div style=\"padding: 5px\">"
+				+ "<pre>" + entry.message + "</pre>"
+				+ "</div>";
 			
-			if (count % 2 === 0) {
-				paItem.setBackgroundColor("#DDDDD0");
-			} else {
-			    paItem.setBackgroundColor("#DDDDDD");
-			}
-			
-			var lyHeader = new qx.ui.layout.HBox(10);
-			lyHeader.setAlignY("bottom");
-			var paHeader = new qx.ui.container.Composite(lyHeader);
-			paItem.add(paHeader);
-			
-			var laName = new qx.ui.basic.Label(entry.name);
-			laName.setFont(this.__headerFont);
-			paHeader.add(laName);
-			
-			var laDate = new qx.ui.basic.Label(entry.date);
-			paHeader.add(laDate);
-			
-			
-			var laMessage = new qx.ui.basic.Label("<pre>" + entry.message + "</pre>");
+			var laMessage = new qx.ui.basic.Label(message);
 			laMessage.setRich(true);
 			laMessage.setSelectable(true);
-			paItem.add(laMessage);
+			laMessage.setAllowGrowX(true);
 			
-			this.__paGbContent.addAt(paItem, 0);
+			
+			this.__paGbContent.addAt(laMessage, 0);
+			
+			if (this.__addDeleteButtons) {
+				var removeButton = new qx.ui.form.Button(this.tr("Delete following entry"));
+				removeButton.setUserData("entry", entry);
+				removeButton.setUserData("item", laMessage);
+				removeButton.setAllowGrowX(false);
+				removeButton.addListener("execute", this.__onDelete, this);
+				this.__paGbContent.addAt(removeButton, 0);
+			}
 		},
+		
+		__onDelete : function(e) {
+			var button = e.getTarget();
+			var entry = button.getUserData("entry");
+			var item = button.getUserData("item");
+			
+			this.__guestRpc.callSync("RemoveEntry", entry.id);
+			this.__paGbContent.remove(item);
+			this.__paGbContent.remove(button);
+		},
+		
 		
 		__onBtSend : function(evt) {
 			if (this.__form.validate()) {
@@ -220,9 +235,11 @@ qx.Class.define("ligamanager.pages.Guestbook",
 				var model = controller.createModel();
 				try {
 					var entry = qx.util.Serializer.toNativeObject(model);
+					entry.date = ligamanager.Core.SOURCE_FORMAT.format(new Date());
+					entry.id = this.__guestRpc.callSync("AddEntry", entry);
+					
 					this.__addItem(entry);
-					this.__guestRpc.callSync("AddEntry", entry);
-					alert(this.tr("The message was succesfully entered."));
+					//alert(this.tr("The message was succesfully entered."));
 					this.__form.reset();
 				} catch (ex)
 				{

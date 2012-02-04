@@ -11,55 +11,55 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ligamanager/MainWidget.js:263
+#: ligamanager/MainWidget.js:260
 msgid "Login"
 msgstr "Anmelden"
 
-#: ligamanager/MainWidget.js:272
+#: ligamanager/MainWidget.js:264
 msgid "Register"
 msgstr "Registrieren"
 
-#: ligamanager/MainWidget.js:309
+#: ligamanager/MainWidget.js:293
 msgid "Playing Schedule"
 msgstr "Spielplan"
 
-#: ligamanager/MainWidget.js:331 ligamanager/pages/Guestbook.js:167
+#: ligamanager/MainWidget.js:305 ligamanager/pages/Guestbook.js:168
 msgid "Guestbook"
 msgstr "Gästebuch"
 
-#: ligamanager/MainWidget.js:392
+#: ligamanager/MainWidget.js:358
 msgid "Logout"
 msgstr "Abmelden"
 
-#: ligamanager/MainWidget.js:405
+#: ligamanager/MainWidget.js:368 ligamanager/pages/LoginPage.js:173
 msgid "Manager"
 msgstr "Verwaltung"
 
-#: ligamanager/MainWidget.js:423 ligamanager/pages/UserSettingsPage.js:73
+#: ligamanager/MainWidget.js:373 ligamanager/pages/UserSettingsPage.js:73
 msgid "User Settings"
 msgstr "Benutzer Einstellungen"
 
-#: ligamanager/MainWidget.js:449
+#: ligamanager/MainWidget.js:383
 msgid "LigaManager"
 msgstr ""
 
-#: ligamanager/MainWidget.js:464
+#: ligamanager/MainWidget.js:388
 msgid "User"
 msgstr "Benutzer"
 
-#: ligamanager/MainWidget.js:481
+#: ligamanager/MainWidget.js:398
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: ligamanager/MainWidget.js:490
+#: ligamanager/MainWidget.js:403
 msgid "MasterData"
 msgstr "Stammdaten"
 
-#: ligamanager/MainWidget.js:499
+#: ligamanager/MainWidget.js:408
 msgid "Saison"
 msgstr ""
 
-#: ligamanager/pages/ContactPage.js:88 ligamanager/MainWidget.js:324
+#: ligamanager/pages/ContactPage.js:88 ligamanager/MainWidget.js:301
 msgid "Contact"
 msgstr "Kontakt"
 
@@ -99,7 +99,7 @@ msgstr ""
 #: ligamanager/pages/RegisterPage.js:134 ligamanager/pages/RegisterPage.js:140
 #: ligamanager/pages/UserSettingsPage.js:129
 #: ligamanager/pages/UserSettingsPage.js:135
-#: ligamanager/pages/Guestbook.js:107
+#: ligamanager/pages/Guestbook.js:108
 msgid "E-Mail"
 msgstr ""
 
@@ -123,14 +123,14 @@ msgstr "Frau"
 #: ligamanager/pages/UserSettingsPage.js:135
 #: ligamanager/pages/UserSettingsPage.js:168
 #: ligamanager/pages/UserSettingsPage.js:185
-#: ligamanager/pages/SettingsPage.js:144 ligamanager/pages/SettingsPage.js:159
-#: ligamanager/pages/SettingsPage.js:211 ligamanager/pages/Guestbook.js:121
-#: ligamanager/pages/Guestbook.js:138
+#: ligamanager/pages/SettingsPage.js:239 ligamanager/pages/SettingsPage.js:254
+#: ligamanager/pages/SettingsPage.js:275 ligamanager/pages/Guestbook.js:122
+#: ligamanager/pages/Guestbook.js:139
 msgid "The field %1 is required."
 msgstr "Das Eingabefeld %1 muss ausgefüllt werden."
 
 #: ligamanager/pages/ContactPage.js:221 ligamanager/pages/ContactPage.js:228
-#: ligamanager/pages/Guestbook.js:111 ligamanager/pages/Guestbook.js:138
+#: ligamanager/pages/Guestbook.js:112 ligamanager/pages/Guestbook.js:139
 msgid "Message"
 msgstr "Nachricht"
 
@@ -140,13 +140,13 @@ msgstr "Eine Kopie zu ihrer E-Mail Adresse schicken."
 
 #: ligamanager/pages/ContactPage.js:237 ligamanager/pages/RegisterPage.js:197
 #: ligamanager/pages/UserSettingsPage.js:195
-#: ligamanager/pages/Guestbook.js:146
+#: ligamanager/pages/Guestbook.js:147
 msgid "Send"
 msgstr "Senden"
 
 #: ligamanager/pages/ContactPage.js:245 ligamanager/pages/RegisterPage.js:204
 #: ligamanager/pages/UserSettingsPage.js:202
-#: ligamanager/pages/Guestbook.js:154
+#: ligamanager/pages/Guestbook.js:155
 msgid "Reset"
 msgstr "Zurücksetzten"
 
@@ -154,8 +154,8 @@ msgstr "Zurücksetzten"
 msgid "The message was succesfully send."
 msgstr "Die Nachricht wurde erfolgreich versandt."
 
-#: ligamanager/pages/ContactPage.js:264 ligamanager/pages/SettingsPage.js:266
-#: ligamanager/pages/Guestbook.js:229
+#: ligamanager/pages/ContactPage.js:264 ligamanager/pages/SettingsPage.js:330
+#: ligamanager/pages/Guestbook.js:246
 msgid "Sending the messsaged failed. The following error occured: "
 msgstr "Das Versenden ist fehlgeschlagen. Der folgende Fehler ist aufgetreten"
 
@@ -167,8 +167,8 @@ msgstr ""
 msgid "Upload"
 msgstr ""
 
-#: ligamanager/pages/DocumentsManagerPage.js:120 ligamanager/MainWidget.js:348
-#: ligamanager/MainWidget.js:473
+#: ligamanager/pages/DocumentsManagerPage.js:120 ligamanager/MainWidget.js:317
+#: ligamanager/MainWidget.js:393
 msgid "Documents"
 msgstr "Dokumente"
 
@@ -176,13 +176,13 @@ msgstr "Dokumente"
 msgid "que_save_data"
 msgstr "In dieser Tabelle sind ungespeicherte Daten. Durch die aufgerufene Funktion würden diese verloren gehen. Sollen die Änderungen vorher gespeichert werden?"
 
-#: ligamanager/pages/Guestbook.js:67
+#: ligamanager/pages/Guestbook.js:68
 msgid "New Entry"
 msgstr "Neuer Eintrag"
 
-#: ligamanager/pages/Guestbook.js:225
-msgid "The message was succesfully entered."
-msgstr "Der Eintrag wurde erfolgreich hinzugefügt."
+#: ligamanager/pages/Guestbook.js:212
+msgid "Delete following entry"
+msgstr "Lösche folgenden Eintrag"
 
 #: ligamanager/pages/LigaMasterDataPage.js:111
 #: ligamanager/pages/EntityTable.js:118 ligamanager/pages/EntityTable.js:119
@@ -210,7 +210,7 @@ msgstr "Als Standard setzten"
 #: ligamanager/pages/LigaMasterDataPage.js:265
 #: ligamanager/pages/RegisterPage.js:107
 #: ligamanager/pages/UserSettingsPage.js:102 ligamanager/pages/LoginPage.js:64
-#: ligamanager/pages/Guestbook.js:102 ligamanager/pages/Guestbook.js:121
+#: ligamanager/pages/Guestbook.js:103 ligamanager/pages/Guestbook.js:122
 msgid "Name"
 msgstr ""
 
@@ -231,29 +231,29 @@ msgid "Welcome to"
 msgstr "Willkommen zur"
 
 #: ligamanager/pages/LoginPage.js:99
-msgid "Anmelden"
-msgstr ""
+msgid "Login"
+msgstr "Anmelden"
 
-#: ligamanager/pages/LoginPage.js:173
+#: ligamanager/pages/LoginPage.js:164
 msgid "Login ..."
 msgstr "Anmelden ..."
 
-#: ligamanager/pages/LoginPage.js:185
+#: ligamanager/pages/LoginPage.js:175
 msgid "Login failed: %1"
 msgstr "Anmeldung fehlgeschlagen: %1"
 
-#: ligamanager/pages/LoginPage.js:190
+#: ligamanager/pages/LoginPage.js:179
 msgid "Connection error"
 msgstr "Verbindungsfehler"
 
 #: ligamanager/pages/ManageMatchesPage.js:94
-#: ligamanager/pages/PlayingSchedulePage.js:143 ligamanager/MainWidget.js:435
-#: ligamanager/MainWidget.js:507 ligamanager/pages/MatchesPage.js:142
+#: ligamanager/pages/PlayingSchedulePage.js:156 ligamanager/MainWidget.js:378
+#: ligamanager/MainWidget.js:413 ligamanager/pages/MatchesPage.js:142
 msgid "Matches"
 msgstr "Spiele"
 
 #: ligamanager/pages/ManageMatchesPage.js:150
-#: ligamanager/pages/PlayingSchedulePage.js:282
+#: ligamanager/pages/PlayingSchedulePage.js:318
 msgid "Details"
 msgstr ""
 
@@ -273,7 +273,7 @@ msgstr ""
 #: ligamanager/pages/EntityTable.js:144 ligamanager/pages/EntityTable.js:145
 #: ligamanager/pages/SaisonManagerPage.js:162
 #: ligamanager/pages/SaisonManagerPage.js:289
-#: ligamanager/pages/SettingsPage.js:192
+#: ligamanager/pages/SettingsPage.js:58
 msgid "Save"
 msgstr "Speichern"
 
@@ -281,19 +281,19 @@ msgstr "Speichern"
 msgid "hint_matches_exist"
 msgstr "Es können keine neuen Spiele hinzugefügt werden, da schon Spiele existieren."
 
-#: ligamanager/pages/PlayerLockPage.js:62 ligamanager/MainWidget.js:316
+#: ligamanager/pages/PlayerLockPage.js:62 ligamanager/MainWidget.js:297
 msgid "Locks"
 msgstr "Sperren"
 
-#: ligamanager/pages/PlayingSchedulePage.js:161
+#: ligamanager/pages/PlayingSchedulePage.js:174
 msgid "Team Filter"
 msgstr "Manschaft"
 
-#: ligamanager/pages/PlayingSchedulePage.js:163
+#: ligamanager/pages/PlayingSchedulePage.js:176
 msgid "Choose a team to filter"
 msgstr "Eine Mannschaft wählen, nach der gefilter wird"
 
-#: ligamanager/pages/PlayingSchedulePage.js:230
+#: ligamanager/pages/PlayingSchedulePage.js:266
 msgid "All Teams"
 msgstr "Alle Mannschaften"
 
@@ -353,43 +353,60 @@ msgstr "Sie wurden erfolgreich registriert."
 msgid "Register failed. The following error occured: "
 msgstr "Die Registrierung ist fehlgeschlagen. Der folgende Fehler ist aufgetreten: "
 
-#: ligamanager/pages/SettingsPage.js:74
+#: ligamanager/pages/SettingsPage.js:114
+msgid "Mail"
+msgstr ""
+
+#: ligamanager/pages/SettingsPage.js:136
+msgid "Send new guestbook entries"
+msgstr "Gästebuchenträge mailen"
+
+#: ligamanager/pages/SettingsPage.js:146
+msgid "Active"
+msgstr "Mailer Aktiv"
+
+#: ligamanager/pages/SettingsPage.js:157
+msgid "From"
+msgstr "Nachrichten Absender"
+
+#: ligamanager/pages/SettingsPage.js:172
 msgid "Design"
 msgstr "Darstellung"
 
-#: ligamanager/pages/SettingsPage.js:104 ligamanager/pages/SettingsPage.js:144
+#: ligamanager/pages/SettingsPage.js:199 ligamanager/pages/SettingsPage.js:239
 msgid "Title"
 msgstr "Titel"
 
-#: ligamanager/pages/SettingsPage.js:108 ligamanager/pages/SettingsPage.js:159
+#: ligamanager/pages/SettingsPage.js:203 ligamanager/pages/SettingsPage.js:254
 msgid "Image"
 msgstr "Titel Bild"
 
-#: ligamanager/pages/SettingsPage.js:112 ligamanager/pages/SettingsPage.js:165
+#: ligamanager/pages/SettingsPage.js:207 ligamanager/pages/SettingsPage.js:260
 msgid "TitleBackColor"
 msgstr "Hintergrundfarbe des Titelbereichs"
 
-#: ligamanager/pages/SettingsPage.js:117 ligamanager/pages/SettingsPage.js:166
+#: ligamanager/pages/SettingsPage.js:212 ligamanager/pages/SettingsPage.js:261
 msgid "TitleFrontColor"
 msgstr "Farbe des Titels"
 
-#: ligamanager/pages/SettingsPage.js:122 ligamanager/pages/SettingsPage.js:167
+#: ligamanager/pages/SettingsPage.js:217 ligamanager/pages/SettingsPage.js:262
 msgid "NavBackColor"
 msgstr "Hintergrundfarbe des Navigationsbereich"
 
-#: ligamanager/pages/SettingsPage.js:127 ligamanager/pages/SettingsPage.js:168
+#: ligamanager/pages/SettingsPage.js:222 ligamanager/pages/SettingsPage.js:263
 msgid "NavFrontColor"
 msgstr "Textfarbe der Navigation"
 
-#: ligamanager/pages/SettingsPage.js:132 ligamanager/pages/SettingsPage.js:169
+#: ligamanager/pages/SettingsPage.js:227 ligamanager/pages/SettingsPage.js:264
 msgid "HighlightColor"
 msgstr "Überfahrfarbe"
 
-#: ligamanager/pages/SettingsPage.js:263
-msgid "The design was succesfully stored."
-msgstr "Die Einstellungen wurden erfolgreich gespeichert. Laden Sie diese Seite neu, um die Darstellungsänderungen zu sehen."
+#: ligamanager/pages/SettingsPage.js:327
+msgid "The settings were succesfully stored."
+msgstr "Die Einstellungen wurden erfolgreich gespeichert."
 
-#: ligamanager/pages/TablePage.js:138 ligamanager/MainWidget.js:302
+#: ligamanager/pages/TablePage.js:135 ligamanager/MainWidget.js:289
+#: ligamanager/MainWidget.js:364
 msgid "Table"
 msgstr "Spieltabelle"
 
@@ -397,11 +414,11 @@ msgstr "Spieltabelle"
 msgid "User Manager"
 msgstr "Benutzerverwaltung"
 
-#: ligamanager/pages/UserSettingsPage.js:233
+#: ligamanager/pages/UserSettingsPage.js:236
 msgid "Your settings are stored."
 msgstr "Die Einstellungen wurden erfolgreich gespeichert"
 
-#: ligamanager/pages/UserSettingsPage.js:237
+#: ligamanager/pages/UserSettingsPage.js:240
 msgid "Something goes wrong: "
 msgstr "Beim Speichern ist ein unerwarteter Fehler aufgetreten."
 
@@ -422,6 +439,12 @@ msgstr "Beim Speichern ist ein unerwarteter Fehler aufgetreten."
 
 #~ msgid "Liga"
 #~ msgstr ""
+
+#~ msgid "The message was succesfully entered."
+#~ msgstr "Der Eintrag wurde erfolgreich hinzugefügt."
+
+#~ msgid "The design was succesfully stored."
+#~ msgstr "Die Einstellungen wurden erfolgreich gespeichert. Laden Sie diese Seite neu, um die Darstellungsänderungen zu sehen."
 
 #~ msgid "Tore"
 #~ msgstr ""
