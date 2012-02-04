@@ -14,11 +14,14 @@ qx.Class.define("ligamanager.pages.PlayingSchedulePage",
 	 * ****************************************************************************
 	 */
 
-	construct: function(mainWidget) {
+	construct: function(param) {
 		this.base(arguments, new qx.ui.layout.Canvas());
 		
-		this.__mainWidget = mainWidget;
-		this.__saisonFilter = { "saison_id" : null, "team_id" : null };
+		this.__param = param;
+		this.__saisonFilter = {
+			"saison_id" : null, 
+			"team_id" : null
+		};
 		
 		var layout = new qx.ui.layout.VBox();
 		layout.setSpacing(20);
@@ -27,7 +30,12 @@ qx.Class.define("ligamanager.pages.PlayingSchedulePage",
 		this.__content.setPadding(20);
 		
 		var paScroll = new qx.ui.container.Scroll(this.__content);
-		this.add(paScroll, {left:0, top: 0, right: 0,bottom: 0});
+		this.add(paScroll, {
+			left:0, 
+			top: 0, 
+			right: 0,
+			bottom: 0
+		});
 		
 		
 		this.__ligaManagerRpc = new qx.io.remote.Rpc(ligamanager.Core.RPC_BACKEND , "ligamanager.LigaManager");
@@ -77,10 +85,15 @@ qx.Class.define("ligamanager.pages.PlayingSchedulePage",
 
 	members:
 	{
-		__mainWidget : null,
 		__content : null,
 		__ligaManagerRpc : null,
 		__saisonFilter : null,
+		__param : null,
+		
+		setParam : function(param) {
+			this.__param = param;
+			this.__matchesTableChanged();
+		},
 		
 		__applyCurrentSaison : function(value, oldValue) {
 			this.__updateMatches(value);
@@ -178,7 +191,7 @@ qx.Class.define("ligamanager.pages.PlayingSchedulePage",
 			model.setColumnEditable(3, false);
 			model.setColumnEditable(4, false);
 			
-			
+			model.addListener("dataChanged", this.__matchesTableChanged, this);
 			
 			
 			//
@@ -213,6 +226,29 @@ qx.Class.define("ligamanager.pages.PlayingSchedulePage",
 			tcm.setDataCellRenderer(2, this.__teamReplaceRenderer);
 		},
 		
+		__matchesTableChanged : function() {
+			if (this.__param != null) {
+				var match_id = parseInt(this.__param);
+				
+				
+				if (match_id != null) {
+					var table = this.__matchesTable.getTable();
+					
+					var doAfter = function() {
+					
+						var model = table.getTableModel();
+						for(var i = 0, l = model.getRowCount(); i < l; i++) {
+							if (model.getRowData(i) != null && model.getRowData(i).id == match_id) {
+								table.getSelectionModel().setSelectionInterval(i, i)
+								table.scrollCellVisible(0, i);
+								break;
+							}
+						}
+					};
+					window.setTimeout(doAfter, 0);
+				}
+			}
+		},
 		
 		__updateMatches : function(saison) {
 		
@@ -298,12 +334,12 @@ qx.Class.define("ligamanager.pages.PlayingSchedulePage",
 			var match = this.__currentMatch = table.getTableModel().getRowData(matchIndex);
 			
 			var desc = "<h2>"
-				+ this.__replaceMap[match.id_saison_team1]
-				+ " vs "
-				+ this.__replaceMap[match.id_saison_team2]
-				+ ((match.goal1 == null || match.goal2 == null) ? "" : (" " + match.goal1 + ":" + match.goal2))
-				+ "</h2>"
-				+ "<p><b>Datum: </b>" + ligamanager.Core.DISPLAY_FORMAT.format(ligamanager.Core.SOURCE_FORMAT.parse(match.date)) + "</p>";
+			+ this.__replaceMap[match.id_saison_team1]
+			+ " vs "
+			+ this.__replaceMap[match.id_saison_team2]
+			+ ((match.goal1 == null || match.goal2 == null) ? "" : (" " + match.goal1 + ":" + match.goal2))
+			+ "</h2>"
+			+ "<p><b>Datum: </b>" + ligamanager.Core.DISPLAY_FORMAT.format(ligamanager.Core.SOURCE_FORMAT.parse(match.date)) + "</p>";
 			
 			if (match.description != null) {
 				desc += match.description;
@@ -317,7 +353,7 @@ qx.Class.define("ligamanager.pages.PlayingSchedulePage",
 				desc += "<p>";
 				for (var i = 0; i < details.length; i++) {
 					desc += details[i].firstname + " " + details[i].lastname
-						+ " (" + this.__replaceMap[details[i].id_saison_team] + ")";
+					+ " (" + this.__replaceMap[details[i].id_saison_team] + ")";
 					
 					if (details[i].hasYellowCard) desc += " Gelbe Karte";
 					if (details[i].hasYellowRedCard) desc += " Gelb-Rote Karte";

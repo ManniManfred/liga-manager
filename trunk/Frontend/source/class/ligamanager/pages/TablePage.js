@@ -11,10 +11,8 @@ qx.Class.define("ligamanager.pages.TablePage",
 	 * ****************************************************************************
 	 */
 
-	construct: function(mainWidget) {
+	construct: function() {
 		this.base(arguments, new qx.ui.layout.Canvas());
-		
-		this.__mainWidget = mainWidget;
 		
 		var layout = new qx.ui.layout.VBox();
 		layout.setSpacing(20);
@@ -73,7 +71,6 @@ qx.Class.define("ligamanager.pages.TablePage",
 
 	members:
 	{
-		__mainWidget : null,
 		__content : null,
 		__ligaManagerRpc : null,
 		

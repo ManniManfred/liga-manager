@@ -38,6 +38,8 @@ class class_Core extends ServiceIntrospection {
     }
 	
     function method_SetSettings($params, $error) {
+		checkRights(array("ADMIN"));
+		
         if (count($params) != 1) {
             $error->SetError(JsonRpcError_ParameterMismatch, "Expected 1 parameter; got " . count($params));
             return $error;
@@ -59,6 +61,7 @@ class class_Core extends ServiceIntrospection {
 	
 	
     function method_GetDesign($params, $error) {
+		
         if (count($params) != 0) {
             $error->SetError(JsonRpcError_ParameterMismatch, "Expected 0 parameter; got " . count($params));
             return $error;
@@ -89,59 +92,11 @@ class class_Core extends ServiceIntrospection {
 
 	
 	function method_GetSelf() {
-		$result = null;
-		if (isset($_SESSION["user_id"])) {
-			
-			$db = GetDbConnection();
-			
-			$users = $db->queryFetchAll("select * from `" . $_ENV["table_prefix"] 
-					. "users` where id = " . ((int)$_SESSION["user_id"]));
-			if (count($users) > 0) {
-				$result = $users[0];
-				$result["password"] = PASSWORD_DUMMY;
-				$result["confirmPassword"] = PASSWORD_DUMMY;
-			}
-		}
+		$result = getUserSelf();
 		return $result;
 	}
 	
 	
-    /**
-     * Echo the (one and only) parameter.
-     *
-     * @param params
-     *   An array containing the parameters to this method
-     *
-     * @param error
-     *   An object of class JsonRpcError.
-     *
-     * @return
-     *   Success: The object containing the result of the method;
-     *   Failure: null
-     */
-    function method_IsCorrectlyLoggedIn($params, $error) {
-        if (count($params) != 0) {
-            $error->SetError(JsonRpcError_ParameterMismatch, "Expected 0 parameter; got " . count($params));
-            return $error;
-        }
-
-		return $this->method_GetSelf() != null;
-    }
-
-    function method_GetUserRights($params, $error) {
-        if (count($params) != 0) {
-            $error->SetError(JsonRpcError_ParameterMismatch, "Expected 0 parameter; got " . count($params));
-            return $error;
-        }
-
-		$user = $this->method_GetSelf();
-        if ($user != null) {
-            // changes during session are not considered! User has to logout and login
-            $group = $user["rights"];
-            return $group;
-        }
-        return null;
-    }
 
     function method_Login($params, $error) {
         if (count($params) != 2) {
@@ -169,6 +124,7 @@ class class_Core extends ServiceIntrospection {
             $_SESSION["user_id"] = $resultArr[0]["id"];
             $result["result"] = true;
             $result["message"] = "ok";
+			$result["user"] = $this->method_GetSelf();
         }
 
         return $result;
@@ -301,6 +257,10 @@ class class_Core extends ServiceIntrospection {
 
     function method_GetEntitiesCount($params, $error) {
         $db = GetDbConnection();
+		
+        $tableName = $db->escape_string($params[0], $db);
+		$this->checkTableRight($tableName, false);
+		
         $sqlQuery = $this->getSelectStatement($db, $params, true);
 
         $result = $db->queryFetchAll($sqlQuery);
@@ -314,13 +274,50 @@ class class_Core extends ServiceIntrospection {
         $tableName = $db->escape_string($params[0], $db);
         $tableNameWithPrefix = $_ENV["table_prefix"] . $tableName;
 
-        //echo "tablsd=" . $tableNameWithPrefix;
-
+		$this->checkTableRight($tableName, false);
+		
         $sqlQuery = $this->getSelectStatement($db, $params, false);
 
         return $db->queryFetchAll($sqlQuery, $tableNameWithPrefix);
     }
 
+	function checkTableRight($table, $forWrite) {
+		switch($table) {
+			case "users" :
+				checkRights(array("ADMIN"));
+				break;
+			case "settings":
+				checkRights(array("ADMIN"));
+				break;
+			case "document":
+				if ($forWrite) checkRights(array("ADMIN"));
+				break;
+				
+			case "saison" :
+				if ($forWrite) checkRights(array("ADMIN", "LIGA_ADMIN"));
+				break;
+			case "team":
+				if ($forWrite) checkRights(array("ADMIN", "LIGA_ADMIN"));
+				break;
+			case "player":
+				if ($forWrite) checkRights(array("ADMIN", "LIGA_ADMIN", "TEAM_ADMIN"));
+				break;
+			case "saison_team":
+				if ($forWrite) checkRights(array("ADMIN", "LIGA_ADMIN"));
+				break;
+			case "saison_player":
+				if ($forWrite) checkRights(array("ADMIN", "LIGA_ADMIN", "TEAM_ADMIN"));
+				break;
+			case "match":
+				if ($forWrite) checkRights(array("ADMIN", "LIGA_ADMIN", "TEAM_ADMIN"));
+				break;
+			case "player_match":
+				if ($forWrite) checkRights(array("ADMIN", "LIGA_ADMIN", "TEAM_ADMIN"));
+				break;
+		}
+		
+	}
+	
 	/**
 	 *
 	 * @param MySQL $db
@@ -329,6 +326,8 @@ class class_Core extends ServiceIntrospection {
 	 * @return int The saison player id
 	 */
 	function createNewPlayer($db, $player_name, $saison_team_id) {
+		checkRights(array("ADMIN", "LIGA_ADMIN", "TEAM_ADMIN"));
+		
 		$playerProps = array();
 		
 		// set team id
@@ -379,6 +378,7 @@ class class_Core extends ServiceIntrospection {
             return $error;
         }
 
+		
 
         // TODO: check for rights!!!
 
@@ -387,6 +387,7 @@ class class_Core extends ServiceIntrospection {
         $tableName = $db->escape_string($params[0]);
         $tableNameWithPrefix = $_ENV["table_prefix"] . $tableName;
 
+		$this->checkTableRight($tableName, true);
 
         $updates = (array) $params[1];
         if (isset($updates["toAdd"])) {

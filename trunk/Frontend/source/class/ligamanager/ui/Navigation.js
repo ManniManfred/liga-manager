@@ -1,22 +1,13 @@
 
 /**
- * This class represents the main widget that is shown for this
- * application.
+ * An instance of this class manage the navigation of this application.
+ * Therefor it is a singleton. One for this applicaiton.
  */
 qx.Class.define("ligamanager.ui.Navigation",
 {
 	extend: qx.ui.container.Composite,
 	type: "singleton",
 	
-	/*
-	*****************************************************************************
-	STATICS
-	*****************************************************************************
-	*/
-
-	statics: {
-	},
-
 
 	/*
 	* ****************************************************************************
@@ -32,17 +23,12 @@ qx.Class.define("ligamanager.ui.Navigation",
 
 		this.__menuMap = {};
 		
-		
+		// add history events
 		qx.bom.History.getInstance().addListener("request", function(e)
 		{
 			var state = e.getData();
-
-			// application specific state update (= application code)
 			this.showPage(state);
 		}, this);
-
-
-		this.showPage(qx.bom.History.getInstance().getState());
 	},
 
 	/*
@@ -52,11 +38,24 @@ qx.Class.define("ligamanager.ui.Navigation",
 	*/
 
 	properties: {
+		/**
+		 * Contains the active page of this navigation.
+		 */
 		activePage : {
 			check : "ligamanager.pages.IPage",
 			nullable : true,
 			init : null,
 			event : "changeActivePage"
+		},
+		
+		blockSpace : {
+			check : "Integer",
+			init : 15
+		},
+		
+		innerSpace : {
+			check  : "Integer",
+			init : 5
 		}
 	},
 
@@ -68,7 +67,6 @@ qx.Class.define("ligamanager.ui.Navigation",
 
 	events:
 	{
-		"showPage" : "qx.event.type.Data"
 	},
 
 
@@ -81,52 +79,92 @@ qx.Class.define("ligamanager.ui.Navigation",
 	members:
 	{
 		__menuMap : null,
-		
-		__blockSpace : 15,
-		__innerSpace : 5,
+		__inButtons : null,
 		
 		
-		showPage : function(pageName) {
+		/**
+		 * Shows the page with the specified name.
+		 * @param pageName {String} The name/title of the page that should be shown.
+		 */
+		showPage : function(pageState) {
+			var pageName = pageState;
+			var param = null;
+			
+			var tildePos = pageState.indexOf("~");
+			if (tildePos > 0) {
+				pageName = pageState.substr(0, tildePos);
+				param = pageState.substr(tildePos + 1);
+			}
+		
 			if (this.__menuMap[pageName]) {
-				this.__menuMap[pageName].execute();
+				var core = ligamanager.Core.getInstance();
+				var user = core.getUser();
+				var allowedGroups = this.__menuMap[pageName].getUserData("userGroups");
+				
+				if (allowedGroups == null
+					|| (user != null && qx.lang.Array.contains(allowedGroups, user.rights))) {
+					var btEntry = this.__menuMap[pageName];
+					btEntry.setUserData("param", param);
+					btEntry.execute();
+				} else {
+					this.setActivePage(null);
+				}
 			}
 		},
 		
-		
-		createMenu : function(menuDef, parentButton) {
+		/**
+		 * Creates a new side bar menu out of the menu definition
+		 * and the specified parent button.
+		 * @param menuDef {Map} The menu definition to create the menu
+		 * @param parentButton {qx.ui.form.Button?null} Optional parent button
+		 */
+		createMenu : function(menuDef, parentButton, naviId) {
 			
 			var layout = new qx.ui.layout.VBox();
-			layout.setSpacing(this.__innerSpace);
+			layout.setSpacing(this.getInnerSpace());
 			var sidebar = new qx.ui.container.Composite(layout);
 			sidebar.setAppearance("sidebar");
 			
+			var core = ligamanager.Core.getInstance();
+			var user = core.getUser();
 			
 			for(var i = 0, l = menuDef.length; i < l ;i++) {
 				var entry = menuDef[i];
 				
-				var btEntry = this.__btTable = new qx.ui.form.Button(entry.name, null);
-				btEntry.setAppearance("sidebar/button");
-				btEntry.setUserData("page", entry.page);
-				if (parentButton != null) {
-					btEntry.setUserData("parentButton", parentButton);
-				}
-				
-				btEntry.addListener("execute", this.__onBtExecuted, this);
-				
-				
-				if (entry.children != null) {
-					sidebar.add(new qx.ui.core.Spacer(this.__blockSpace, this.__blockSpace));
-					sidebar.add(btEntry);
-				
-					var subMenu = this.createMenu(entry.children, btEntry);
-					subMenu.setPaddingLeft(sidebar.getPaddingLeft() + 20);
-					sidebar.add(subMenu);
+				if (entry.userGroups == null
+					|| (user != null && qx.lang.Array.contains(entry.userGroups, user.rights))) {
+					
+					
+					var btEntry = this.__btTable = new qx.ui.form.Button(entry.name, null);
+					btEntry.setAppearance("sidebar/button");
+					btEntry.setUserData("page", entry.page);
+					btEntry.setUserData("url", entry.url);
+					btEntry.setUserData("action", entry.action);
+					btEntry.setUserData("userGroups", entry.userGroups);
 
-				} else {
-					sidebar.add(btEntry);
+					if (parentButton != null) {
+						btEntry.setUserData("parentButton", parentButton);
+					}
+
+					btEntry.addListener("execute", this.__onBtExecuted, this);
+
+					var entryNaviId = naviId == null ? entry.name : naviId + "." + entry.name;
+
+					if (entry.children != null) {
+						sidebar.add(new qx.ui.core.Spacer(this.getBlockSpace(), this.getBlockSpace()));
+						sidebar.add(btEntry);
+
+						var subMenu = this.createMenu(entry.children, btEntry, entryNaviId);
+						subMenu.setPaddingLeft(sidebar.getPaddingLeft() + 20);
+						sidebar.add(subMenu);
+
+					} else {
+						sidebar.add(btEntry);
+					}
+
+
+					this.__menuMap[entryNaviId] = btEntry;
 				}
-				
-				this.__menuMap[entry.name] = btEntry;
 			}
 			
 			return sidebar; 
@@ -135,28 +173,55 @@ qx.Class.define("ligamanager.ui.Navigation",
 
 		__onBtExecuted : function(evt) {
 			var btEntry = evt.getTarget();
-			qx.bom.History.getInstance().addToHistory(btEntry.getLabel());
-			this.__markNavigationItem(evt.getTarget());
+			this.__markNavigationItem(btEntry);
 			
-			//this.fireDataEvent("showPage", )
+			// add to history
+			var label = "";
+			for(var i = this.__inButtons.length - 1; i >= 0 ; i--) {
+				label += this.__inButtons[i].getLabel();
+				if (i > 0) {
+					label += ".";
+				}
+			}
 			
+			// get user data
+			var param =  btEntry.getUserData("param");
 			var pageClass = btEntry.getUserData("page");
+			var url =  btEntry.getUserData("url");
+			var action = btEntry.getUserData("action");
+			var param = btEntry.getUserData("param");
 			
-			if (!ligamanager.Utils.isInstanceOf(this.getActivePage(), pageClass)) {
-				this.setActivePage(new pageClass(this));
+			if (param != null)
+				label += "~" + param;
+			qx.bom.History.getInstance().addToHistory(label, label);
+			
+			
+			
+			
+			if (action) {
+				action();
+			}
+			
+			if (pageClass != null) {
+				if (!ligamanager.Utils.isInstanceOf(this.getActivePage(), pageClass)) {
+					var page = new pageClass(param);
+					this.setActivePage(page);
+				} else {
+					var page = this.getActivePage();
+					if (param != null && page.setParam != null) {
+						page.setParam(param);
+					}
+				}
+			} else if (url != null) {
+				if (!ligamanager.Utils.isInstanceOf(this.getActivePage(), ligamanager.pages.IFramePage)) {
+					this.setActivePage(new ligamanager.pages.IFramePage());
+				}
+			
+				var framePage = this.getActivePage();
+				framePage.setSource(url);
 			}
 		},
 		
-		
-		
-		__onShowPage : function(evt) {
-			var target = evt.getTarget();
-			var pageClass = target.getUserData("page");
-			
-			if (!ligamanager.Utils.isInstanceOf(this.getActivePage(), pageClass)) {
-				this.setActivePage(new pageClass(this));
-			}
-		},
 		
 		/**
 		 * Marks the specified button.

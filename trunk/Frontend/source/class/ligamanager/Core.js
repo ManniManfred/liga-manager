@@ -50,7 +50,17 @@ qx.Class.define("ligamanager.Core",
 	* ****************************************************************************
 	*/
 
-	properties : {},
+	properties : {
+		/**
+		 * Contains the active page of this navigation.
+		 */
+		user : {
+			check : "Map",
+			nullable : true,
+			init : null,
+			event : "changeUser"
+		}
+	},
 
 	/*
 	* ****************************************************************************
@@ -61,15 +71,19 @@ qx.Class.define("ligamanager.Core",
 	members :
 	{
 		__rpc: null,
-
+		__alreadAskedForUser : null,
+		
 		/**
 		* TODOC
 		*
 		* @return {var} TODOC
 		*/
 		IsCorrectlyLoggedIn : function() {
-			var result = this.__rpc.callSync("IsCorrectlyLoggedIn");
-			return result;
+			if (!this.__alreadAskedForUser) {
+				this.setUser(this.__rpc.callSync("GetSelf"));
+				this.__alreadAskedForUser = true;
+			}
+			return this.getUser() != null;
 		},
 
 
@@ -84,6 +98,9 @@ qx.Class.define("ligamanager.Core",
 		loginAsync : function(func, user, password) {
 			var self = this;
 			return this.__rpc.callAsync(function(result, ex) {
+				if (result.result == true) {
+					self.setUser(result.user);
+				}
 				func(result, ex);
 			}, "Login", user, password);
 			
@@ -107,6 +124,7 @@ qx.Class.define("ligamanager.Core",
 		*/
 		logout : function() {
 			this.__rpc.callSync("Logout");
+			this.setUser(null);
 		}
 
 	}

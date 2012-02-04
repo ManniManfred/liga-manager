@@ -128,15 +128,6 @@ qx.Class.define("ligamanager.pages.LoginPage",
 
 	events:
 	{
-		/**
-		 * Fired when the user logged in successefully.
-		 */
-		"successfulLogin" : "qx.event.type.Event",
-		
-		/**
-		 * Fire if the user clicks on register.
-		 */
-		"showRegister" : "qx.event.type.Event"
 	},
 
 	/*
@@ -179,30 +170,19 @@ qx.Class.define("ligamanager.pages.LoginPage",
 				if (ex == null) {
 					if (result.result == true) {
 						// Fire event to the outside
-						self.fireDataEvent("successfulLogin");
-					}
-					else {
+						ligamanager.ui.Navigation.getInstance().showPage(self.tr("Manager"));
+					} else {
 						self.__statusAtom.setLabel(self.tr("Login failed: %1", result.message));
 						self.__statusAtom.setIcon("ligamanager/22/info.png");
 					}
-				}
-				else {
+				} else {
 					self.__statusAtom.setLabel(self.tr("Connection error"));
 					self.__statusAtom.setIcon("ligamanager/22/warn.png");
 				}
 			};
 
 			core.loginAsync(onGInfoLogin, username, password);
-		},
-
-		/**
-		* Open the register window.
-		*
-		* @return {void} 
-		*/
-		__register: function() {
-			this.fireEvent("showRegister");
 		}
-		
+
 	}
 });
