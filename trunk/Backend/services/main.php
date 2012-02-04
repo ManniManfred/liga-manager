@@ -89,7 +89,7 @@ function sendMyMail($to, $subject, $body) {
 		$header .= 'X-Mailer: PHP/' . phpversion() . "\r\n";
 		//$header .= 'Cc: ' . $headerInfo->ccaddress . "\r\n";
 		//$header .= 'Bcc: ' . $headerInfo->bccaddress . "\r\n";
-		$header .= 'Content-Type: text/plain;charset="iso-8859-1"' . "\r\n";
+		$header .= 'Content-Type: text/plain;charset="utf-8"' . "\r\n";
 		//$header .= 'Content-Transfer-Encoding: ' . "\r\n";
 
 		$mailAccept = mail($to, $subject, $body, $header);

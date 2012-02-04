@@ -21,10 +21,11 @@ class class_Core extends ServiceIntrospection {
 				. " where rights='ADMIN' and email is not null");
 
 		if ($admins != null && count($admins) > 0) {
+			$requst = $params[0];
 			for ($i = 0; $i < count($admins); $i++) {
 				$subject = "Kontaktanfrage";
 				$body = "Es wurde folgende Kontaktanfrage gestellt: "
-					. print_r($params[0], true);
+					. print_r($requst, true);
 				sendMyMail($admins[$i]["email"], $subject, $body);
 			}
 		}
