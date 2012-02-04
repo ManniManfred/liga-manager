@@ -13,7 +13,7 @@ qx.Class.define("ligamanager.pages.ContactPage",
 	construct: function() {
 		this.base(arguments);
 		
-		this.__planInfoRpc = new qx.io.remote.Rpc("/ginfo", "PlanInfo");
+		this.__coreRpc = new qx.io.remote.Rpc(ligamanager.Core.RPC_BACKEND , "ligamanager.Core");
 		
 		this.__createUi();
 	},
@@ -44,7 +44,7 @@ qx.Class.define("ligamanager.pages.ContactPage",
 
 	members:
 	{
-		__planInfoRpc : null,
+		__coreRpc : null,
 		__model : null,
 		__form : null,
 		
@@ -256,7 +256,7 @@ qx.Class.define("ligamanager.pages.ContactPage",
 				var controller = new qx.data.controller.Form(null, this.__form);
 				var model = controller.createModel();
 				try {
-					this.__planInfoRpc.callSync("SendContactRequest", qx.util.Serializer.toNativeObject(model));
+					this.__coreRpc.callSync("SendContactRequest", qx.util.Serializer.toNativeObject(model));
 					alert(this.tr("The message was succesfully send."));
 					this.__form.reset();
 				} catch (ex)

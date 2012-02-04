@@ -131,8 +131,19 @@ qx.Class.define("ligamanager.pages.SettingsPage",
 			var rowIndex = 0;
 			var tabIndex = 1;
 			
+			
 			// create cbSendMails
-			var laSendMails = new qx.ui.basic.Label(this.tr("Nachrichten versenden") + requireSuffix);
+			var laSendMails = new qx.ui.basic.Label(this.tr("Send new guestbook entries") + requireSuffix);
+			groupbox.add(laSendMails, {row : rowIndex, column: 0});
+			
+			var cbSendMails = new qx.ui.form.CheckBox("");
+			cbSendMails.setTabIndex(tabIndex++);
+			groupbox.add(cbSendMails, {row : rowIndex, column : 1});
+			form.add(cbSendMails, "", null, "mail_guestbook");
+			rowIndex++;
+			
+			// create cbSendMails
+			var laSendMails = new qx.ui.basic.Label(this.tr("Active") + requireSuffix);
 			groupbox.add(laSendMails, {row : rowIndex, column: 0});
 			
 			var cbSendMails = new qx.ui.form.CheckBox("");
@@ -142,8 +153,8 @@ qx.Class.define("ligamanager.pages.SettingsPage",
 			rowIndex++;
 			
 			
-			// create cbSendMails
-			var laFrom = new qx.ui.basic.Label(this.tr("Nachrichten Absender") + requireSuffix);
+			// create from
+			var laFrom = new qx.ui.basic.Label(this.tr("From") + requireSuffix);
 			groupbox.add(laFrom, {row : rowIndex, column: 0});
 			
 			var tbFrom = new qx.ui.form.TextField();

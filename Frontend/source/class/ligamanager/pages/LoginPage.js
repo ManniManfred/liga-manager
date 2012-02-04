@@ -96,7 +96,7 @@ qx.Class.define("ligamanager.pages.LoginPage",
 
 
 		// login button
-		var btLogin = this.__okButton = new qx.ui.form.Button(this.tr("Anmelden"));
+		var btLogin = this.__okButton = new qx.ui.form.Button(this.tr("Login"));
 		this.__okButton.setTabIndex(tabIndex++);
 		btLogin.addListener("execute", this.__login, this);
 		
