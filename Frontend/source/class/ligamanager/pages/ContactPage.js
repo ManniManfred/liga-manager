@@ -230,20 +230,16 @@ qx.Class.define("ligamanager.pages.ContactPage",
 			gbMessage.add(taMessage);
 			form.add(taMessage, "", null, "Message");
 			
-			var cbSendCopy = new qx.ui.form.CheckBox(this.tr("Send a copy of your mail to your e-mail address."));
-			this.add(cbSendCopy, {left: 20, top : 330});
-			form.add(cbSendCopy, "", null, "SendCopy");
-			
 			var btSend = new qx.ui.form.Button(this.tr("Send"));
 			btSend.setTabIndex(tabIndex++);
 			btSend.addListener("execute", this.__onBtSend, this);
-			this.add(btSend, {left : 20, top : 360 });
+			this.add(btSend, {left : 20, top : 340 });
 			form.addButton(btSend);
 			
 			
 			// add a reset button
 			var resetButton = new qx.ui.form.Button(this.tr("Reset"));
-			this.add(resetButton, {left: 85, top: 360});
+			this.add(resetButton, {left: 85, top: 340});
 			resetButton.addListener("execute", function() {
 				form.reset();
 			});
