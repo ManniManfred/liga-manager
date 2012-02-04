@@ -206,8 +206,9 @@ qx.Class.define("ligamanager.pages.UserSettingsPage",
 			});
 			form.addButton(resetButton);
 			
+			var core = ligamanager.Core.getInstance();
+			var user = core.getUser();
 			
-			var user = this.__coreRpc.callSync("GetSelf");
 			this.__userModel = qx.data.marshal.Json.createModel(user);
 			
 			var controller = this.__qxController = new qx.data.controller.Form(this.__userModel, form);
@@ -230,6 +231,8 @@ qx.Class.define("ligamanager.pages.UserSettingsPage",
 				
 				try {
 					this.__userRpc.callSync("UpdateUser", data);
+					var core = ligamanager.Core.getInstance();
+					core.setUser(data);
 					alert(this.tr("Your settings are stored."));
 					
 				} catch (ex)

@@ -35,13 +35,10 @@ qx.Class.define("ligamanager.MainWidget",
 		
 		var core = ligamanager.Core.getInstance();
 
-		if (core.IsCorrectlyLoggedIn()) {
-			this.__isLoggedIn = true;
-		} else {
-			this.__isLoggedIn = false;
-		}
+		core.IsCorrectlyLoggedIn();
+		this.__prevUser = core.getUser();
+		core.addListener("changeUser", this.__onUserChanged, this);
 
-		
 		// load design
 		this.loadDesign();
 		this.setDesign(this.__design);
@@ -114,7 +111,7 @@ qx.Class.define("ligamanager.MainWidget",
 		__inButtons : null,
 		__contentContainer : null,
 		__emptyPage : null,
-		__isLoggedIn : null,
+		__prevUser : null,
 		
 		__navi : null,
 		
@@ -309,7 +306,6 @@ qx.Class.define("ligamanager.MainWidget",
 				"page" :  ligamanager.pages.Guestbook
 			}];
 
-			var sidebar = this.__navi.createMenu(menuDef);
 
 			//
 			// Add Documents
@@ -317,37 +313,26 @@ qx.Class.define("ligamanager.MainWidget",
 			var docs = this.__coreRpc.callSync("GetEntities", "document");
 			
 			if (docs != null && docs.length > 0) {
-			
-				sidebar.add(new qx.ui.core.Spacer(this.__blockSpace, this.__blockSpace));
+				var docsEntry = {
+					"name" : this.tr("Documents"),
+					"page" :  ligamanager.pages.EmptyPage,
+					"children" : []
+				};
 				
-				var btDocuments = this.__btDocuments = new qx.ui.form.Button(this.tr("Documents"), null);
-				btDocuments.setAppearance("sidebar/button");
-				//btDocuments.addListener("execute", this.__onBtExecuted, this);
-				//btDocuments.addListener("execute", this.__onBtShowEmptyPage, this);
-				sidebar.add(btDocuments);
-				
-				
-				var documentsContainer = this.__documentsContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox().set({
-					spacing : this.__innerSpace
-				}));
-				documentsContainer.setPaddingLeft(20);
-				sidebar.add(documentsContainer);
-				
+				menuDef.push(docsEntry);
 				
 				for (var i = 0, l = docs.length; i < l; i++) {
 				
-					var btDoc = new qx.ui.form.Button(docs[i].name, null);
-					btDoc.setAppearance("sidebar/button");
-					btDoc.setUserData("parentButton", btDocuments);
-					btDoc.setUserData("pdfUrl", ligamanager.Core.DOCUMENT_FOLDER + docs[i].filename);
-					//btDoc.addListener("execute", this.__onBtExecuted, this);
-					//btDoc.addListener("execute", this.__onShowDocument, this);
-					documentsContainer.add(btDoc);
+					var docEntry = {
+						"name" : docs[i].name,
+						"url" : ligamanager.Core.DOCUMENT_FOLDER + docs[i].filename
+					};
+					docsEntry.children.push(docEntry);
 				}
 			}
-			
-			sidebar.add(new qx.ui.core.Spacer(20, 20));
-			
+
+			var sidebar = this.__navi.createMenu(menuDef);
+
 			this.__userMenuContainer = new qx.ui.container.Composite(new qx.ui.layout.Grow());
 			//this.__userMenuContainer.setHeight(400);
 			sidebar.add(this.__userMenuContainer);
@@ -364,21 +349,25 @@ qx.Class.define("ligamanager.MainWidget",
 			
 			sidebar.removeAll();
 			
-			var btLogout = new qx.ui.form.Button(this.tr("Logout"), null);
-			btLogout.setAppearance("sidebar/button");
-			//btLogout.addListener("execute", this.__onBtExecuted, this);
-			//btLogout.addListener("execute", this.__onBtLogout, this);
-			sidebar.add(btLogout);
-			
-			
 			//
 			// Verwaltung
 			//
 			
 			var inMenuDef = [
 				{
+				"name" : this.tr("Logout"),
+				"userGroups" : ["USER", "TEAM_ADMIN", "LIGA_AMIN", "ADMIN"],
+				"action" : function() {
+						var core = ligamanager.Core.getInstance();
+						core.logout();
+						ligamanager.ui.Navigation.getInstance().showPage(
+							qx.locale.Manager.tr("Table"));
+					}
+				},
+				{
 				"name" : this.tr("Manager"), 
 				"page" :  ligamanager.pages.EmptyPage,
+				"userGroups" : ["USER", "TEAM_ADMIN", "LIGA_AMIN", "ADMIN"],
 				"children" : [
 					{
 						"name" : this.tr("User Settings"), 
@@ -398,17 +387,17 @@ qx.Class.define("ligamanager.MainWidget",
 							{
 								"name" : this.tr("User"), 
 								"page" :  ligamanager.pages.UserManagerPage,
-								"userGroups" : ["LIGA_AMIN", "ADMIN"]
+								"userGroups" : ["ADMIN"]
 							},
 							{
 								"name" : this.tr("Documents"), 
 								"page" :  ligamanager.pages.DocumentsManagerPage,
-								"userGroups" : ["LIGA_AMIN", "ADMIN"]
+								"userGroups" : ["ADMIN"]
 							},
 							{
 								"name" : this.tr("Settings"), 
 								"page" :  ligamanager.pages.SettingsPage,
-								"userGroups" : ["LIGA_AMIN", "ADMIN"]
+								"userGroups" : ["ADMIN"]
 							},
 							{
 								"name" : this.tr("MasterData"), 
@@ -434,8 +423,9 @@ qx.Class.define("ligamanager.MainWidget",
 		},
 		
 		__updateSideBar : function() {
+
 			this.__userMenuContainer.removeAll();
-			if (this.__isLoggedIn) {
+			if (this.__prevUser != null) {
 				this.__userMenuContainer.add(this.__inBar);
 			} else {
 				this.__userMenuContainer.add(this.__outBar);
@@ -444,12 +434,16 @@ qx.Class.define("ligamanager.MainWidget",
 			this.__updateInBar();
 		},
 		
-		__onSuccessfulLogin : function() {
-			this.__isLoggedIn = true;
+		__onUserChanged : function() {
+			var core = ligamanager.Core.getInstance();
+			var user = core.getUser();
 			
-			this.setActivePage(null);
-			
-			this.__updateSideBar();
+			if ((this.__prevUser == null && user != null)
+				|| (this.__prevUser != null && user == null)
+				|| (this.__prevUser != null && user != null && this.__prevUser.id != user.id)) {
+				this.__prevUser = user;
+				this.__updateSideBar();
+			}
 		},
 		
 		
@@ -460,58 +454,7 @@ qx.Class.define("ligamanager.MainWidget",
 		
 		__onBtShowEmptyPage : function() {
 			this.setActivePage(null);
-		},
-		
-				
-
-		
-		
-		
-		__onShowSite: function (evt) {
-			var target = evt.getTarget();
-			var site = target.getUserData("site");
-
-			if (!ligamanager.Utils.isInstanceOf(this.getActivePage(), ligamanager.pages.IFramePage)) {
-				this.setActivePage(new ligamanager.pages.IFramePage());
-			}
-
-			var framePage = this.getActivePage();
-			framePage.setSource("/sites/" + site + "/");
-		},
-
-
-		__onShowDocument : function(evt) {
-		
-			var target = evt.getTarget();
-			var pdfUrl = target.getUserData("pdfUrl");
-			
-			if (!ligamanager.Utils.isInstanceOf(this.getActivePage(), ligamanager.pages.IFramePage)) {
-				this.setActivePage(new ligamanager.pages.IFramePage());
-			}
-			
-			var framePage = this.getActivePage();
-			framePage.setSource(pdfUrl);
-			
-		},
-		
-		
-		
-		/**
-		 * TODOC
-		 *
-		 * @return {void} 
-		 */
-		__onBtLogout: function() {
-			var core = ligamanager.Core.getInstance();
-			core.logout();
-
-			this.__isLoggedIn = false;
-			this.__updateSideBar();
-			this.setActivePage(null);
 		}
-
-		
-		
 
 	}
 });

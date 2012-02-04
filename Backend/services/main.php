@@ -16,6 +16,29 @@ function GetDbConnection() {
 	return $current_db;
 }
 
+function checkRights($allowedGroups) {
+	$user = getUserSelf();
+	if ($user == null || !in_array($user["rights"], $allowedGroups)) {
+		throw new Exception("Sie haben nicht die benötigten Rechte, um diese Aktion auszuführen.");
+	}
+}
+
+function getUserSelf()
+{
+	$result = null;
+	if (isset($_SESSION["user_id"])) {
+		$db = GetDbConnection();
+
+		$users = $db->queryFetchAll("select * from `" . $_ENV["table_prefix"] 
+				. "users` where id = " . ((int)$_SESSION["user_id"]));
+		if (count($users) > 0) {
+			$result = $users[0];
+			$result["password"] = PASSWORD_DUMMY;
+			$result["confirmPassword"] = PASSWORD_DUMMY;
+		}
+	}
+	return $result;
+}
 
 function logMessage($message, $is_error = false) {
 	$fullMessage = date('Y-m-d H:i:s'). ' ';

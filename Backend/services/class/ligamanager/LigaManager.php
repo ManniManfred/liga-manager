@@ -22,6 +22,8 @@ class class_LigaManager extends ServiceIntrospection
 	
 	function method_SetDefaultSaison($params, $error)
     {
+		checkRights(array("ADMIN"));
+		
         if (count($params) != 1)
         {
             $error->SetError(JsonRpcError_ParameterMismatch,
@@ -38,6 +40,8 @@ class class_LigaManager extends ServiceIntrospection
 	
 	function method_CreateSaison($params, $error)
     {
+		checkRights(array("ADMIN"));
+		
         if (count($params) != 1)
         {
             $error->SetError(JsonRpcError_ParameterMismatch,
@@ -54,6 +58,8 @@ class class_LigaManager extends ServiceIntrospection
 	
 	function method_RemoveSaison($params, $error)
     {
+		checkRights(array("ADMIN"));
+		
         if (count($params) != 1)
         {
             $error->SetError(JsonRpcError_ParameterMismatch,
@@ -91,6 +97,7 @@ class class_LigaManager extends ServiceIntrospection
 	
 	function method_UpdateSaisonTeams($params, $error)
     {
+		checkRights(array("ADMIN", "LIGA_ADMIN", "TEAM_ADMIN"));
         if (count($params) != 3)
         {
             $error->SetError(JsonRpcError_ParameterMismatch,
@@ -173,6 +180,8 @@ class class_LigaManager extends ServiceIntrospection
 	
 	function method_UpdateSaisonPlayers($params, $error)
     {
+		checkRights(array("ADMIN", "LIGA_ADMIN", "TEAM_ADMIN"));
+		
         if (count($params) != 3)
         {
             $error->SetError(JsonRpcError_ParameterMismatch,
@@ -202,6 +211,8 @@ class class_LigaManager extends ServiceIntrospection
 	
 	function method_StoreMatch($params, $error)
     {
+		checkRights(array("ADMIN", "LIGA_ADMIN", "TEAM_ADMIN"));
+		
         if (count($params) != 1)
         {
             $error->SetError(JsonRpcError_ParameterMismatch,
@@ -218,14 +229,16 @@ class class_LigaManager extends ServiceIntrospection
 		// select all users that have to informed
 		$sql = "select U.* from `" . $_ENV["table_prefix"] . "users` U"
 				. " left join `" . $_ENV["table_prefix"] . "saison_team` ST on U.id_team = ST.id_team"
-				. " where ST.id = " . ((int) $match->id_saison_team1) . " or ST.id = " . ((int) $match->id_saison_team2);
+				. " where ST.id = " . ((int) $match->id_saison_team1) . " or ST.id = " . ((int) $match->id_saison_team2)
+				. " or U.rights = 'LIGA_ADMIN'";
 		$users = $db->queryFetchAll($sql);
 		
 		if ($users != null && count($users) > 0) {
 			$subject = "Spieländerung " . " Spiel-ID=" . $match->id;
 			$body = "Sehr geehrte Damen und Herren, \r\n \r\n"
 				. "das Spiel mit der Id " . $match->id . " wurde geändert."
-				. " Siehe " . $_ENV["web_url"] . "#Spielplan~" . $match->id;
+				. " Siehe " . $_ENV["web_url"] . "#Spielplan~" . $match->id
+				. " \r\n \r\n Gruß LigaManager";
 			
 			for ($i = 0; $i < count($users); $i++) {
 				$email = $users[$i]["email"];
