@@ -294,6 +294,10 @@ qx.Class.define("ligamanager.MainWidget",
 				"page" :  ligamanager.pages.PlayingSchedulePage
 			},
 			{
+				"name" : this.tr("Scorer"), 
+				"page" :  ligamanager.pages.ScorerPage
+			},
+			{
 				"name" : this.tr("Locks"), 
 				"page" :  ligamanager.pages.PlayerLockPage
 			},

@@ -212,7 +212,14 @@ class class_Core extends ServiceIntrospection {
 			} else {
 				$filter = " where id_saison = " . ((int) $filterMap->saison_id);
 			}
-        } else if ($tableName == "player_match") {
+        } else if ($tableName == "scorer") {
+			if ($filterMap->saison_id == "current") {
+				$filter = " where id_saison in (select id from `" . $_ENV["table_prefix"] . "saison` where isDefault)";
+			} else {
+				$filter = " where id_saison = " . ((int) $filterMap->saison_id);
+			}
+			$filter .= " and goals > 0";
+		} else if ($tableName == "player_match") {
             $filter = " where id_match = " . ((int) $filterMap->match_id);
         }
         return $filter;

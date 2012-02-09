@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ligamanager/MainWidget.js:260
+#: ligamanager/MainWidget.js:260 ligamanager/pages/LoginPage.js:99
 msgid "Login"
 msgstr ""
 
@@ -23,43 +23,47 @@ msgstr ""
 msgid "Playing Schedule"
 msgstr ""
 
-#: ligamanager/MainWidget.js:305 ligamanager/pages/Guestbook.js:168
+#: ligamanager/MainWidget.js:305
+msgid "Impressum"
+msgstr ""
+
+#: ligamanager/MainWidget.js:313 ligamanager/pages/Guestbook.js:168
 msgid "Guestbook"
 msgstr ""
 
-#: ligamanager/MainWidget.js:358
+#: ligamanager/MainWidget.js:366
 msgid "Logout"
 msgstr ""
 
-#: ligamanager/MainWidget.js:368 ligamanager/pages/LoginPage.js:173
+#: ligamanager/MainWidget.js:376 ligamanager/pages/LoginPage.js:173
 msgid "Manager"
 msgstr ""
 
-#: ligamanager/MainWidget.js:373 ligamanager/pages/UserSettingsPage.js:73
+#: ligamanager/MainWidget.js:381 ligamanager/pages/UserSettingsPage.js:73
 msgid "User Settings"
 msgstr ""
 
-#: ligamanager/MainWidget.js:383
+#: ligamanager/MainWidget.js:391
 msgid "LigaManager"
 msgstr ""
 
-#: ligamanager/MainWidget.js:388
+#: ligamanager/MainWidget.js:396
 msgid "User"
 msgstr ""
 
-#: ligamanager/MainWidget.js:398
+#: ligamanager/MainWidget.js:406
 msgid "Settings"
 msgstr ""
 
-#: ligamanager/MainWidget.js:403
+#: ligamanager/MainWidget.js:411
 msgid "MasterData"
 msgstr ""
 
-#: ligamanager/MainWidget.js:408
+#: ligamanager/MainWidget.js:416
 msgid "Saison"
 msgstr ""
 
-#: ligamanager/pages/ContactPage.js:88 ligamanager/MainWidget.js:301
+#: ligamanager/pages/ContactPage.js:88 ligamanager/MainWidget.js:309
 msgid "Contact"
 msgstr ""
 
@@ -134,27 +138,23 @@ msgstr ""
 msgid "Message"
 msgstr ""
 
-#: ligamanager/pages/ContactPage.js:233
-msgid "Send a copy of your mail to your e-mail address."
-msgstr ""
-
-#: ligamanager/pages/ContactPage.js:237 ligamanager/pages/RegisterPage.js:197
+#: ligamanager/pages/ContactPage.js:233 ligamanager/pages/RegisterPage.js:197
 #: ligamanager/pages/UserSettingsPage.js:195
 #: ligamanager/pages/Guestbook.js:147
 msgid "Send"
 msgstr ""
 
-#: ligamanager/pages/ContactPage.js:245 ligamanager/pages/RegisterPage.js:204
+#: ligamanager/pages/ContactPage.js:241 ligamanager/pages/RegisterPage.js:204
 #: ligamanager/pages/UserSettingsPage.js:202
 #: ligamanager/pages/Guestbook.js:155
 msgid "Reset"
 msgstr ""
 
-#: ligamanager/pages/ContactPage.js:260
+#: ligamanager/pages/ContactPage.js:256
 msgid "The message was succesfully send."
 msgstr ""
 
-#: ligamanager/pages/ContactPage.js:264 ligamanager/pages/SettingsPage.js:330
+#: ligamanager/pages/ContactPage.js:260 ligamanager/pages/SettingsPage.js:330
 #: ligamanager/pages/Guestbook.js:246
 msgid "Sending the messsaged failed. The following error occured: "
 msgstr ""
@@ -167,8 +167,8 @@ msgstr ""
 msgid "Upload"
 msgstr ""
 
-#: ligamanager/pages/DocumentsManagerPage.js:120 ligamanager/MainWidget.js:317
-#: ligamanager/MainWidget.js:393
+#: ligamanager/pages/DocumentsManagerPage.js:120 ligamanager/MainWidget.js:325
+#: ligamanager/MainWidget.js:401
 msgid "Documents"
 msgstr ""
 
@@ -230,10 +230,6 @@ msgstr ""
 msgid "Welcome to"
 msgstr ""
 
-#: ligamanager/pages/LoginPage.js:99
-msgid "Anmelden"
-msgstr ""
-
 #: ligamanager/pages/LoginPage.js:164
 msgid "Login ..."
 msgstr ""
@@ -247,8 +243,8 @@ msgid "Connection error"
 msgstr ""
 
 #: ligamanager/pages/ManageMatchesPage.js:94
-#: ligamanager/pages/PlayingSchedulePage.js:156 ligamanager/MainWidget.js:378
-#: ligamanager/MainWidget.js:413 ligamanager/pages/MatchesPage.js:142
+#: ligamanager/pages/PlayingSchedulePage.js:156 ligamanager/MainWidget.js:386
+#: ligamanager/MainWidget.js:421 ligamanager/pages/MatchesPage.js:142
 msgid "Matches"
 msgstr ""
 
@@ -281,7 +277,7 @@ msgstr ""
 msgid "hint_matches_exist"
 msgstr ""
 
-#: ligamanager/pages/PlayerLockPage.js:62 ligamanager/MainWidget.js:297
+#: ligamanager/pages/PlayerLockPage.js:62 ligamanager/MainWidget.js:301
 msgid "Locks"
 msgstr ""
 
@@ -353,20 +349,24 @@ msgstr ""
 msgid "Register failed. The following error occured: "
 msgstr ""
 
+#: ligamanager/pages/ScorerPage.js:156 ligamanager/MainWidget.js:297
+msgid "Scorer"
+msgstr ""
+
 #: ligamanager/pages/SettingsPage.js:114
 msgid "Mail"
 msgstr ""
 
 #: ligamanager/pages/SettingsPage.js:136
-msgid "Gästebuchenträge mailen"
+msgid "Send new guestbook entries"
 msgstr ""
 
 #: ligamanager/pages/SettingsPage.js:146
-msgid "Nachrichten mailen"
+msgid "Active"
 msgstr ""
 
 #: ligamanager/pages/SettingsPage.js:157
-msgid "Nachrichten Absender"
+msgid "From"
 msgstr ""
 
 #: ligamanager/pages/SettingsPage.js:172
@@ -406,7 +406,7 @@ msgid "The settings were succesfully stored."
 msgstr ""
 
 #: ligamanager/pages/TablePage.js:135 ligamanager/MainWidget.js:289
-#: ligamanager/MainWidget.js:364
+#: ligamanager/MainWidget.js:372
 msgid "Table"
 msgstr ""
 
@@ -421,6 +421,12 @@ msgstr ""
 #: ligamanager/pages/UserSettingsPage.js:240
 msgid "Something goes wrong: "
 msgstr ""
+
+#~ msgid "Send a copy of your mail to your e-mail address."
+#~ msgstr ""
+
+#~ msgid "Anmelden"
+#~ msgstr ""
 
 #~ msgid "CSV Export"
 #~ msgstr ""
@@ -440,6 +446,9 @@ msgstr ""
 #~ msgid "Extra"
 #~ msgstr ""
 
+#~ msgid "Gästebuchenträge mailen"
+#~ msgstr ""
+
 #~ msgid "Help"
 #~ msgstr ""
 
@@ -452,10 +461,16 @@ msgstr ""
 #~ msgid "Nachricht"
 #~ msgstr ""
 
-#~ msgid "The message was succesfully entered."
+#~ msgid "Nachrichten mailen"
+#~ msgstr ""
+
+#~ msgid "Nachrichten Absender"
 #~ msgstr ""
 
 #~ msgid "The design was succesfully stored."
+#~ msgstr ""
+
+#~ msgid "The message was succesfully entered."
 #~ msgstr ""
 
 #~ msgid "Tore"
