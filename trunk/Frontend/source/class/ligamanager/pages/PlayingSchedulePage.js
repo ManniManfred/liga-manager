@@ -40,16 +40,15 @@ qx.Class.define("ligamanager.pages.PlayingSchedulePage",
 		
 		this.__ligaManagerRpc = new qx.io.remote.Rpc(ligamanager.Core.RPC_BACKEND , "ligamanager.LigaManager");
 		
-		this.__createSaisonChoice();
+		
+		var sc = new ligamanager.pages.SaisonChoice();
+		sc.addListener("changeSaison", function(evt) { this.__updateMatches(evt.getData()); }, this);
+		this.__content.add(sc);
+		
 		this.__createMatchPart();
 		this.__createDetailsPart();
 		
-		var selection = this.__lvSaison.getSelection();
-		if (selection == null || selection.length <= 0) {
-			this.setCurrentSaison(null);
-		} else {
-			this.setCurrentSaison(selection[0].getUserData("saison"));
-		}
+		this.__updateMatches(sc.getCurrentSaison());
 	},
 
 	/*
@@ -59,12 +58,6 @@ qx.Class.define("ligamanager.pages.PlayingSchedulePage",
 	*/
 
 	properties: {
-		currentSaison : {
-			check : "Map",
-			nullable : true,
-			init : null,
-			apply : "__applyCurrentSaison"
-		}
 	},
 
 	/*
@@ -95,52 +88,6 @@ qx.Class.define("ligamanager.pages.PlayingSchedulePage",
 			this.__matchesTableChanged();
 		},
 		
-		__applyCurrentSaison : function(value, oldValue) {
-			this.__updateMatches(value);
-		},
-		
-		__createSaisonChoice : function() {
-		
-			var saisonChoice = this.__lvSaison = new qx.ui.form.SelectBox();
-			saisonChoice.setAllowGrowX(false);
-			this.__content.add(saisonChoice);
-			
-			// add saison items to select box
-			var saisons = this.__ligaManagerRpc.callSync("GetSaisons");
-			
-			if (saisons != null) {
-				var defaultItem = null;
-				for (var i=0; i < saisons.length; i++) {
-					var item = new qx.ui.form.ListItem(saisons[i].name);
-					item.setUserData("saison", saisons[i]);
-					saisonChoice.add(item);
-					
-					if (saisons[i].isDefault == true) {
-						defaultItem = item;
-					}
-				}
-				
-				// select default saison
-				if (defaultItem != null) {
-					defaultItem.setIcon("ligamanager/22/default.png");
-					saisonChoice.setSelection([defaultItem]);
-				}
-			}
-			
-			
-			// add changed listener
-			saisonChoice.addListener("changeSelection", this.__coSaisonChanged , this);
-		},
-		
-		__coSaisonChanged : function(evt) {
-			var selection = evt.getData();
-			//var selection = this.__lvSaison.getSelection();
-			if (selection == null || selection.length <= 0) {
-				this.setCurrentSaison(null);
-			} else {
-				this.setCurrentSaison(selection[0].getUserData("saison"));
-			}
-		},
 		
 		//
 		// handle matches

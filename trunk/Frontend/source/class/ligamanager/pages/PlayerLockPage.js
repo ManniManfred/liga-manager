@@ -18,16 +18,31 @@ qx.Class.define("ligamanager.pages.PlayerLockPage",
 
 	construct: function() {
 		this.base(arguments);
+		this.__saisonFilter = {
+			"saison_id" : null
+		};
 		
-		this.__ligaManagerRpc = new qx.io.remote.Rpc(ligamanager.Core.RPC_BACKEND , "ligamanager.LigaManager");
-
-		this.__content = new qx.ui.container.Composite(new qx.ui.layout.VBox(20));
+		var layout = new qx.ui.layout.VBox();
+		layout.setSpacing(20);
+		
+		this.__content = new qx.ui.container.Composite(layout);
 		this.__content.setPadding(20);
-		this.add(this.__content);
 		
+		var paScroll = new qx.ui.container.Scroll(this.__content);
+		this.add(paScroll, {
+			left:0, 
+			top: 0, 
+			right: 0,
+			bottom: 0
+		});
 		
-		this.__createUI();
+		var sc = new ligamanager.pages.SaisonChoice();
+		sc.addListener("changeSaison", function(evt) { this.__updateLocks(evt.getData()); }, this);
+		this.__content.add(sc);
 		
+		this.__createLocksPart();
+		
+		this.__updateLocks(sc.getCurrentSaison());
 	},
 
 	/*
@@ -36,7 +51,8 @@ qx.Class.define("ligamanager.pages.PlayerLockPage",
 	* ****************************************************************************
 	*/
 
-	properties: {},
+	properties: {
+	},
 
 	/*
 	* ****************************************************************************
@@ -56,12 +72,81 @@ qx.Class.define("ligamanager.pages.PlayerLockPage",
 
 	members:
 	{
-		__ligaManagerRpc : null,
+		__content : null,
+		__saisonFilter : null,
+		__locksTable : null,
+		__saisonTeams : null,
+		__filterRadioGroup : null,
 		
-		__createUI : function() {
-			var laTeams = new qx.ui.basic.Label(this.tr("Locks"));
-			laTeams.setAppearance("label-sep");
-			this.__content.add(laTeams);
+		
+		__updateLocks : function(saison) {
+			if (saison == null) return;
+			
+			// set filter
+			var model = this.__locksTable.getTableModel();
+			this.__saisonFilter["saison_id"] = saison.id;
+			model.setFilter(this.__saisonFilter);
+			model.startRpc();
+		},
+		
+		
+		__createLocksPart : function() {
+		
+			var laScorer = new qx.ui.basic.Label(this.tr("Locks"));
+			laScorer.setAppearance("label-sep");
+			this.__content.add(laScorer);
+			
+			this.__locksTable = new ligamanager.pages.EntityTable("locks", 
+				["Vorname", "Nachname", "Mannschaft", "Datum"], 
+				["firstname", "lastname", "team_name", "date"],
+				false, false, false, false);
+			this.__locksTable.setHeight(400);
+			this.__locksTable.setAllowGrowX(false);
+			this.__content.add(this.__locksTable);
+			
+			
+			//
+			// modify table model
+			//
+			var model = this.__locksTable.getTableModel();
+			model.sortByColumn(3, false);
+			model.setColumnEditable(0, false);
+			model.setColumnEditable(1, false);
+			model.setColumnEditable(2, false);
+			model.setColumnEditable(3, false);
+			
+			
+			//
+			// modify table columns
+			//
+			
+			var table = this.__locksTable.getTable();
+			
+			table.setColumnWidth( 0, 150 );
+			table.setColumnWidth( 1, 150 );
+			table.setColumnWidth( 2, 200 );
+			table.setColumnWidth( 3, 150 );
+			
+			this.__locksTable.setWidth(650 + 20);
+			
+			
+			var tcm = table.getTableColumnModel();
+
+			// date renderer
+			var dateRenderer = new ligamanager.ui.DateCellRenderer();
+			dateRenderer.setDateFormat(ligamanager.Core.DISPLAY_FORMAT);
+			tcm.setDataCellRenderer(3, dateRenderer);
+			
+			table.addListener("cellDblclick", this.__onCellDblClick, this);
+		},
+		
+		__onCellDblClick : function(evt){
+			var model = this.__locksTable.getTableModel();
+			var lock = model.getRowData(evt.getRow());
+			
+			ligamanager.ui.Navigation.getInstance().showPage(
+				this.tr("Playing Schedule") + "~" + lock.id_match);
 		}
+		
 	}
 });
