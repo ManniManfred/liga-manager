@@ -97,10 +97,10 @@ qx.Class.define("m_ligamanager.pages.TablePage",
 					item.setSelectable(false);
 					item.setTitle("<b>" + data.rank + "</b> " + data.name);
 					item.setSubTitle(
-						"Spiele " + data.match_count 
-						+ " Tore " + data.goals 
-						+ " Diff. " + data.goals_diff
-						+ " Punkte " + data.points);
+						"<b>Spiele:</b> " + data.match_count 
+						+ " <b>Tore:</b> " + data.goals 
+						+ " <b>Diff:</b> " + data.goals_diff
+						+ " <b>Punkte:</b> " + data.points);
 				}
 			});
 			
