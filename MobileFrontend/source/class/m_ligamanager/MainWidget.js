@@ -31,13 +31,14 @@ qx.Class.define("m_ligamanager.MainWidget",
 
 		this.__coreRpc = new qx.io.remote.Rpc(m_ligamanager.Core.RPC_BACKEND , "ligamanager.Core");
 		
-		var core = m_ligamanager.Core.getInstance();
-
-		if (core.IsCorrectlyLoggedIn()) {
-			this.__isLoggedIn = true;
-		} else {
-			this.__isLoggedIn = false;
-		}
+		// call get instance, to init date formats
+		m_ligamanager.Core.getInstance();
+//
+//		if (core.IsCorrectlyLoggedIn()) {
+//			this.__isLoggedIn = true;
+//		} else {
+//			this.__isLoggedIn = false;
+//		}
 
 		this.addListener("initialize", this.__initialize, this);
 		
@@ -102,6 +103,19 @@ qx.Class.define("m_ligamanager.MainWidget",
 				playingPage.show();
 			}, this);
 			
+			var scorerPage = new m_ligamanager.pages.ScorerPage(this);
+			var btScorer = new qx.ui.mobile.form.Button("Torjäger");
+			this.getContent().add(btScorer);
+			btScorer.addListener("tap", function() {
+				scorerPage.show();
+			}, this);
+			
+			var playerLockPage = new m_ligamanager.pages.PlayerLockPage(this);
+			var btPlayerLock = new qx.ui.mobile.form.Button("Sperren");
+			this.getContent().add(btPlayerLock);
+			btPlayerLock.addListener("tap", function() {
+				playerLockPage.show();
+			}, this);
 			
 		},
 		
