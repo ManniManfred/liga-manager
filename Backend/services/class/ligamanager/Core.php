@@ -206,19 +206,16 @@ class class_Core extends ServiceIntrospection {
                             . " or id_saison_team2 = " . $team_id . ")";
                 }
             }
-        } else if ($tableName == "play_table") {
+        } else if ($tableName == "play_table" || $tableName == "scorer" || $tableName == "locks") {
 			if ($filterMap->saison_id == "current") {
 				$filter = " where id_saison in (select id from `" . $_ENV["table_prefix"] . "saison` where isDefault)";
 			} else {
 				$filter = " where id_saison = " . ((int) $filterMap->saison_id);
 			}
-        } else if ($tableName == "scorer") {
-			if ($filterMap->saison_id == "current") {
-				$filter = " where id_saison in (select id from `" . $_ENV["table_prefix"] . "saison` where isDefault)";
-			} else {
-				$filter = " where id_saison = " . ((int) $filterMap->saison_id);
+			
+			if ($tableName == "scorer") {
+				$filter .= " and goals > 0";
 			}
-			$filter .= " and goals > 0";
 		} else if ($tableName == "player_match") {
             $filter = " where id_match = " . ((int) $filterMap->match_id);
         }

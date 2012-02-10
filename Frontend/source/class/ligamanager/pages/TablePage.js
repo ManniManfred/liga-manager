@@ -26,16 +26,14 @@ qx.Class.define("ligamanager.pages.TablePage",
 		
 		this.__ligaManagerRpc = new qx.io.remote.Rpc(ligamanager.Core.RPC_BACKEND , "ligamanager.LigaManager");
 		
-		this.__createSaisonChoice();
-		this.__createMatchPart();
+		var sc = new ligamanager.pages.SaisonChoice();
+		sc.addListener("changeSaison", function(evt) { this.__updateTable(evt.getData()); }, this);
+		this.__content.add(sc);
+		
+		this.__createTablePart();
 		
 		
-		var selection = this.__lvSaison.getSelection();
-		if (selection == null || selection.length <= 0) {
-			this.setCurrentSaison(null);
-		} else {
-			this.setCurrentSaison(selection[0].getUserData("saison"));
-		}
+		this.__updateTable(sc.getCurrentSaison());
 	},
 
 	/*
@@ -45,12 +43,6 @@ qx.Class.define("ligamanager.pages.TablePage",
 	*/
 
 	properties: {
-		currentSaison : {
-			check : "Map",
-			nullable : true,
-			init : null,
-			apply : "__applyCurrentSaison"
-		}
 	},
 
 	/*
@@ -72,82 +64,27 @@ qx.Class.define("ligamanager.pages.TablePage",
 	members:
 	{
 		__content : null,
-		__ligaManagerRpc : null,
-		
-		__applyCurrentSaison : function(value, oldValue) {
-			this.__updateMatches(value);
-		},
-		
-		__createSaisonChoice : function() {
-		
-			var saisonChoice = this.__lvSaison = new qx.ui.form.SelectBox();
-			saisonChoice.setAllowGrowX(false);
-			this.__content.add(saisonChoice);
-			
-			// add saison items to select box
-			var saisons = this.__ligaManagerRpc.callSync("GetSaisons");
-			
-			if (saisons != null) {
-				var defaultItem = null;
-				for (var i=0; i < saisons.length; i++) {
-					var item = new qx.ui.form.ListItem(saisons[i].name);
-					item.setUserData("saison", saisons[i]);
-					saisonChoice.add(item);
-					
-					if (saisons[i].isDefault == true) {
-						defaultItem = item;
-					}
-				}
-				
-				// select default saison
-				if (defaultItem != null) {
-					defaultItem.setIcon("ligamanager/22/default.png");
-					saisonChoice.setSelection([defaultItem]);
-				}
-			}
-			
-			
-			// add changed listener
-			saisonChoice.addListener("changeSelection", this.__coSaisonChanged , this);
-		},
-		
-		__coSaisonChanged : function(evt) {
-			var selection = evt.getData();
-			//var selection = this.__lvSaison.getSelection();
-			if (selection == null || selection.length <= 0) {
-				this.setCurrentSaison(null);
-			} else {
-				this.setCurrentSaison(selection[0].getUserData("saison"));
-			}
-		},
-		
-		//
-		// handle matches
-		//
-		
-		__matchesTable : null,
-		__saisonTeams : null,
-		__filterRadioGroup : null,
+		__rankingTable : null,
 		
 		
-		__createMatchPart : function() {
+		__createTablePart : function() {
 		
 			var laTeams = new qx.ui.basic.Label(this.tr("Table"));
 			laTeams.setAppearance("label-sep");
 			this.__content.add(laTeams);
 			
-			this.__matchesTable = new ligamanager.pages.EntityTable("play_table", 
+			this.__rankingTable = new ligamanager.pages.EntityTable("play_table", 
 				["Rang", "Mannschaft", "Spiele", "Tore", "Diff.", "Punkte"], 
 				["rank", "name", "match_count", "goals", "goals_diff", "points"],
 				false, false, false, false);
-			this.__matchesTable.setHeight(300);
-			this.__matchesTable.setAllowGrowX(false);
-			this.__content.add(this.__matchesTable);
+			this.__rankingTable.setHeight(300);
+			this.__rankingTable.setAllowGrowX(false);
+			this.__content.add(this.__rankingTable);
 			
 			//
 			// modify table model
 			//
-			var model = this.__matchesTable.getTableModel();
+			var model = this.__rankingTable.getTableModel();
 			model.setColumnEditable(0, false);
 			model.setColumnEditable(1, false);
 			model.setColumnEditable(2, false);
@@ -166,7 +103,7 @@ qx.Class.define("ligamanager.pages.TablePage",
 			// modify table columns
 			//
 			
-			var table = this.__matchesTable.getTable();
+			var table = this.__rankingTable.getTable();
 			table.setColumnWidth( 0, 50 );
 			table.setColumnWidth( 1, 200 );
 			table.setColumnWidth( 2, 50 );
@@ -177,7 +114,7 @@ qx.Class.define("ligamanager.pages.TablePage",
 		},
 		
 		__onCellDblClick : function(evt){
-			var model = this.__matchesTable.getTableModel();
+			var model = this.__rankingTable.getTableModel();
 			var team = model.getRowData(evt.getRow());
 			
 			if (team.homepage != null && team.homepage.length > 0) {
@@ -187,13 +124,13 @@ qx.Class.define("ligamanager.pages.TablePage",
 			}
 		},
 		
-		__updateMatches : function(saison) {
+		__updateTable : function(saison) {
 		
 			if (saison == null) return;
 			
 			
 			// set filter
-			var model = this.__matchesTable.getTableModel();
+			var model = this.__rankingTable.getTableModel();
 			model.setFilter({ "saison_id" : saison.id });
 			model.startRpc();
 		}
