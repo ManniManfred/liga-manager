@@ -31,9 +31,6 @@ qx.Class.define("ligamanager.pages.TablePage",
 		this.__content.add(sc);
 		
 		this.__createTablePart();
-		
-		
-		this.__updateTable(sc.getCurrentSaison());
 	},
 
 	/*

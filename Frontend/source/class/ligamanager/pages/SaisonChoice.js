@@ -73,7 +73,7 @@ qx.Class.define("ligamanager.pages.SaisonChoice",
 	{
 		__content : null,
 		__ligaManagerRpc : null,
-		
+		__inInit : null,
 		
 		__createSaisonChoice : function() {
 		
@@ -81,27 +81,36 @@ qx.Class.define("ligamanager.pages.SaisonChoice",
 			saisonChoice.setAllowGrowX(false);
 			this.__content.add(saisonChoice);
 			
-			// add saison items to select box
-			var saisons = this.__ligaManagerRpc.callSync("GetSaisons");
+			var self = this;
 			
-			if (saisons != null) {
-				var defaultItem = null;
-				for (var i=0; i < saisons.length; i++) {
-					var item = new qx.ui.form.ListItem(saisons[i].name);
-					item.setUserData("saison", saisons[i]);
-					saisonChoice.add(item);
+			// add saison items to select box
+			var saisons = this.__ligaManagerRpc.callAsync(function(saisons, ex) {
+			
+				if (saisons != null) {
+					var defaultItem = null;
 					
-					if (saisons[i].isDefault == true) {
-						defaultItem = item;
+					if (saisons.length > 1) {
+						self.__inInit = true;
+					}
+					
+					for (var i=0; i < saisons.length; i++) {
+						var item = new qx.ui.form.ListItem(saisons[i].name);
+						item.setUserData("saison", saisons[i]);
+						saisonChoice.add(item);
+
+						if (saisons[i].isDefault == true) {
+							defaultItem = item;
+						}
+					}
+					self.__inInit = false;
+					
+					// select default saison
+					if (defaultItem != null) {
+						defaultItem.setIcon("ligamanager/22/default.png");
+						saisonChoice.setSelection([defaultItem]);
 					}
 				}
-				
-				// select default saison
-				if (defaultItem != null) {
-					defaultItem.setIcon("ligamanager/22/default.png");
-					saisonChoice.setSelection([defaultItem]);
-				}
-			}
+			},"GetSaisons");
 			
 			
 			// add changed listener
@@ -111,10 +120,12 @@ qx.Class.define("ligamanager.pages.SaisonChoice",
 		__coSaisonChanged : function(evt) {
 			var selection = evt.getData();
 			//var selection = this.__lvSaison.getSelection();
-			if (selection == null || selection.length <= 0) {
-				this.setCurrentSaison(null);
-			} else {
-				this.setCurrentSaison(selection[0].getUserData("saison"));
+			if (!this.__inInit) {
+				if (selection == null || selection.length <= 0) {
+					this.setCurrentSaison(null);
+				} else {
+					this.setCurrentSaison(selection[0].getUserData("saison"));
+				}
 			}
 		}
 		

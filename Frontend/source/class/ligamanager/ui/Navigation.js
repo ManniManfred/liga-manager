@@ -108,7 +108,11 @@ qx.Class.define("ligamanager.ui.Navigation",
 					btEntry.execute();
 				} else {
 					this.setActivePage(null);
+					this.__markNavigationItem(null);
 				}
+			} else {
+				this.setActivePage(null);
+				this.__markNavigationItem(null);
 			}
 		},
 		
@@ -195,6 +199,8 @@ qx.Class.define("ligamanager.ui.Navigation",
 				label += "~" + param;
 			qx.bom.History.getInstance().addToHistory(label, label);
 			
+			// clear param from button
+			btEntry.setUserData("param", null);
 			
 			
 			
@@ -208,7 +214,7 @@ qx.Class.define("ligamanager.ui.Navigation",
 					this.setActivePage(page);
 				} else {
 					var page = this.getActivePage();
-					if (param != null && page.setParam != null) {
+					if (page.setParam != null) {
 						page.setParam(param);
 					}
 				}
@@ -235,14 +241,17 @@ qx.Class.define("ligamanager.ui.Navigation",
 			}
 		
 			this.__inButtons = [];
-			this.__inButtons.push(button);
-			button.addState("isIn");
 			
-			var parentButton = button.getUserData("parentButton");
-			while (parentButton != undefined && parentButton != null) {
-				parentButton.addState("isIn");
-				this.__inButtons.push(parentButton);
-				var parentButton = parentButton.getUserData("parentButton");
+			if (button != null) {
+				this.__inButtons.push(button);
+				button.addState("isIn");
+
+				var parentButton = button.getUserData("parentButton");
+				while (parentButton != undefined && parentButton != null) {
+					parentButton.addState("isIn");
+					this.__inButtons.push(parentButton);
+					var parentButton = parentButton.getUserData("parentButton");
+				}
 			}
 		}
 	}

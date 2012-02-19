@@ -287,7 +287,7 @@ class class_Core extends ServiceIntrospection {
         $db = GetDbConnection();
 		
         $tableName = $db->escape_string($params[0], $db);
-		$this->checkTableRight($tableName, false);
+		checkTableRight($tableName, false);
 		
         $sqlQuery = $this->getSelectStatement($db, $params, true);
 
@@ -302,102 +302,14 @@ class class_Core extends ServiceIntrospection {
         $tableName = $db->escape_string($params[0], $db);
         $tableNameWithPrefix = $_ENV["table_prefix"] . $tableName;
 
-		$this->checkTableRight($tableName, false);
+		checkTableRight($tableName, false);
 		
         $sqlQuery = $this->getSelectStatement($db, $params, false);
 
         return $db->queryFetchAll($sqlQuery, $tableNameWithPrefix);
     }
 
-	function checkTableRight($table, $forWrite) {
-		switch($table) {
-			case "users" :
-				checkRights(array("ADMIN"));
-				break;
-			case "settings":
-				checkRights(array("ADMIN"));
-				break;
-			case "document":
-				if ($forWrite) checkRights(array("ADMIN"));
-				break;
-				
-			case "saison" :
-				if ($forWrite) checkRights(array("ADMIN", "LIGA_ADMIN"));
-				break;
-			case "team":
-				if ($forWrite) checkRights(array("ADMIN", "LIGA_ADMIN"));
-				break;
-			case "player":
-				if ($forWrite) checkRights(array("ADMIN", "LIGA_ADMIN", "TEAM_ADMIN"));
-				break;
-			case "saison_team":
-				if ($forWrite) checkRights(array("ADMIN", "LIGA_ADMIN"));
-				break;
-			case "saison_player":
-				if ($forWrite) checkRights(array("ADMIN", "LIGA_ADMIN", "TEAM_ADMIN"));
-				break;
-			case "match":
-				if ($forWrite) checkRights(array("ADMIN", "LIGA_ADMIN", "TEAM_ADMIN"));
-				break;
-			case "player_match":
-				if ($forWrite) checkRights(array("ADMIN", "LIGA_ADMIN", "TEAM_ADMIN"));
-				break;
-		}
-		
-	}
 	
-	/**
-	 *
-	 * @param MySQL $db
-	 * @param string $player_name
-	 * @param string $saison_team_id
-	 * @return int The saison player id
-	 */
-	function createNewPlayer($db, $player_name, $saison_team_id) {
-		checkRights(array("ADMIN", "LIGA_ADMIN", "TEAM_ADMIN"));
-		
-		$playerProps = array();
-		
-		// set team id
-		$getTeamIdSql = 'select id_team from `' . $_ENV["table_prefix"] . 'saison_team`'
-				. ' where id = ' . ((int)$saison_team_id);
-		$teamIdResult = $db->queryFetchAll($getTeamIdSql);
-		$playerProps['id_team'] = $teamIdResult[0]['id_team'];
-		
-		// set first and last name
-		$name_parts = explode(' ', $player_name);
-		if (count($name_parts > 1)) {
-			$playerProps["firstname"] = trim($name_parts[0]);
-			$playerProps["lastname"] = trim($name_parts[1]);
-		} else {
-			$playerProps["firstname"] = trim($player_name);
-			$playerProps["lastname"] = "";
-		}
-		
-		// check, if there is already a player with that name
-		$playerIdResult = $db->queryFetchAll("select id from `"  . $_ENV["table_prefix"] . 'player`'
-				. " where firstname = '" . mysql_real_escape_string($playerProps["firstname"]) . "'"
-				. " and lastname = '" . mysql_real_escape_string($playerProps["lastname"]) . "'");
-		
-		if (count($playerIdResult) > 0) {
-			$player_id = $playerIdResult[0]['id'];
-		} else {
-			// insert the new player
-			$db->insert($_ENV["table_prefix"] . 'player', $playerProps);
-			$player_id = $db->getLastId();
-		}
-		
-		// insert saison player
-		$saisonPlayerProps = array();
-		$saisonPlayerProps['id_saison_team'] = $saison_team_id;
-		$saisonPlayerProps['id_player'] = $player_id;
-		
-		// insert the new saison player
-		$db->insert($_ENV["table_prefix"] . 'saison_player', $saisonPlayerProps);
-		$saison_player_id = $db->getLastId();
-		
-		return $saison_player_id;
-	}
 	
     function method_UpdateEntities($params, $error) {
 
@@ -406,68 +318,7 @@ class class_Core extends ServiceIntrospection {
             return $error;
         }
 
-		
-
-        // TODO: check for rights!!!
-
-        $db = GetDbConnection();
-
-        $tableName = $db->escape_string($params[0]);
-        $tableNameWithPrefix = $_ENV["table_prefix"] . $tableName;
-
-		$this->checkTableRight($tableName, true);
-
-        $updates = (array) $params[1];
-        if (isset($updates["toAdd"])) {
-
-            if ($tableName == "player_match") {
-                $toAdd = $updates["toAdd"];
-                for ($i = 0; $i < count($toAdd); $i++) {
-					if (is_string($toAdd[$i]->id_saison_player)) {
-						// create a new player with that name
-						$toAdd[$i]->id_saison_player = $this->createNewPlayer($db, $toAdd[$i]->id_saison_player, 
-								$toAdd[$i]->id_saison_team);
-					}
-                    unset($toAdd[$i]->id_saison_team);
-                }
-            }
-
-            if ($tableName == "users") {
-                // hash password
-                $toAdd = $updates["toAdd"];
-                for ($i = 0; $i < count($toAdd); $i++) {
-                    $toAdd[$i]->password = hash(PASSWORD_HASH_ALGO, $toAdd[$i]->password);
-                }
-            }
-            $db->addEntities($tableNameWithPrefix, $updates["toAdd"]);
-        }
-
-        if (isset($updates["toUpdate"])) {
-
-            if ($tableName == "player_match") {
-                $toUpdate = $updates["toUpdate"];
-                for ($i = 0; $i < count($toUpdate); $i++) {
-                    unset($toUpdate[$i]->id_saison_team);
-                }
-            }
-
-            if ($tableName == "users") {
-                // hash password
-                $toUpdate = $updates["toUpdate"];
-                for ($i = 0; $i < count($toUpdate); $i++) {
-                    $password = $toUpdate[$i]->password;
-                    if ($password != "dummy") {
-                        $toUpdate[$i]->password = hash(PASSWORD_HASH_ALGO, $password);
-                    } else {
-                        unset($toUpdate[$i]->password);
-                    }
-                }
-            }
-            $db->updateEntities($tableNameWithPrefix, $updates["toUpdate"]);
-        }
-        if (isset($updates["toDelete"])) {
-            $db->deleteEntities($tableNameWithPrefix, $updates["toDelete"]);
-        }
+		UpdateEntities($params[0], $params[1]);
     }
 
 }

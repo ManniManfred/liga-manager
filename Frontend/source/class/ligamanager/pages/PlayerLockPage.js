@@ -41,8 +41,6 @@ qx.Class.define("ligamanager.pages.PlayerLockPage",
 		this.__content.add(sc);
 		
 		this.__createLocksPart();
-		
-		this.__updateLocks(sc.getCurrentSaison());
 	},
 
 	/*
@@ -81,6 +79,9 @@ qx.Class.define("ligamanager.pages.PlayerLockPage",
 		
 		__updateLocks : function(saison) {
 			if (saison == null) return;
+			
+			//var trace = qx.dev.StackTrace.getStackTrace();
+			//this.debug("__updateLocks: " + trace.join("\n"));
 			
 			// set filter
 			var model = this.__locksTable.getTableModel();
