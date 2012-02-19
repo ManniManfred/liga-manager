@@ -19,10 +19,6 @@ msgstr ""
 msgid "Register"
 msgstr ""
 
-#: ligamanager/MainWidget.js:293
-msgid "Playing Schedule"
-msgstr ""
-
 #: ligamanager/MainWidget.js:305
 msgid "Impressum"
 msgstr ""
@@ -35,31 +31,27 @@ msgstr ""
 msgid "Logout"
 msgstr ""
 
-#: ligamanager/MainWidget.js:376 ligamanager/pages/LoginPage.js:173
-msgid "Manager"
-msgstr ""
-
 #: ligamanager/MainWidget.js:381 ligamanager/pages/UserSettingsPage.js:73
 msgid "User Settings"
 msgstr ""
 
-#: ligamanager/MainWidget.js:391
+#: ligamanager/MainWidget.js:396
 msgid "LigaManager"
 msgstr ""
 
-#: ligamanager/MainWidget.js:396
+#: ligamanager/MainWidget.js:401
 msgid "User"
 msgstr ""
 
-#: ligamanager/MainWidget.js:406
+#: ligamanager/MainWidget.js:411
 msgid "Settings"
 msgstr ""
 
-#: ligamanager/MainWidget.js:411
+#: ligamanager/MainWidget.js:416
 msgid "MasterData"
 msgstr ""
 
-#: ligamanager/MainWidget.js:416
+#: ligamanager/MainWidget.js:421
 msgid "Saison"
 msgstr ""
 
@@ -168,7 +160,7 @@ msgid "Upload"
 msgstr ""
 
 #: ligamanager/pages/DocumentsManagerPage.js:120 ligamanager/MainWidget.js:325
-#: ligamanager/MainWidget.js:401
+#: ligamanager/MainWidget.js:406
 msgid "Documents"
 msgstr ""
 
@@ -185,21 +177,21 @@ msgid "Delete following entry"
 msgstr ""
 
 #: ligamanager/pages/LigaMasterDataPage.js:111
-#: ligamanager/pages/EntityTable.js:118 ligamanager/pages/EntityTable.js:119
+#: ligamanager/pages/EntityTable.js:121 ligamanager/pages/EntityTable.js:122
 #: ligamanager/pages/SaisonManagerPage.js:156
 #: ligamanager/pages/SaisonManagerPage.js:283
 msgid "Refresh"
 msgstr ""
 
 #: ligamanager/pages/LigaMasterDataPage.js:117
-#: ligamanager/pages/MatchesPage.js:156 ligamanager/pages/EntityTable.js:128
-#: ligamanager/pages/EntityTable.js:129
+#: ligamanager/pages/MatchesPage.js:156 ligamanager/pages/EntityTable.js:132
+#: ligamanager/pages/EntityTable.js:133
 msgid "New"
 msgstr ""
 
 #: ligamanager/pages/LigaMasterDataPage.js:122
-#: ligamanager/pages/MatchesPage.js:159 ligamanager/pages/EntityTable.js:135
-#: ligamanager/pages/EntityTable.js:136
+#: ligamanager/pages/MatchesPage.js:159 ligamanager/pages/EntityTable.js:139
+#: ligamanager/pages/EntityTable.js:140
 msgid "Remove"
 msgstr ""
 
@@ -242,54 +234,100 @@ msgstr ""
 msgid "Connection error"
 msgstr ""
 
-#: ligamanager/pages/ManageMatchesPage.js:94
-#: ligamanager/pages/PlayingSchedulePage.js:156 ligamanager/MainWidget.js:386
-#: ligamanager/MainWidget.js:421 ligamanager/pages/MatchesPage.js:142
-msgid "Matches"
-msgstr ""
-
-#: ligamanager/pages/ManageMatchesPage.js:150
-#: ligamanager/pages/PlayingSchedulePage.js:318
+#: ligamanager/pages/ManageMatchDetailsPage.js:43
+#: ligamanager/pages/PlayingSchedulePage.js:263
 msgid "Details"
 msgstr ""
 
-#: ligamanager/pages/ManageMatchesPage.js:158
+#: ligamanager/pages/ManageMatchDetailsPage.js:106
+msgid "Error during request: %1"
+msgstr ""
+
+#: ligamanager/pages/ManageMatchDetailsPage.js:124
 msgid "Date"
 msgstr ""
 
-#: ligamanager/pages/ManageMatchesPage.js:169
+#: ligamanager/pages/ManageMatchDetailsPage.js:135
 msgid "Goals"
 msgstr ""
 
-#: ligamanager/pages/ManageMatchesPage.js:176
+#: ligamanager/pages/ManageMatchDetailsPage.js:142
 msgid " vs "
 msgstr ""
 
-#: ligamanager/pages/ManageMatchesPage.js:244
-#: ligamanager/pages/EntityTable.js:144 ligamanager/pages/EntityTable.js:145
+#: ligamanager/pages/ManageMatchDetailsPage.js:217
+#: ligamanager/pages/EntityTable.js:148 ligamanager/pages/EntityTable.js:149
 #: ligamanager/pages/SaisonManagerPage.js:162
 #: ligamanager/pages/SaisonManagerPage.js:289
 #: ligamanager/pages/SettingsPage.js:58
 msgid "Save"
 msgstr ""
 
+#: ligamanager/pages/ManageMatchDetailsPage.js:223
+msgid "Save and close"
+msgstr ""
+
+#: ligamanager/pages/ManageMatchesPage.js:39
+msgid "hint_choose_match"
+msgstr ""
+
+#: ligamanager/pages/ManageMatchesPage.js:44
+#: ligamanager/pages/ManageMatchDetailsPage.js:356
+msgid "The match was successful saved"
+msgstr ""
+
+#: ligamanager/pages/ManageMatchesPage.js:97
+#: ligamanager/pages/ManageMatchDetailsPage.js:94
+#: ligamanager/pages/ManageMatchDetailsPage.js:338
+#: ligamanager/pages/PlayingSchedulePage.js:101 ligamanager/MainWidget.js:386
+#: ligamanager/MainWidget.js:426 ligamanager/pages/MatchesPage.js:142
+msgid "Matches"
+msgstr ""
+
+#: ligamanager/pages/ManageMatchesPage.js:110
+msgid "Edit Match"
+msgstr ""
+
+#: ligamanager/pages/ManageMatchesPage.js:113
+msgid "Edits the selected match."
+msgstr ""
+
+#: ligamanager/pages/ManageMatchesPage.js:162
+msgid "First select a match."
+msgstr ""
+
+#: ligamanager/pages/ManageMatchesPage.js:169 ligamanager/MainWidget.js:391
+msgid "Match Details"
+msgstr ""
+
+#: ligamanager/pages/ManageMatchesPage.js:169
+#: ligamanager/pages/ManageMatchDetailsPage.js:94
+#: ligamanager/pages/ManageMatchDetailsPage.js:338
+#: ligamanager/MainWidget.js:376 ligamanager/pages/LoginPage.js:173
+msgid "Manager"
+msgstr ""
+
 #: ligamanager/pages/MatchesPage.js:252
 msgid "hint_matches_exist"
 msgstr ""
 
-#: ligamanager/pages/PlayerLockPage.js:62 ligamanager/MainWidget.js:301
+#: ligamanager/pages/PlayerLockPage.js:96 ligamanager/MainWidget.js:301
 msgid "Locks"
 msgstr ""
 
-#: ligamanager/pages/PlayingSchedulePage.js:174
+#: ligamanager/pages/PlayerLockPage.js:149 ligamanager/MainWidget.js:293
+msgid "Playing Schedule"
+msgstr ""
+
+#: ligamanager/pages/PlayingSchedulePage.js:119
 msgid "Team Filter"
 msgstr ""
 
-#: ligamanager/pages/PlayingSchedulePage.js:176
+#: ligamanager/pages/PlayingSchedulePage.js:121
 msgid "Choose a team to filter"
 msgstr ""
 
-#: ligamanager/pages/PlayingSchedulePage.js:266
+#: ligamanager/pages/PlayingSchedulePage.js:211
 msgid "All Teams"
 msgstr ""
 
@@ -349,7 +387,7 @@ msgstr ""
 msgid "Register failed. The following error occured: "
 msgstr ""
 
-#: ligamanager/pages/ScorerPage.js:156 ligamanager/MainWidget.js:297
+#: ligamanager/pages/ScorerPage.js:79 ligamanager/MainWidget.js:297
 msgid "Scorer"
 msgstr ""
 
@@ -405,7 +443,7 @@ msgstr ""
 msgid "The settings were succesfully stored."
 msgstr ""
 
-#: ligamanager/pages/TablePage.js:135 ligamanager/MainWidget.js:289
+#: ligamanager/pages/TablePage.js:69 ligamanager/MainWidget.js:289
 #: ligamanager/MainWidget.js:372
 msgid "Table"
 msgstr ""
@@ -421,9 +459,6 @@ msgstr ""
 #: ligamanager/pages/UserSettingsPage.js:240
 msgid "Something goes wrong: "
 msgstr ""
-
-#~ msgid "Send a copy of your mail to your e-mail address."
-#~ msgstr ""
 
 #~ msgid "Anmelden"
 #~ msgstr ""
@@ -461,10 +496,13 @@ msgstr ""
 #~ msgid "Nachricht"
 #~ msgstr ""
 
+#~ msgid "Nachrichten Absender"
+#~ msgstr ""
+
 #~ msgid "Nachrichten mailen"
 #~ msgstr ""
 
-#~ msgid "Nachrichten Absender"
+#~ msgid "Send a copy of your mail to your e-mail address."
 #~ msgstr ""
 
 #~ msgid "The design was succesfully stored."

@@ -116,9 +116,9 @@ qx.Class.define("ligamanager.pages.SaisonPlayersEditor",
 			//}
 			
 			var cellInfo = cellEditor.getUserData("cellInfo");
-			var e = new qx.event.type.Data();
-			e.init({"value" : value, "row" : cellInfo.row, "col" : cellInfo.col});
-			this.fireDataEvent("dataEdited", e);
+			
+			var data = {"value" : value, "row" : cellInfo.row, "col" : cellInfo.col};
+			this.fireDataEvent("dataEdited", data);
 			
 			return value;
 		}

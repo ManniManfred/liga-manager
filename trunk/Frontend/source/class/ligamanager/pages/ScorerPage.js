@@ -42,9 +42,6 @@ qx.Class.define("ligamanager.pages.ScorerPage",
 		this.__content.add(sc);
 		
 		this.__createScorerPart();
-		
-		
-		this.__updateScorer(sc.getCurrentSaison());
 	},
 
 	/*

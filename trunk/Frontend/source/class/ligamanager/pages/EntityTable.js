@@ -16,7 +16,8 @@ qx.Class.define("ligamanager.pages.EntityTable",
 	 * ****************************************************************************
 	 */
 
-	construct: function(tableName, colTitles, colKeys, canAdd, canRemove, canStore, startRpc) {
+	construct: function(tableName, colTitles, colKeys, canAdd, canRemove, canStore, startRpc,
+			canRefresh) {
 		this.base(arguments, new qx.ui.layout.Dock());
 		
 		this.__colKeys = colKeys;
@@ -26,7 +27,7 @@ qx.Class.define("ligamanager.pages.EntityTable",
 		this.__canAdd = canAdd === undefined ? true : canAdd;
 		this.__canRemove = canRemove === undefined ? true : canRemove
 		this.__canStore = canStore === undefined ? true : canStore
-		
+		this.__canRefresh = canRefresh === undefined ? true : canRefresh
 		
 		this.__createToolbar();
 		
@@ -45,6 +46,8 @@ qx.Class.define("ligamanager.pages.EntityTable",
 		this.__entitiesTable = new qx.ui.table.Table(this.__entitiesTableModel);
 		this.__entitiesTable.getSelectionModel().addListener("changeSelection", this.__onChangeSelection, this);
 		this.add(this.__entitiesTable, {edge:"center"});
+		
+		this.__entitiesTable.addListener("cellClick", this.__onCellClick, this);
 	},
 
 	/*
@@ -80,12 +83,28 @@ qx.Class.define("ligamanager.pages.EntityTable",
 		__canAdd : null,
 		__canRemove : null,
 		__canStore : null,
+		__canRefresh : null,
 	
 		__tableName : null,
 		__entitiesTableModel : null,
 		__entitiesTable : null,
 		__toolbar : null,
 		__mainPart : null,
+		
+		
+		__onCellClick : function(evt) {
+			var col = evt.getColumn();
+			var row = evt.getRow();
+			
+			var tcm = this.__entitiesTable.getTableColumnModel();
+			var editor = tcm.getCellEditorFactory(col);
+			if (ligamanager.Utils.isInstanceOf(editor, qx.ui.table.celleditor.CheckBox)) {
+				var value = this.__entitiesTableModel.getValue(col, row);
+				if (qx.lang.Type.isBoolean(value)) {
+					this.__entitiesTableModel.setValue(col, row, !value);
+				}
+			}
+		},
 		
 		getColKeys : function() {
 			return this.__colKeys;
@@ -115,12 +134,14 @@ qx.Class.define("ligamanager.pages.EntityTable",
 			var part = this.__mainPart = new qx.ui.toolbar.Part();
 			toolbar.add(part);
 
-			var btRefresh = new qx.ui.toolbar.Button(this.tr("Refresh"), "icon/22/actions/view-refresh.png" );
-			btRefresh.setToolTipText(this.tr("Refresh"));
-			btRefresh.addListener("execute", this.__onRefresh, this );
-			part.add(btRefresh);
+			if (this.__canRefresh) {
+				var btRefresh = new qx.ui.toolbar.Button(this.tr("Refresh"), "icon/22/actions/view-refresh.png" );
+				btRefresh.setToolTipText(this.tr("Refresh"));
+				btRefresh.addListener("execute", this.__onRefresh, this );
+				part.add(btRefresh);
+			}
 			
-			if (this.__canAdd || this.__canRemove) {
+			if (this.__canRefresh && (this.__canAdd || this.__canRemove)) {
 				part.add(new qx.ui.toolbar.Separator());
 			}
 			

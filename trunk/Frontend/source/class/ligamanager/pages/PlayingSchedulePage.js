@@ -47,8 +47,6 @@ qx.Class.define("ligamanager.pages.PlayingSchedulePage",
 		
 		this.__createMatchPart();
 		this.__createDetailsPart();
-		
-		this.__updateMatches(sc.getCurrentSaison());
 	},
 
 	/*

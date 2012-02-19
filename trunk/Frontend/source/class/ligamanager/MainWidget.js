@@ -58,7 +58,9 @@ qx.Class.define("ligamanager.MainWidget",
 		this.__outBar = this.__createOutBar();
 		
 		var sideBar = this.__createSideBar();
-		this.add(sideBar, {
+		var paSideScroll = new qx.ui.container.Scroll(sideBar);
+		paSideScroll.setWidth(200);
+		this.add(paSideScroll, {
 			edge : "west"
 		});
 		
@@ -388,6 +390,11 @@ qx.Class.define("ligamanager.MainWidget",
 						"userGroups" : ["TEAM_ADMIN", "LIGA_AMIN", "ADMIN"]
 					},
 					{
+						"name" : this.tr("Match Details"), 
+						"page" :  ligamanager.pages.ManageMatchDetailsPage,
+						"userGroups" : ["TEAM_ADMIN", "LIGA_AMIN", "ADMIN"]
+					},
+					{
 						"name" : this.tr("LigaManager"), 
 						"page" :  ligamanager.pages.LigaManagerPage,
 						"userGroups" : ["LIGA_AMIN", "ADMIN"],
@@ -452,16 +459,6 @@ qx.Class.define("ligamanager.MainWidget",
 				this.__prevUser = user;
 				this.__updateSideBar();
 			}
-		},
-		
-		
-		//
-		// button actions
-		//
-		
-		
-		__onBtShowEmptyPage : function() {
-			this.setActivePage(null);
 		}
 
 	}

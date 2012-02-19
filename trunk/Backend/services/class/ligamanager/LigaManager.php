@@ -209,46 +209,6 @@ class class_LigaManager extends ServiceIntrospection
 	}
 	
 	
-	function method_StoreMatch($params, $error)
-    {
-		checkRights(array("ADMIN", "LIGA_ADMIN", "TEAM_ADMIN"));
-		
-        if (count($params) != 1)
-        {
-            $error->SetError(JsonRpcError_ParameterMismatch,
-                             "Expected 1 parameter; got " . count($params));
-            return $error;
-        }
-		
-		$match = $params[0];
-		$tableNameWithPrefix = $_ENV["table_prefix"] . "match";
-		
-		$db = GetDbConnection();
-		$db->updateEntities($tableNameWithPrefix, array($match));
-		
-		// select all users that have to informed
-		$sql = "select U.* from `" . $_ENV["table_prefix"] . "users` U"
-				. " left join `" . $_ENV["table_prefix"] . "saison_team` ST on U.id_team = ST.id_team"
-				. " where ST.id = " . ((int) $match->id_saison_team1) . " or ST.id = " . ((int) $match->id_saison_team2)
-				. " or U.rights = 'LIGA_ADMIN'";
-		$users = $db->queryFetchAll($sql);
-		
-		if ($users != null && count($users) > 0) {
-			$subject = "Spieländerung " . " Spiel-ID=" . $match->id;
-			$body = "Sehr geehrte Damen und Herren, \r\n \r\n"
-				. "das Spiel mit der Id " . $match->id . " wurde geändert."
-				. " Siehe " . $_ENV["web_url"] . "#Spielplan~" . $match->id
-				. " \r\n \r\n Gruß LigaManager";
-			
-			for ($i = 0; $i < count($users); $i++) {
-				$email = $users[$i]["email"];
-				if (isset($email)) {
-					sendMyMail($email, $subject, $body);
-				}
-			}
-		}
-	}
-	
 	/**
 	 * Returns all saison players of the current saison.
 	 */
@@ -286,6 +246,79 @@ class class_LigaManager extends ServiceIntrospection
 			
 		$db = GetDbConnection();
 		return $db->queryFetchAll($sql);
+	}
+	
+	function method_GetMatch($params, $error) {
+		
+        if (count($params) != 1)
+        {
+            $error->SetError(JsonRpcError_ParameterMismatch,
+                             "Expected 1 parameter; got " . count($params));
+            return $error;
+        }
+		
+		$match_id = $params[0];
+		
+		$sql = "select M.*, T1.name as name_team1, T2.name as name_team2"
+			. " from `". $_ENV["table_prefix"] . "match` M"
+			. " left join `" . $_ENV["table_prefix"] . "saison_team` ST1 on ST1.id = M.id_saison_team1"
+			. " left join `" . $_ENV["table_prefix"] . "saison_team` ST2 on ST2.id = M.id_saison_team2"
+			. " left join `" . $_ENV["table_prefix"] . "team` T1 on T1.id = ST1.id_team"
+			. " left join `" . $_ENV["table_prefix"] . "team` T2 on T2.id = ST2.id_team"
+			. " where M.id = " . ((int)$match_id);
+			
+		$db = GetDbConnection();
+		$rows = $db->queryFetchAll($sql);
+		return $rows[0];
+	}
+	
+	
+	function method_StoreMatch($params, $error)
+    {
+		checkRights(array("ADMIN", "LIGA_ADMIN", "TEAM_ADMIN"));
+		
+        if (count($params) != 2)
+        {
+            $error->SetError(JsonRpcError_ParameterMismatch,
+                             "Expected 2 parameter; got " . count($params));
+            return $error;
+        }
+		
+		$match = $params[0];
+		unset($match->name_team1);
+		unset($match->name_team2);
+		$tableNameWithPrefix = $_ENV["table_prefix"] . "match";
+		
+		$db = GetDbConnection();
+		$db->updateEntities($tableNameWithPrefix, array($match));
+		
+		// update player match
+		if ($params[1] != null)
+			UpdateEntities("player_match", $params[1]);
+		
+		
+		// send mails
+		// select all users that have to informed
+		$sql = "select U.* from `" . $_ENV["table_prefix"] . "users` U"
+				. " left join `" . $_ENV["table_prefix"] . "saison_team` ST on U.id_team = ST.id_team"
+				. " where ST.id = " . ((int) $match->id_saison_team1) . " or ST.id = " . ((int) $match->id_saison_team2)
+				. " or U.rights = 'LIGA_ADMIN'";
+		$users = $db->queryFetchAll($sql);
+		
+		if ($users != null && count($users) > 0) {
+			$subject = "Spieländerung " . " Spiel-ID=" . $match->id;
+			$body = "Sehr geehrte Damen und Herren, \r\n \r\n"
+				. "das Spiel mit der Id " . $match->id . " wurde geändert."
+				. " Siehe " . $_ENV["web_url"] . "#Spielplan~" . $match->id
+				. " \r\n \r\nGruß LigaManager";
+			
+			for ($i = 0; $i < count($users); $i++) {
+				$email = $users[$i]["email"];
+				if (isset($email)) {
+					sendMyMail($email, $subject, $body);
+				}
+			}
+		}
 	}
 }
 
