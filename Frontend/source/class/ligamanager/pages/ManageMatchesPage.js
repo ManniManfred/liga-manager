@@ -1,6 +1,7 @@
 
 /*
 #asset(qx/icon/${qx.icontheme}/22/status/dialog-information.png)
+#asset(qx/icon/${qx.icontheme}/22/status/dialog-warning.png)
 */
 qx.Class.define("ligamanager.pages.ManageMatchesPage",
 {
@@ -97,6 +98,11 @@ qx.Class.define("ligamanager.pages.ManageMatchesPage",
 				} else if (param == "saved") {
 					var laTeams = this.__laHint = new qx.ui.basic.Atom(this.tr("The match was successful saved"), 
 						"icon/22/status/dialog-information.png");
+					laTeams.setAppearance("label-sep");
+					this.__content.add(laTeams);
+				} else if (param == "forbidden") {
+					var laTeams = this.__laHint = new qx.ui.basic.Atom(this.tr("You have not the right to modify the specified match"), 
+						"icon/22/status/dialog-warning.png");
 					laTeams.setAppearance("label-sep");
 					this.__content.add(laTeams);
 				}
