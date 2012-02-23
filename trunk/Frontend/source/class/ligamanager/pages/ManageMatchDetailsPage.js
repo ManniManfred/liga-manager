@@ -4,6 +4,7 @@
 #asset(qx/icon/${qx.icontheme}/22/actions/view-refresh.png)
 #asset(qx/icon/${qx.icontheme}/22/actions/list-add.png)
 #asset(qx/icon/${qx.icontheme}/22/actions/list-remove.png)
+#asset(qx/icon/${qx.icontheme}/22/actions/dialog-cancel.png)
 #asset(ligamanager/22/default.png)
 */
 qx.Class.define("ligamanager.pages.ManageMatchDetailsPage",
@@ -40,9 +41,6 @@ qx.Class.define("ligamanager.pages.ManageMatchDetailsPage",
 		this.__ligaManagerRpc = new qx.io.remote.Rpc(ligamanager.Core.RPC_BACKEND , "ligamanager.LigaManager");
 		//this.__coreRpc = new qx.io.remote.Rpc(ligamanager.Core.RPC_BACKEND , "ligamanager.Core");
 		
-		var laDetails = this.__laDetails = new qx.ui.basic.Label(this.tr("Details"));
-		laDetails.setAppearance("label-sep");
-		this.__content.add(laDetails);
 
 		this.__show();
 	},
@@ -82,8 +80,11 @@ qx.Class.define("ligamanager.pages.ManageMatchDetailsPage",
 		__param : null,
 		
 		setParam : function(param) {
-			this.__param = param;
-			this.__show();
+			if (this.__param != param) {
+				this.__content.removeAll();
+				this.__param = param;
+				this.__show();
+			}
 		},
 		
 		__show : function() {
@@ -101,7 +102,14 @@ qx.Class.define("ligamanager.pages.ManageMatchDetailsPage",
 				this.__ligaManagerRpc.callAsync(function(result, ex, id)
 				{
 					if (ex == null) {
-						self.__updateDetails(result);
+						var userTeamId = ligamanager.Core.getInstance().getUser().id_team;
+						
+						if (result.id_team1 == userTeamId || result.id_team2 == userTeamId) {
+							self.__updateDetails(result);
+						} else {
+							ligamanager.ui.Navigation.getInstance().showPage(
+								qx.locale.Manager.tr("Manager") + "." + qx.locale.Manager.tr("Matches") + "~forbidden");
+						}
 					} else {
 						dialog.Dialog.warning(self.tr("Error during request: %1", ex));
 					}
@@ -114,6 +122,9 @@ qx.Class.define("ligamanager.pages.ManageMatchDetailsPage",
 		__createDetailsPart : function() {
 			
 			
+			var laDetails = this.__laDetails = new qx.ui.basic.Label(this.tr("Details"));
+			laDetails.setAppearance("label-sep");
+			this.__content.add(laDetails);
 			
 			
 			var hbox = new qx.ui.container.Composite(new qx.ui.layout.HBox(2).set({
@@ -213,6 +224,11 @@ qx.Class.define("ligamanager.pages.ManageMatchDetailsPage",
 			
 			var paButtons = new qx.ui.container.Composite(new qx.ui.layout.HBox(20));
 			this.__content.add(paButtons);
+			
+			var btBack = new qx.ui.form.Button(this.tr("Zurück"), "icon/22/actions/dialog-cancel.png");
+			btBack.addListener("execute", this.__onBack, this);
+			btBack.setAllowGrowX(false);
+			paButtons.add(btBack);
 			
 			var btSave = new qx.ui.form.Button(this.tr("Save"), "icon/22/actions/document-save.png");
 			btSave.addListener("execute", this.__onSave, this);
@@ -356,6 +372,11 @@ qx.Class.define("ligamanager.pages.ManageMatchDetailsPage",
 			
 			dialog.Dialog.alert(this.tr("The match was successful saved"));
 
+		},
+		
+		__onBack : function(evt) {
+			ligamanager.ui.Navigation.getInstance().showPage(
+						qx.locale.Manager.tr("Manager") + "." + qx.locale.Manager.tr("Matches"));
 		}
 	}
 	

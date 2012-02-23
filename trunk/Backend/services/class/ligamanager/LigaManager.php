@@ -259,7 +259,7 @@ class class_LigaManager extends ServiceIntrospection
 		
 		$match_id = $params[0];
 		
-		$sql = "select M.*, T1.name as name_team1, T2.name as name_team2"
+		$sql = "select M.*, T1.id as id_team1, T2.id as id_team2, T1.name as name_team1, T2.name as name_team2"
 			. " from `". $_ENV["table_prefix"] . "match` M"
 			. " left join `" . $_ENV["table_prefix"] . "saison_team` ST1 on ST1.id = M.id_saison_team1"
 			. " left join `" . $_ENV["table_prefix"] . "saison_team` ST2 on ST2.id = M.id_saison_team2"
@@ -285,8 +285,19 @@ class class_LigaManager extends ServiceIntrospection
         }
 		
 		$match = $params[0];
+		$user = getUserSelf();
+		
+		if ($user["id_team"] != $match->id_team1
+				&& $user["id_team"] != $match->id_team2) {
+            $error->SetError(JsonRpcError_ParameterMismatch,
+                             "You have not the right to modify the specified match");
+            return $error;
+		}
+		
 		unset($match->name_team1);
 		unset($match->name_team2);
+		unset($match->id_team1);
+		unset($match->id_team2);
 		$tableNameWithPrefix = $_ENV["table_prefix"] . "match";
 		
 		$db = GetDbConnection();
