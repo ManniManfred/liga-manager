@@ -116,7 +116,7 @@ qx.Class.define("ligamanager.pages.ManageMatchesPage",
 			this.__content.add(laTeams);
 			
 			this.__matchesTable = new ligamanager.pages.EntityTable("match", 
-				["Id", "Datum", "Mannschaft 1", "Mannschaft 2", "Tore 1", "Tore 2"], 
+				["Nr", "Datum", "Mannschaft 1", "Mannschaft 2", "Tore 1", "Tore 2"], 
 				["id", "date", "id_saison_team1", "id_saison_team2", "goal1", "goal2"],
 				false, false, false, false);
 			this.__matchesTable.setHeight(300);

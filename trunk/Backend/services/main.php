@@ -76,6 +76,30 @@ function getMailSettings() {
 	return $mailSettings;
 }
 
+function sendMyMailsTo($users, $subject, $body)
+{
+	if ($users != null && count($users) > 0) {
+		$to = null;
+		
+		for ($i = 0; $i < count($users); $i++) {
+			$emailAddr = $users[$i]["email"];
+			if (validEmail($emailAddr)) {
+				if ($to == null) {
+					$to = $emailAddr;
+				} else {
+					$to .= ", " . $emailAddr;
+				}
+			} else {
+				logMessage("Die E-Mail Adresse \"$emailAddr\" ist ungültig.");
+			}
+		}
+
+		if ($to != null) {
+			sendMyMail($to, $subject, $body);
+		}
+	}
+}
+
 function sendMyMail($to, $subject, $body) {
 	try {
 		$settings = getMailSettings();
@@ -96,24 +120,23 @@ function sendMyMail($to, $subject, $body) {
 				$mailAccept = mail($to, $subject, $body, $header);
 
 				if ($mailAccept) {
-					logMessage("Es wurde die Mail mit folgendem Betreff versandt: " . $subject);
+					logMessage("Es wurde die Mail mit dem Betreff \"$subject\" an \"$to\" versandt.");
 				} else {
-					logMessage("Die Mail mit folgendem Betreff wurde nicht aktzeptiert: " . $subject);
+					logMessage("Die Mail mit dem Betreff \"$subject\" an \"$to\" wurde nicht aktzeptiert: " . $subject);
 				}
 			} else {
 				logMessage("Es ist kein Empfaenger angegeben.");
 			}
 		} else {
-			logMessage("Das Versenden von Mails ist deaktiviert.");
+			logMessage("Da das Versenden von Mails deaktiviert ist, wurde die Mail mit dem Betreff \"$subject\" an \"$to\" nicht versendet.");
 		}
-	} catch(Exception $ex) {
-		logMessage("Das Versenden der Mail nach \"$to\" ist fehlgeschlaten: " . $ex);
+	} catch (Exception $ex) {
+		logMessage("Das Versenden der Mail nach \"$to\" ist fehlgeschlagen: " . $ex);
 	}
 }
 
-
 function UpdateEntities($table, $updates) {
-	
+
 
 	$db = GetDbConnection();
 
@@ -130,8 +153,7 @@ function UpdateEntities($table, $updates) {
 			for ($i = 0; $i < count($toAdd); $i++) {
 				if (is_string($toAdd[$i]->id_saison_player)) {
 					// create a new player with that name
-					$toAdd[$i]->id_saison_player = createNewPlayer($db, $toAdd[$i]->id_saison_player, 
-							$toAdd[$i]->id_saison_team);
+					$toAdd[$i]->id_saison_player = createNewPlayer($db, $toAdd[$i]->id_saison_player, $toAdd[$i]->id_saison_team);
 				}
 				unset($toAdd[$i]->id_saison_team);
 			}
@@ -175,14 +197,13 @@ function UpdateEntities($table, $updates) {
 	}
 }
 
-
 /**
-	*
-	* @param MySQL $db
-	* @param string $player_name
-	* @param string $saison_team_id
-	* @return int The saison player id
-	*/
+ *
+ * @param MySQL $db
+ * @param string $player_name
+ * @param string $saison_team_id
+ * @return int The saison player id
+ */
 function createNewPlayer($db, $player_name, $saison_team_id) {
 	checkRights(array("ADMIN", "LIGA_ADMIN", "TEAM_ADMIN"));
 
@@ -190,7 +211,7 @@ function createNewPlayer($db, $player_name, $saison_team_id) {
 
 	// set team id
 	$getTeamIdSql = 'select id_team from `' . $_ENV["table_prefix"] . 'saison_team`'
-			. ' where id = ' . ((int)$saison_team_id);
+			. ' where id = ' . ((int) $saison_team_id);
 	$teamIdResult = $db->queryFetchAll($getTeamIdSql);
 	$playerProps['id_team'] = $teamIdResult[0]['id_team'];
 
@@ -205,7 +226,7 @@ function createNewPlayer($db, $player_name, $saison_team_id) {
 	}
 
 	// check, if there is already a player with that name
-	$playerIdResult = $db->queryFetchAll("select id from `"  . $_ENV["table_prefix"] . 'player`'
+	$playerIdResult = $db->queryFetchAll("select id from `" . $_ENV["table_prefix"] . 'player`'
 			. " where firstname = '" . mysql_real_escape_string($playerProps["firstname"]) . "'"
 			. " and lastname = '" . mysql_real_escape_string($playerProps["lastname"]) . "'");
 
@@ -229,9 +250,8 @@ function createNewPlayer($db, $player_name, $saison_team_id) {
 	return $saison_player_id;
 }
 
-
 function checkTableRight($table, $forWrite) {
-	switch($table) {
+	switch ($table) {
 		case "users" :
 			checkRights(array("ADMIN"));
 			break;
@@ -239,34 +259,88 @@ function checkTableRight($table, $forWrite) {
 			checkRights(array("ADMIN"));
 			break;
 		case "document":
-			if ($forWrite) checkRights(array("ADMIN"));
+			if ($forWrite)
+				checkRights(array("ADMIN"));
 			break;
 
 		case "saison" :
-			if ($forWrite) checkRights(array("ADMIN", "LIGA_ADMIN"));
+			if ($forWrite)
+				checkRights(array("ADMIN", "LIGA_ADMIN"));
 			break;
 		case "team":
-			if ($forWrite) checkRights(array("ADMIN", "LIGA_ADMIN"));
+			if ($forWrite)
+				checkRights(array("ADMIN", "LIGA_ADMIN"));
 			break;
 		case "player":
-			if ($forWrite) checkRights(array("ADMIN", "LIGA_ADMIN", "TEAM_ADMIN"));
+			if ($forWrite)
+				checkRights(array("ADMIN", "LIGA_ADMIN", "TEAM_ADMIN"));
 			break;
 		case "saison_team":
-			if ($forWrite) checkRights(array("ADMIN", "LIGA_ADMIN"));
+			if ($forWrite)
+				checkRights(array("ADMIN", "LIGA_ADMIN"));
 			break;
 		case "saison_player":
-			if ($forWrite) checkRights(array("ADMIN", "LIGA_ADMIN", "TEAM_ADMIN"));
+			if ($forWrite)
+				checkRights(array("ADMIN", "LIGA_ADMIN", "TEAM_ADMIN"));
 			break;
 		case "match":
-			if ($forWrite) checkRights(array("ADMIN", "LIGA_ADMIN", "TEAM_ADMIN"));
+			if ($forWrite)
+				checkRights(array("ADMIN", "LIGA_ADMIN", "TEAM_ADMIN"));
 			break;
 		case "player_match":
-			if ($forWrite) checkRights(array("ADMIN", "LIGA_ADMIN", "TEAM_ADMIN"));
+			if ($forWrite)
+				checkRights(array("ADMIN", "LIGA_ADMIN", "TEAM_ADMIN"));
 			break;
 	}
-
 }
 
-
+/**
+ * Validate an email address.
+ * Provide email address (raw input)
+ * Returns true if the email address has the email
+ * address format and the domain exists.
+ */
+function validEmail($email) {
+	$isValid = true;
+	$atIndex = strrpos($email, "@");
+	if (is_bool($atIndex) && !$atIndex) {
+		$isValid = false;
+	} else {
+		$domain = substr($email, $atIndex + 1);
+		$local = substr($email, 0, $atIndex);
+		$localLen = strlen($local);
+		$domainLen = strlen($domain);
+		if ($localLen < 1 || $localLen > 64) {
+			// local part length exceeded
+			$isValid = false;
+		} else if ($domainLen < 1 || $domainLen > 255) {
+			// domain part length exceeded
+			$isValid = false;
+		} else if ($local[0] == '.' || $local[$localLen - 1] == '.') {
+			// local part starts or ends with '.'
+			$isValid = false;
+		} else if (preg_match('/\\.\\./', $local)) {
+			// local part has two consecutive dots
+			$isValid = false;
+		} else if (!preg_match('/^[A-Za-z0-9\\-\\.]+$/', $domain)) {
+			// character not valid in domain part
+			$isValid = false;
+		} else if (preg_match('/\\.\\./', $domain)) {
+			// domain part has two consecutive dots
+			$isValid = false;
+		} else if (!preg_match('/^(\\\\.|[A-Za-z0-9!#%&`_=\\/$\'*+?^{}|~.-])+$/', str_replace("\\\\", "", $local))) {
+			// character not valid in local part unless 
+			// local part is quoted
+			if (!preg_match('/^"(\\\\"|[^"])+"$/', str_replace("\\\\", "", $local))) {
+				$isValid = false;
+			}
+		}
+		if ($isValid && !(checkdnsrr($domain, "MX") || checkdnsrr($domain, "A"))) {
+			// domain not found in DNS
+			$isValid = false;
+		}
+	}
+	return $isValid;
+}
 
 ?>

@@ -17,16 +17,13 @@ class class_Core extends ServiceIntrospection {
 		// send mail to admins
 		$admins = $db->queryFetchAll("select * from `" . $_ENV["table_prefix"] . "users`"
 				. " where rights='ADMIN' and email is not null");
-
-		if ($admins != null && count($admins) > 0) {
-			$requst = $params[0];
-			for ($i = 0; $i < count($admins); $i++) {
-				$subject = "Kontaktanfrage";
-				$body = "Es wurde folgende Kontaktanfrage gestellt: "
-						. print_r($requst, true);
-				sendMyMail($admins[$i]["email"], $subject, $body);
-			}
-		}
+		
+		$request = $params[0];
+		$subject = "Kontaktanfrage";
+		$body = "Es wurde folgende Kontaktanfrage gestellt: "
+				. print_r($request, true);
+			
+		sendMyMailsTo($admins, $subject, $body);
 	}
 
 	// ****************************************************

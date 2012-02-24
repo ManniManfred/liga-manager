@@ -38,18 +38,16 @@ class class_guestbook extends ServiceIntrospection
 		
 		$mailSettings = getMailSettings();
 		
+		
 		if (isset($mailSettings["guestbook"]) && $mailSettings["guestbook"]) {
 			// send mail to admins
 			$admins = $db->queryFetchAll("select * from `" . $_ENV["table_prefix"] . "users`"
 					. " where rights='ADMIN' and email is not null");
 			
-			if ($admins != null && count($admins) > 0) {
-				for ($i = 0; $i < count($admins); $i++) {
-					$subject = "Neuer Gästebucheintrag";
-					$body = "Auf der Seite " . $_ENV["web_url"] . "#Gästebuch ist eine neuer Eintrag.";
-					sendMyMail($admins[$i]["email"], $subject, $body);
-				}
-			}
+			$subject = "Neuer Gästebucheintrag";
+			$body = "Auf der Seite " . $_ENV["web_url"] . "#Gästebuch ist eine neuer Eintrag.";
+
+			sendMyMailsTo($admins, $subject, $body);
 		}
 		
 		return $db->getLastId();
