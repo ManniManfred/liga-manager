@@ -287,7 +287,8 @@ class class_LigaManager extends ServiceIntrospection
 		$match = $params[0];
 		$user = getUserSelf();
 		
-		if ($user["id_team"] != $match->id_team1
+		if ($user["rights"] == "TEAM_ADMIN" 
+				&& $user["id_team"] != $match->id_team1
 				&& $user["id_team"] != $match->id_team2) {
             $error->SetError(JsonRpcError_ParameterMismatch,
                              "You have not the right to modify the specified match");

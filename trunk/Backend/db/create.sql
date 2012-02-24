@@ -173,7 +173,7 @@ CREATE  TABLE IF NOT EXISTS `lm_users` (
   `lastname` VARCHAR(255) NOT NULL ,
   `email` VARCHAR(255) NOT NULL ,
   `id_team` INT(11) NULL ,
-  `rights` ENUM('USER','TEAM_ADMIN','LIGA_AMIN','ADMIN') NOT NULL DEFAULT 'USER' COMMENT 'Berechtigung für den Benutzer:\nUSER: Darf nichts\nTEAM_ADMIN: Spiele für Team eintragen; Weitere Team-Admins benennen\nLIGA_ADMIN: Mannschaften anlegen,.. bekommt EMail\'s bei Liga-Ereignissen\nADMIN: Alles' ,
+  `rights` ENUM('USER','TEAM_ADMIN','LIGA_ADMIN','ADMIN') NOT NULL DEFAULT 'USER' COMMENT 'Berechtigung für den Benutzer:\nUSER: Darf nichts\nTEAM_ADMIN: Spiele für Team eintragen; Weitere Team-Admins benennen\nLIGA_ADMIN: Mannschaften anlegen,.. bekommt EMail\'s bei Liga-Ereignissen\nADMIN: Alles' ,
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `username_UNIQUE` (`username` ASC) ,
   INDEX `fk_lm_user_lm_mannschaft1` (`id_team` ASC) ,

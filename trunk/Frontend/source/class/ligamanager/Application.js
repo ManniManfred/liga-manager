@@ -62,7 +62,7 @@ qx.Class.define("ligamanager.Application",
       // Document is the application root
       var doc = this.getRoot();
 
-	  var mainW = new ligamanager.MainWidget();
+	  var mainW = ligamanager.MainWidget.getInstance();
 	  doc.add(mainW, {left: 0, top: 0, right: 0, bottom: 0});
 	  
     }

@@ -109,12 +109,12 @@ qx.Class.define("ligamanager.pages.UserManagerPage",
 			tcm.setCellEditorFactory(2, new qx.ui.table.celleditor.PasswordField()); 
 			
 			// rights editor
-			//'USER','TEAM_ADMIN','LIGA_AMIN','ADMIN'
+			//'USER','TEAM_ADMIN','LIGA_ADMIN','ADMIN'
 			var rightsSelectBox = new qx.ui.table.celleditor.SelectBox();
 			rightsSelectBox.setListData([
 				["USER", null, "USER"],
 				["TEAM_ADMIN", null, "TEAM_ADMIN"],
-				["LIGA_AMIN", null, "LIGA_AMIN"],
+				["LIGA_ADMIN", null, "LIGA_ADMIN"],
 				["ADMIN", null, "ADMIN"]
 				]);
 			tcm.setCellEditorFactory(7, rightsSelectBox);
