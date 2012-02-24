@@ -173,7 +173,8 @@ class class_Core extends ServiceIntrospection {
 				
                 $team_id = $user["id_team"];
                 //print_r($_SESSION["user"]);
-
+				//echo $user["rights"];
+				
                 if ($team_id != null) {
 
                     // get id saison team
@@ -184,7 +185,13 @@ class class_Core extends ServiceIntrospection {
                     $id_saison_team = $queryResult[0]["id"];
 
                     $filter = " where id_saison_team1 = $id_saison_team or id_saison_team2 = $id_saison_team";
-                } else {
+                } else if ($user["rights"] == "ADMIN" || $user["rights"] == "LIGA_ADMIN"){
+					// filter only for saison
+					$filter = " where id_saison_team1 in"
+						. " (select ST.id from `" . $_ENV["table_prefix"] . "saison_team` ST"
+						. " left join `" . $_ENV["table_prefix"] . "saison` S on S.id = ST.id_saison"
+						. " where S.isDefault)";
+				} else{
                     $filter = " where false";
                 }
             } else {

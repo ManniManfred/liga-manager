@@ -102,9 +102,10 @@ qx.Class.define("ligamanager.pages.ManageMatchDetailsPage",
 				this.__ligaManagerRpc.callAsync(function(result, ex, id)
 				{
 					if (ex == null) {
-						var userTeamId = ligamanager.Core.getInstance().getUser().id_team;
+						var user = ligamanager.Core.getInstance().getUser();
 						
-						if (result.id_team1 == userTeamId || result.id_team2 == userTeamId) {
+						if (user.rights == "ADMIN" || user.rights == "LIGA_ADMIN"
+							|| result.id_team1 == user.id_team || result.id_team2 == user.id_team) {
 							self.__updateDetails(result);
 						} else {
 							ligamanager.ui.Navigation.getInstance().showPage(
@@ -167,6 +168,8 @@ qx.Class.define("ligamanager.pages.ManageMatchDetailsPage",
 				true, true, false, false, false);
 			this.__playersTable.setHeight(300);
 			this.__playersTable.setAllowGrowX(false);
+			//this.__playersTable.setAllowShrinkX(true);
+			
 			this.__content.add(this.__playersTable);
 			
 			
@@ -225,7 +228,7 @@ qx.Class.define("ligamanager.pages.ManageMatchDetailsPage",
 			var paButtons = new qx.ui.container.Composite(new qx.ui.layout.HBox(20));
 			this.__content.add(paButtons);
 			
-			var btBack = new qx.ui.form.Button(this.tr("Zurück"), "icon/22/actions/dialog-cancel.png");
+			var btBack = new qx.ui.form.Button(this.tr("Back"), "icon/22/actions/dialog-cancel.png");
 			btBack.addListener("execute", this.__onBack, this);
 			btBack.setAllowGrowX(false);
 			paButtons.add(btBack);
@@ -328,7 +331,7 @@ qx.Class.define("ligamanager.pages.ManageMatchDetailsPage",
 			
 		},
 		
-		__save: function() {
+		__save: function(successCallback, context) {
 			
 			var match = this.__currentMatch;
 
@@ -341,36 +344,47 @@ qx.Class.define("ligamanager.pages.ManageMatchDetailsPage",
 
 			var playersModel = this.__playersTable.getTableModel();
 			var playerChanges = playersModel.getChanges();
-			this.__ligaManagerRpc.callSync("StoreMatch", match, playerChanges);
+			
+			ligamanager.MainWidget.getInstance().startWaiting();
+			
+			this.__ligaManagerRpc.callAsync(function(result, ex, id){
+				
+				ligamanager.MainWidget.getInstance().stopWaiting();
+				if (ex == null) {
+					successCallback.call(context);
+				} else {
+					dialog.Dialog.warning(qx.locale.Manager.tr("Error on saving match: %1", ex))
+				}
+			}, "StoreMatch", match, playerChanges);
 			
 			playersModel.clearChanges();
-				
-			return playerChanges;
 		},
 		
 		__onSaveAndClose : function(evt) {
 			
-			this.__save();
-			
-			ligamanager.ui.Navigation.getInstance().showPage(
-				qx.locale.Manager.tr("Manager") + "." + qx.locale.Manager.tr("Matches") + "~saved");
+			this.__save(function() {
+				ligamanager.ui.Navigation.getInstance().showPage(
+					qx.locale.Manager.tr("Manager") + "." + qx.locale.Manager.tr("Matches") + "~saved");
+			}, this);
 		},
 		
 		
 		__onSave : function(evt) {
 			
-			var playerChanges = this.__save();
+			var playersModel = this.__playersTable.getTableModel();
+			var hasPlayerChanges = playersModel.hasChanges();
 			
-			if (playerChanges != null) {
+			this.__save(function() {
+				if (hasPlayerChanges) {
 
-				// update players renderer
-				this.__saisonPlayers = this.__ligaManagerRpc.callSync("GetAllSaisonPlayers");
-				this.__playersRenderer.setPlayer(this.__saisonPlayers);
+					// update players renderer
+					this.__saisonPlayers = this.__ligaManagerRpc.callSync("GetAllSaisonPlayers");
+					this.__playersRenderer.setPlayer(this.__saisonPlayers);
 
-				this.__playersTable.getTableModel().reloadData();
-			}
-			
-			dialog.Dialog.alert(this.tr("The match was successful saved"));
+					playersModel.reloadData();
+				}
+				dialog.Dialog.alert(this.tr("The match was successful saved"));
+			}, this);
 
 		},
 		

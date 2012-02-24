@@ -77,33 +77,37 @@ function getMailSettings() {
 }
 
 function sendMyMail($to, $subject, $body) {
-	$settings = getMailSettings();
+	try {
+		$settings = getMailSettings();
 
-	if (isset($settings["sendMails"]) && $settings["sendMails"] == true) {
-		if ($to != null && $to != "") {
-			$header = '';
-			if (isset($settings["from"])) {
-				$header .= 'From:' . $settings["from"] . "\r\n";
-			}
+		if (isset($settings["sendMails"]) && $settings["sendMails"] == true) {
+			if ($to != null && $to != "") {
+				$header = '';
+				if (isset($settings["from"])) {
+					$header .= 'From:' . $settings["from"] . "\r\n";
+				}
 
-			$header .= 'X-Mailer: PHP/' . phpversion() . "\r\n";
-			//$header .= 'Cc: ' . $headerInfo->ccaddress . "\r\n";
-			//$header .= 'Bcc: ' . $headerInfo->bccaddress . "\r\n";
-			$header .= 'Content-Type: text/plain;charset="utf-8"' . "\r\n";
-			//$header .= 'Content-Transfer-Encoding: ' . "\r\n";
+				$header .= 'X-Mailer: PHP/' . phpversion() . "\r\n";
+				//$header .= 'Cc: ' . $headerInfo->ccaddress . "\r\n";
+				//$header .= 'Bcc: ' . $headerInfo->bccaddress . "\r\n";
+				$header .= 'Content-Type: text/plain;charset="utf-8"' . "\r\n";
+				//$header .= 'Content-Transfer-Encoding: ' . "\r\n";
 
-			$mailAccept = mail($to, $subject, $body, $header);
+				$mailAccept = mail($to, $subject, $body, $header);
 
-			if ($mailAccept) {
-				logMessage("Es wurde die Mail mit folgendem Betreff versandt: " . $subject);
+				if ($mailAccept) {
+					logMessage("Es wurde die Mail mit folgendem Betreff versandt: " . $subject);
+				} else {
+					logMessage("Die Mail mit folgendem Betreff wurde nicht aktzeptiert: " . $subject);
+				}
 			} else {
-				logMessage("Die Mail mit folgendem Betreff wurde nicht aktzeptiert: " . $subject);
+				logMessage("Es ist kein Empfaenger angegeben.");
 			}
 		} else {
-			logMessage("Es ist kein Empfaenger angegeben.");
+			logMessage("Das Versenden von Mails ist deaktiviert.");
 		}
-	} else {
-		logMessage("Das Versenden von Mails ist deaktiviert.");
+	} catch(Exception $ex) {
+		logMessage("Das Versenden der Mail nach \"$to\" ist fehlgeschlaten: " . $ex);
 	}
 }
 

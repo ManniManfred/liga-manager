@@ -5,7 +5,8 @@
  */
 qx.Class.define("ligamanager.MainWidget",
 {
-	extend: qx.ui.container.Composite,
+	extend: ligamanager.ui.WaitingContainer,
+	type: "singleton",
 
 	/*
 	*****************************************************************************
@@ -45,11 +46,11 @@ qx.Class.define("ligamanager.MainWidget",
 		
 		
 		// create ui
-		var layout = new qx.ui.layout.Dock();
-		this.setLayout(layout);
+		this.__allContainer = new qx.ui.container.Composite(new qx.ui.layout.Dock());
+		this.add(this.__allContainer);
 		
 		var header = this.__createHeader();
-		this.add(header, {
+		this.__allContainer.add(header, {
 			edge : "north"
 		});
 		
@@ -60,12 +61,12 @@ qx.Class.define("ligamanager.MainWidget",
 		var sideBar = this.__createSideBar();
 		var paSideScroll = new qx.ui.container.Scroll(sideBar);
 		paSideScroll.setWidth(200);
-		this.add(paSideScroll, {
+		this.__allContainer.add(paSideScroll, {
 			edge : "west"
 		});
 		
 		var contentContainer = this.__contentContainer = new qx.ui.container.Composite(new qx.ui.layout.Grow());
-		this.add(contentContainer, {
+		this.__allContainer.add(contentContainer, {
 			edge : "center"
 		});
 		
@@ -366,7 +367,7 @@ qx.Class.define("ligamanager.MainWidget",
 			var inMenuDef = [
 				{
 				"name" : this.tr("Logout"),
-				"userGroups" : ["USER", "TEAM_ADMIN", "LIGA_AMIN", "ADMIN"],
+				"userGroups" : ["USER", "TEAM_ADMIN", "LIGA_ADMIN", "ADMIN"],
 				"action" : function() {
 						var core = ligamanager.Core.getInstance();
 						core.logout();
@@ -377,27 +378,27 @@ qx.Class.define("ligamanager.MainWidget",
 				{
 				"name" : this.tr("Manager"), 
 				"page" :  ligamanager.pages.EmptyPage,
-				"userGroups" : ["USER", "TEAM_ADMIN", "LIGA_AMIN", "ADMIN"],
+				"userGroups" : ["USER", "TEAM_ADMIN", "LIGA_ADMIN", "ADMIN"],
 				"children" : [
 					{
 						"name" : this.tr("User Settings"), 
 						"page" :  ligamanager.pages.UserSettingsPage,
-						"userGroups" : ["USER", "TEAM_ADMIN", "LIGA_AMIN", "ADMIN"]
+						"userGroups" : ["USER", "TEAM_ADMIN", "LIGA_ADMIN", "ADMIN"]
 					},
 					{
 						"name" : this.tr("Matches"), 
 						"page" :  ligamanager.pages.ManageMatchesPage,
-						"userGroups" : ["TEAM_ADMIN", "LIGA_AMIN", "ADMIN"]
+						"userGroups" : ["TEAM_ADMIN", "LIGA_ADMIN", "ADMIN"]
 					},
 					{
 						"name" : this.tr("Match Details"), 
 						"page" :  ligamanager.pages.ManageMatchDetailsPage,
-						"userGroups" : ["TEAM_ADMIN", "LIGA_AMIN", "ADMIN"]
+						"userGroups" : ["TEAM_ADMIN", "LIGA_ADMIN", "ADMIN"]
 					},
 					{
 						"name" : this.tr("LigaManager"), 
 						"page" :  ligamanager.pages.LigaManagerPage,
-						"userGroups" : ["LIGA_AMIN", "ADMIN"],
+						"userGroups" : ["LIGA_ADMIN", "ADMIN"],
 						"children" : [
 							{
 								"name" : this.tr("User"), 
@@ -417,17 +418,17 @@ qx.Class.define("ligamanager.MainWidget",
 							{
 								"name" : this.tr("MasterData"), 
 								"page" :  ligamanager.pages.LigaMasterDataPage,
-								"userGroups" : ["LIGA_AMIN", "ADMIN"]
+								"userGroups" : ["LIGA_ADMIN", "ADMIN"]
 							},
 							{
 								"name" : this.tr("Saison"), 
 								"page" :  ligamanager.pages.SaisonManagerPage,
-								"userGroups" : ["LIGA_AMIN", "ADMIN"]
+								"userGroups" : ["LIGA_ADMIN", "ADMIN"]
 							},
 							{
 								"name" : this.tr("Matches"), 
 								"page" :  ligamanager.pages.MatchesPage,
-								"userGroups" : ["LIGA_AMIN", "ADMIN"]
+								"userGroups" : ["LIGA_ADMIN", "ADMIN"]
 							}
 						]
 					}]

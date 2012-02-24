@@ -8,7 +8,7 @@
 */
 qx.Class.define("ligamanager.pages.EntityTable",
 {
-	extend: qx.ui.container.Composite,
+	extend: qx.ui.container.Resizer,
 
 	/*
 	 * ****************************************************************************
@@ -19,6 +19,10 @@ qx.Class.define("ligamanager.pages.EntityTable",
 	construct: function(tableName, colTitles, colKeys, canAdd, canRemove, canStore, startRpc,
 			canRefresh) {
 		this.base(arguments, new qx.ui.layout.Dock());
+		
+		this.setResizableLeft(false);
+		this.setResizableRight(false);
+		this.setResizableTop(false);
 		
 		this.__colKeys = colKeys;
 		this.__colTitles = colTitles;
