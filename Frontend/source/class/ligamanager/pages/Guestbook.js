@@ -184,6 +184,9 @@ qx.Class.define("ligamanager.pages.Guestbook",
 		
 		__addItem : function(entry) {
 		
+			var messageText = entry.message.replace(/\r\n/g, "\n");
+			messageText = messageText.replace(/\n/g, "<br>");
+			
 			var message = "<div style=\"border:2px solid #c0c0c1;\">"
 				+ "<div style=\"padding:1px;background:#F2F1DE;\">"
 					+ "<p style=\"margin-left: 8px; font-size: large; font-weight: bold\">"
@@ -197,7 +200,7 @@ qx.Class.define("ligamanager.pages.Guestbook",
 				+ "</div>"
 			
 				+ "<div style=\"padding: 5px\">"
-				+ "<pre>" + entry.message + "</pre>"
+				+ "<p>" + messageText + "</p>"
 				+ "</div>";
 			
 			var laMessage = new qx.ui.basic.Label(message);
