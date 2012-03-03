@@ -1,6 +1,10 @@
 LigaManager TODO:
 - Admin bereich in einem Part Auslagern, sodass beim Start nicht soviel geladen werden muss
-- Alle rpc Anfrage auf ASync umstellen
+- Alle rpc Anfrage auf ASync umstellen und dann auch Fehlermeldungen zeigen, wenn etwas schiefgelaufen ist
+- Hintergrundbild einstellbar
+- Änderungen überprüfen beim Seitenwechsel
+- Sortierung der Rangliste ermöglichen -> Rang muss anders bestimmt werden
+- Dateimanager: löschen/updload, ...
 - Test mit IE, hat bei ein paar mal bei der Eingabe von Spielen den Focus verloren
 - Spieler Stammdaten Pflege für TeamAdmins ermöglichen
 - Newsletter: 
@@ -8,3 +12,7 @@ LigaManager TODO:
 	b) für die gesamte Liga -> gibt es noch nicht
 - Für den LigaAdmin eine Möglichkeit schaffen Teams Punkte abzuziehen wegen unregulärem Verhalten
 - Mobile Frontend: Anmeldung und Eintragungen ermöglichen
+- Platz auf Google Maps anzeigen
+- Allgemeine Infos auf der Startseite
+- Historie über alle Meisterschaften
+- Filter für Admin/LigaAdmin beim Eintragen der Spiele
