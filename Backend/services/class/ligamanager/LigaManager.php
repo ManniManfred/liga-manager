@@ -273,7 +273,7 @@ class class_LigaManager extends ServiceIntrospection {
 		$users = $db->queryFetchAll($sql);
 		$subject = "Spieländerung   Spiel-Nummer " . $match->id;
 		$body = "Sehr geehrte Damen und Herren, \r\n \r\n"
-				. "das Spiel mit der Nummer " . $match->id . " wurde geändert."
+				. "das Spiel mit der Nummer " . $match->id . " wurde von \"" . $user["username"] . "\" geändert."
 				. " \r\nSiehe " . $_ENV["web_url"] . "#Spielplan~" . $match->id
 				. " \r\n \r\nGruß LigaManager";
 
