@@ -216,8 +216,11 @@ class class_LigaManager extends ServiceIntrospection {
 			return $error;
 		}
 
-		$match_id = $params[0];
+		return $this->getMatch((int)$params[0]);
+	}
 
+	function getMatch($match_id) {
+	
 		$sql = "select M.*, T1.id as id_team1, T2.id as id_team2, T1.name as name_team1, T2.name as name_team2"
 				. " from `" . $_ENV["table_prefix"] . "match` M"
 				. " left join `" . $_ENV["table_prefix"] . "saison_team` ST1 on ST1.id = M.id_saison_team1"
@@ -230,7 +233,7 @@ class class_LigaManager extends ServiceIntrospection {
 		$rows = $db->queryFetchAll($sql);
 		return $rows[0];
 	}
-
+	
 	function method_StoreMatch($params, $error) {
 		checkRights(array("ADMIN", "LIGA_ADMIN", "TEAM_ADMIN"));
 
@@ -240,6 +243,25 @@ class class_LigaManager extends ServiceIntrospection {
 		}
 
 		$match = $params[0];
+		
+		$db = GetDbConnection();
+		
+		// check the match id's
+		$dbMatch = $this->getMatch((int)$match->id);
+		
+		if ($dbMatch["id_team1"] != $match->id_team1
+				|| $dbMatch["id_team2"] != $match->id_team2
+				|| $dbMatch["id_saison_team1"] != $match->id_saison_team1
+				|| $dbMatch["id_saison_team2"] != $match->id_saison_team2) {
+			$errorMessage = "Spiel id's stimmen nicht überein. Spiel DB: \n" . print_r($dbMatch, true) 
+					. "Spiel Json: \n" . print_r($match, true);
+			
+			logMessage($errorMessage, true);
+			$error->SetError(JsonRpcError_ParameterMismatch, "Spiel id's stimmen nicht überein.");
+			return $error;
+		}
+		
+		
 		$user = getUserSelf();
 
 		if ($user["rights"] == "TEAM_ADMIN"
@@ -255,7 +277,6 @@ class class_LigaManager extends ServiceIntrospection {
 		unset($match->id_team2);
 		$tableNameWithPrefix = $_ENV["table_prefix"] . "match";
 
-		$db = GetDbConnection();
 		$db->updateEntities($tableNameWithPrefix, array($match));
 
 		// update player match
