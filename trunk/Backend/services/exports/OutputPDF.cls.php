@@ -5,7 +5,7 @@ require('../fpdf17/fpdf.php');
 
 class OutputPDF extends AbstractOutput
 {
-	public function SendResponse($output)
+	public function SendResponse($output, $sourceIsMap)
 	{
 		header('Content-type: application/pdf');
 		header('Content-Disposition: attachment; filename="downloaded.pdf"');

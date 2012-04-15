@@ -13,12 +13,23 @@ $server = new DirectRpcServer();
 $input = array("service" => "ligamanager.Core",
 	"method" => "GetEntities");
 
-$input["params"] = $server->json->decode($_POST["rpc"]); //$_POST["rpc"]; //
 
-//print_r($input);
+if (isset($_POST["rpc"])) {
+	
+	$input["params"] = $server->json->decode($_POST["rpc"]); //$_POST["rpc"]; //
 
-$server->setInput((object)$input);
-$server->start();
+	//print_r($input);
+
+	$server->setInput((object)$input);
+	$server->start();
+
+	$table = $server->output;
+	$sourceIsMap = true;
+} else {
+	$table =  $server->json->decode($_POST["table"]);
+	//print_r($table);
+	$sourceIsMap = false;
+}
 
 
 $outputParser = null;
@@ -33,9 +44,8 @@ if ($outputParser != null) {
 	$colKeys = $server->json->decode($_POST["colKeys"]);
 	$colTitles = $server->json->decode($_POST["colTitles"]);
 	
-	$outputParser->setHeader($colKeys, $colTitles, $input["params"][0]);
+	$outputParser->setHeader($colKeys, $colTitles, $_POST["name"]);
 		
-	$outputParser->SendResponse($server->output);
-	//print_r($server->output);
+	$outputParser->SendResponse($table, $sourceIsMap);
 }
 ?>

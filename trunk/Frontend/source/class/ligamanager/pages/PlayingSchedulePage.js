@@ -106,6 +106,7 @@ qx.Class.define("ligamanager.pages.PlayingSchedulePage",
 				["Nr", "Datum", "Mannschaft 1", "Mannschaft 2", "Tore 1", "Tore 2"], 
 				["id", "date", "id_saison_team1", "id_saison_team2", "goal1", "goal2"],
 				false, false, false, false);
+			this.__matchesTable.setUserData("Name", this.tr("Playing Schedule"))
 			this.__matchesTable.setHeight(400);
 			this.__matchesTable.setAllowGrowX(false);
 			this.__content.add(this.__matchesTable);
