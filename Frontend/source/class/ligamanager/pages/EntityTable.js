@@ -173,13 +173,13 @@ qx.Class.define("ligamanager.pages.EntityTable",
 			}
 			
 			// TODO: first solve problem with id's in resulting csv file
-			// part.add(new qx.ui.toolbar.Separator());
+			part.add(new qx.ui.toolbar.Separator());
 				
-			// var btCSV = new qx.ui.toolbar.Button(qx.locale.Manager.tr("CSV Export"), 
-				// "ligamanager/22/file_export_to_file.png");
-			// btCSV.setToolTipText(qx.locale.Manager.tr("Export data as CSV"));
-			// btCSV.addListener("execute", this.__onCSV, this);
-			// part.add(btCSV);
+			var btCSV = new qx.ui.toolbar.Button(qx.locale.Manager.tr("CSV Export"), 
+				 "ligamanager/22/file_export_to_file.png");
+			btCSV.setToolTipText(qx.locale.Manager.tr("Export data as CSV"));
+			btCSV.addListener("execute", this.__onCSV, this);
+			part.add(btCSV);
 			
 			toolbar.setShow("icon");
 		},
@@ -242,13 +242,57 @@ qx.Class.define("ligamanager.pages.EntityTable",
 		__onCSV : function(evt) {
 			var model = this.__entitiesTableModel;
 			
+			// Method 1: send same request
+			// 
+//			
+//			var values = {
+//				"output" : "CSV",
+//				"colTitles" : qx.lang.Json.stringify(this.getColTitles()),
+//				"colKeys" : qx.lang.Json.stringify(this.getColKeys()),
+//				"rpc" : qx.lang.Json.stringify(model.getRpcParams())
+//			};
+//			ligamanager.Utils.postToURL(ligamanager.Core.EXPORT, values);
+			
+			
+			// Method 2 get values from table and send them to server to create output
+			//this.__entitiesTable. 
+			var tableData = [];
+			var tcm = this.__entitiesTable.getTableColumnModel();
+			
+			for (var row = 0; row < model.getRowCount(); row++){
+				tableData[row] = [];
+				
+				for (var col = 0; col < model.getColumnCount(); col++) {
+					var value = model.getValue(col, row);
+					var renderer = tcm.getDataCellRenderer(col);
+					
+					if (ligamanager.Utils.isInstanceOf(renderer, qx.ui.table.cellrenderer.Replace)) {
+						var map = renderer.getReplaceMap();
+						
+						if (map[value] == null) {
+							tableData[row][col] = value;
+						} else {
+							tableData[row][col] = map[value];
+						}
+					} else {
+						tableData[row][col] = value;
+					}
+				}
+			}
+			
+			var name = this.getUserData("Name");
+			if (name == null) name = this.__tableName;
+			
 			var values = {
 				"output" : "CSV",
+				"name" : name,
 				"colTitles" : qx.lang.Json.stringify(this.getColTitles()),
 				"colKeys" : qx.lang.Json.stringify(this.getColKeys()),
-				"rpc" : qx.lang.Json.stringify(model.getRpcParams())
+				"table" : qx.lang.Json.stringify(tableData)
 			};
+			
 			ligamanager.Utils.postToURL(ligamanager.Core.EXPORT, values);
+			
 		}
 	}
 });

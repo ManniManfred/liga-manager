@@ -24,7 +24,7 @@ abstract class AbstractOutput
 		}
 	}
 	
-	public abstract function SendResponse($output);
+	public abstract function SendResponse($output, $sourceIsMap);
 }
 
 ?>

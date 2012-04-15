@@ -83,6 +83,7 @@ qx.Class.define("ligamanager.pages.TablePage",
 				["Rang", "Mannschaft", "Spiele", "Tore", "Diff.", "Punkte"], 
 				["rank", "name", "match_count", "goals", "goals_diff", "points"],
 				false, false, false, false);
+			this.__rankingTable.setUserData("Name", this.tr("Table"))
 			this.__rankingTable.setHeight(300);
 			this.__rankingTable.setAllowGrowX(false);
 			this.__content.add(this.__rankingTable);
