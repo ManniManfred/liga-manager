@@ -386,6 +386,11 @@ qx.Class.define("ligamanager.MainWidget",
 						"userGroups" : ["USER", "TEAM_ADMIN", "LIGA_ADMIN", "ADMIN"]
 					},
 					{
+						"name" : this.tr("Player"), 
+						"page" :  ligamanager.pages.ChangeNames,
+						"userGroups" : ["TEAM_ADMIN", "LIGA_ADMIN", "ADMIN"]
+					},
+					{
 						"name" : this.tr("Matches"), 
 						"page" :  ligamanager.pages.ManageMatchesPage,
 						"userGroups" : ["TEAM_ADMIN", "LIGA_ADMIN", "ADMIN"]

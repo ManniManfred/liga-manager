@@ -184,14 +184,26 @@ qx.Class.define("ligamanager.pages.EntityTableModel",
 			return null;
 		},
 		
-		saveChanges : function() {
+		saveChanges : function(callback, context) {
 			
 			var updates = this.getChanges();
+			var self = this;
 			
 			if (updates != null) {
-				this.__rpc.callSync("UpdateEntities", this.__tableName, updates);
-				this.clearChanges();
-				this.reloadData();
+				this.__rpc.callAsync(function(result, ex) {
+					try {
+						if (ex == null) {
+							self.clearChanges();
+							self.reloadData();
+						} else {
+							alert("Beim Speichern ist folgender Fehler aufgetreten: " + ex);
+						}
+					} finally {
+						if (callback != null) {
+							callback.call(context);
+						}
+					}
+				}, "UpdateEntities", this.__tableName, updates);
 			}
 		},
 		
