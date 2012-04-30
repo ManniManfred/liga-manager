@@ -54,7 +54,7 @@ qx.Class.define("ligamanager.pages.SaisonPlayersEditor",
 			
 			// check if renderer does something with value
 			var cellRenderer = cellInfo.table.getTableColumnModel().getDataCellRenderer(cellInfo.col);
-			var label = cellRenderer._getContentHtml(cellInfo);
+			var label = qx.bom.String.unescape(cellRenderer._getContentHtml(cellInfo));
 			if ( value != label ) {
 				value = label;
 			}

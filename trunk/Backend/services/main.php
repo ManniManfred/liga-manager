@@ -157,16 +157,47 @@ function UpdateEntities($table, $updates) {
 				}
 				unset($toAdd[$i]->id_saison_team);
 			}
-		}
-
-		if ($tableName == "users") {
+			
+			$db->addEntities($tableNameWithPrefix, $updates["toAdd"]);
+			
+		} else if ($tableName == "users") {
 			// hash password
 			$toAdd = $updates["toAdd"];
 			for ($i = 0; $i < count($toAdd); $i++) {
 				$toAdd[$i]->password = hash(PASSWORD_HASH_ALGO, $toAdd[$i]->password);
 			}
+			
+			$db->addEntities($tableNameWithPrefix, $updates["toAdd"]);
+			
+		} else if ($tableName == "player") {
+			$user = getUserSelf();
+			$team_id = (int)$user["id_team"];
+			
+			$toAdd = $updates["toAdd"];
+			
+			$saison_teams = $db->queryFetchAll("select id from `" . $_ENV["table_prefix"] . "saison_team`"
+					. " where id_team = " . $team_id
+					. " and id_saison = (select id from `" . $_ENV["table_prefix"] . "saison` where isDefault)");
+			$saison_team_id = $saison_teams[0]["id"];
+			
+			for ($i = 0; $i < count($toAdd); $i++) {
+				$toAdd[$i]->id_team = $team_id;
+				
+				// insert the new player
+				$db->insert($_ENV["table_prefix"] . 'player', (array)$toAdd[$i]);
+				$player_id = $db->getLastId();
+				
+				// insert saison player
+				$saisonPlayerProps = array();
+				$saisonPlayerProps['id_saison_team'] = $saison_team_id;
+				$saisonPlayerProps['id_player'] = $player_id;
+				
+				$db->insert($_ENV["table_prefix"] . 'saison_player', $saisonPlayerProps);
+			}
+		} else {
+			$db->addEntities($tableNameWithPrefix, $updates["toAdd"]);
 		}
-		$db->addEntities($tableNameWithPrefix, $updates["toAdd"]);
+		
 	}
 
 	if (isset($updates["toUpdate"])) {
@@ -192,7 +223,26 @@ function UpdateEntities($table, $updates) {
 		}
 		$db->updateEntities($tableNameWithPrefix, $updates["toUpdate"]);
 	}
+	
 	if (isset($updates["toDelete"])) {
+		
+		if ($tableName == "player") {
+			
+			// delete saison_player first
+			$sqlIDs = implode(', ', array_map('mysql_escape_string', $updates["toDelete"]));
+			
+			try {
+				$db->query("delete from `" . $_ENV["table_prefix"] . "saison_player`"
+					. " where id_player in ($sqlIDs)");
+			} catch(Exception $ex)
+			{
+				$msg = "Ein Spieler konnte nicht gelöscht werden, da dieser mit Spielen verknüpft ist.";
+				logMessage($msg . " Ex: " . $ex);
+				
+				throw new Exception($msg);
+			}
+		}
+		
 		$db->deleteEntities($tableNameWithPrefix, $updates["toDelete"]);
 	}
 }

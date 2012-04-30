@@ -206,7 +206,16 @@ class class_Core extends ServiceIntrospection {
 			}
 		} else if ($tableName == "player_match") {
 			$filter = " where id_match = " . ((int) $filterMap->match_id);
+		} else if ($tableName == "player") {
+			
+			if (isset($filterMap->current_team) && $filterMap->current_team == true) {
+				$user = $this->method_GetSelf();
+				$team_id = $user["id_team"];
+
+				$filter = " where id_team = " . ((int) $team_id);
+			}
 		}
+		
 		return $filter;
 	}
 
@@ -221,9 +230,9 @@ class class_Core extends ServiceIntrospection {
 
 		if ($onlyCount) {
 			$sqlQuery = "select count(*) from `$tableNameWithPrefix`";
-			if (isset($params[1])) {
+			//if (isset($params[1])) {
 				$sqlQuery .= $this->getFilter($db, $tableName, $params[1]);
-			}
+			//}
 		} else {
 			if ($tableName == "users") {
 				// change password to a dummy value
@@ -242,9 +251,9 @@ class class_Core extends ServiceIntrospection {
 			}
 
 			// set filter
-			if (isset($params[5])) {
+			//if (isset($params[5])) {
 				$sqlQuery .= $this->getFilter($db, $tableName, $params[5]);
-			}
+			//}
 
 			// set order
 			if ($tableName == "play_table") {
