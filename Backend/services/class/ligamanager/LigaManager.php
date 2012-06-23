@@ -301,6 +301,56 @@ class class_LigaManager extends ServiceIntrospection {
 		sendMyMailsTo($users, $subject, $body);
 	}
 
+	function method_MergePlayer($params, $error) {
+		checkRights(array("ADMIN"));
+
+		if (count($params) != 2) {
+			$error->SetError(JsonRpcError_ParameterMismatch, "Expected 2 parameter; got " . count($params));
+			return $error;
+		}
+		
+		$player1 = (int)$params[0];
+		$player2 = (int)$params[1];
+		
+		$id_saison_player1 = $this->GetPlayerSaisonId($player1);
+		$id_saison_player2 = $this->GetPlayerSaisonId($player2);
+		
+			
+		$db = GetDbConnection();
+		
+		// link matches from player 2 to player 1
+		$sql = "update `" . $_ENV["table_prefix"] . "player_match`"
+				. " set id_saison_player = $id_saison_player1"
+				. " where id_saison_player = $id_saison_player2";
+		$db->query($sql);
+		
+		
+		// remove saison player 2
+		$sql = "delete from `" . $_ENV["table_prefix"] . "saison_player`"
+				. " where id = $id_saison_player2";
+		$db->query($sql);
+		
+		// remove player 2
+		$sql = "delete from `" . $_ENV["table_prefix"] . "player`"
+				. " where id = $player2";
+		$db->query($sql);
+		
+	}
+	
+	function GetPlayerSaisonId($playerId) {
+	
+		$db = GetDbConnection();
+		
+		// get saison player ids
+		$sql = "select SP.id as id_saison_player"
+				. " from `" . $_ENV["table_prefix"] . "saison_player` SP"
+				. " left join `" . $_ENV["table_prefix"] . "saison_team` ST on SP.id_saison_team = ST.id"
+				. " left join `" . $_ENV["table_prefix"] . "saison` S on ST.id_saison = S.id"
+				. " where S.isDefault and SP.id_player = $playerId";
+		$result = $db->queryFetchAll($sql);
+		
+		return $result[0]["id_saison_player"];
+	}
 }
 
 ?>

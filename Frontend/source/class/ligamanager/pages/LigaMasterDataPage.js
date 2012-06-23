@@ -393,6 +393,48 @@ qx.Class.define("ligamanager.pages.LigaMasterDataPage",
 			
 			this.__teamSelectBox = new qx.ui.table.celleditor.SelectBox();
 			tcm.setCellEditorFactory(1, this.__teamSelectBox);
+			
+			
+			// create merge player
+			var laMergePlayer = new qx.ui.basic.Label(this.tr("Merge Player"));
+			laMergePlayer.setAppearance("label-sep");
+			this.__content.add(laMergePlayer);
+			
+			var paPlayer = new qx.ui.container.Composite(new qx.ui.layout.HBox(10).set({alignY : "middle"}));
+			this.__content.add(paPlayer);
+			
+			paPlayer.add(new qx.ui.basic.Label(this.tr("Merge")));
+			
+			this.__tbPlayer1 = new qx.ui.form.TextField();
+			paPlayer.add(this.__tbPlayer1);
+			
+			paPlayer.add(new qx.ui.basic.Label(this.tr("with")));
+			
+			this.__tbPlayer2 = new qx.ui.form.TextField();
+			paPlayer.add(this.__tbPlayer2);
+			
+			var btMerge = new qx.ui.form.Button(this.tr("Send"));
+			btMerge.addListener("execute", this.__mergePlayer, this);
+			paPlayer.add(btMerge);
+		},
+		
+		__mergePlayer : function(evt) {
+			
+			var p1 = this.__tbPlayer1.getValue();
+			var p2 = this.__tbPlayer2.getValue();
+			
+			ligamanager.MainWidget.getInstance().startWaiting();
+			
+			this.__ligaManagerRpc.callAsync(function(result, ex, id){
+				
+				ligamanager.MainWidget.getInstance().stopWaiting();
+				if (ex == null) {
+					dialog.Dialog.warning(qx.locale.Manager.tr("Player successful merged"));
+				} else {
+					dialog.Dialog.warning(qx.locale.Manager.tr("Error on merging player: %1", ex));
+				}
+			}, "MergePlayer", p1, p2);
+			
 		},
 		
 		__updateTeamsChoice : function() {

@@ -35,23 +35,28 @@ msgstr "Abmelden"
 msgid "User Settings"
 msgstr "Benutzer Einstellungen"
 
-#: ligamanager/MainWidget.js:399
+#: ligamanager/MainWidget.js:389 ligamanager/pages/LigaMasterDataPage.js:365
+#: ligamanager/pages/ChangeNames.js:67
+msgid "Player"
+msgstr "Spieler"
+
+#: ligamanager/MainWidget.js:404
 msgid "LigaManager"
 msgstr ""
 
-#: ligamanager/MainWidget.js:404
+#: ligamanager/MainWidget.js:409
 msgid "User"
 msgstr "Benutzer"
 
-#: ligamanager/MainWidget.js:414
+#: ligamanager/MainWidget.js:419
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: ligamanager/MainWidget.js:419
+#: ligamanager/MainWidget.js:424
 msgid "MasterData"
 msgstr "Stammdaten"
 
-#: ligamanager/MainWidget.js:424
+#: ligamanager/MainWidget.js:429
 msgid "Saison"
 msgstr ""
 
@@ -130,7 +135,9 @@ msgstr "Das Eingabefeld %1 muss ausgefüllt werden."
 msgid "Message"
 msgstr "Nachricht"
 
-#: ligamanager/pages/ContactPage.js:233 ligamanager/pages/RegisterPage.js:197
+#: ligamanager/pages/ContactPage.js:233
+#: ligamanager/pages/LigaMasterDataPage.js:416
+#: ligamanager/pages/RegisterPage.js:197
 #: ligamanager/pages/UserSettingsPage.js:195
 #: ligamanager/pages/Guestbook.js:147
 msgid "Send"
@@ -147,7 +154,7 @@ msgid "The message was succesfully send."
 msgstr "Die Nachricht wurde erfolgreich versandt."
 
 #: ligamanager/pages/ContactPage.js:260 ligamanager/pages/SettingsPage.js:330
-#: ligamanager/pages/Guestbook.js:246
+#: ligamanager/pages/Guestbook.js:249
 msgid "Sending the messsaged failed. The following error occured: "
 msgstr "Das Versenden ist fehlgeschlagen. Der folgende Fehler ist aufgetreten"
 
@@ -160,11 +167,19 @@ msgid "Upload"
 msgstr ""
 
 #: ligamanager/pages/DocumentsManagerPage.js:120 ligamanager/MainWidget.js:328
-#: ligamanager/MainWidget.js:409
+#: ligamanager/MainWidget.js:414
 msgid "Documents"
 msgstr "Dokumente"
 
-#: ligamanager/pages/EntityTableModel.js:208
+#: ligamanager/pages/EntityTable.js:178
+msgid "CSV Export"
+msgstr "CSV Export"
+
+#: ligamanager/pages/EntityTable.js:180
+msgid "Export data as CSV"
+msgstr "Tabelle als CSV-Datei speichern"
+
+#: ligamanager/pages/EntityTableModel.js:220
 msgid "que_save_data"
 msgstr "In dieser Tabelle sind ungespeicherte Daten. Durch die aufgerufene Funktion würden diese verloren gehen. Sollen die Änderungen vorher gespeichert werden?"
 
@@ -172,7 +187,7 @@ msgstr "In dieser Tabelle sind ungespeicherte Daten. Durch die aufgerufene Funkt
 msgid "New Entry"
 msgstr "Neuer Eintrag"
 
-#: ligamanager/pages/Guestbook.js:212
+#: ligamanager/pages/Guestbook.js:215
 msgid "Delete following entry"
 msgstr "Lösche folgenden Eintrag"
 
@@ -210,9 +225,25 @@ msgstr ""
 msgid "Teams"
 msgstr "Mannschaften"
 
-#: ligamanager/pages/LigaMasterDataPage.js:365
-msgid "Player"
-msgstr "Spieler"
+#: ligamanager/pages/LigaMasterDataPage.js:399
+msgid "Merge Player"
+msgstr "Spieler Zusammenfassen"
+
+#: ligamanager/pages/LigaMasterDataPage.js:406
+msgid "Merge"
+msgstr "Fasse den Spieler mit der Id"
+
+#: ligamanager/pages/LigaMasterDataPage.js:411
+msgid "with"
+msgstr "zusammen mit dem Spieler mit der Id"
+
+#: ligamanager/pages/LigaMasterDataPage.js:432
+msgid "Player successful merged"
+msgstr "Spieler wurder erfolgreich zusammen gefasst."
+
+#: ligamanager/pages/LigaMasterDataPage.js:434
+msgid "Error on merging player: %1"
+msgstr "Das Zusammenfassen ist fehlgeschlagen: %1"
 
 #: ligamanager/pages/LoginPage.js:23
 msgid "Hobbyliga"
@@ -243,7 +274,7 @@ msgid "Error during request: %1"
 msgstr "Bei einer Serveranfrage trat folgender Fehler auf: %1"
 
 #: ligamanager/pages/ManageMatchDetailsPage.js:126
-#: ligamanager/pages/PlayingSchedulePage.js:263
+#: ligamanager/pages/PlayingSchedulePage.js:265
 msgid "Details"
 msgstr ""
 
@@ -297,8 +328,8 @@ msgstr "Sie haben nicht die benötigte Berechtigung, um das Spiel zu modifiziere
 #: ligamanager/pages/ManageMatchDetailsPage.js:112
 #: ligamanager/pages/ManageMatchDetailsPage.js:367
 #: ligamanager/pages/ManageMatchDetailsPage.js:393
-#: ligamanager/pages/PlayingSchedulePage.js:101 ligamanager/MainWidget.js:389
-#: ligamanager/MainWidget.js:429 ligamanager/pages/MatchesPage.js:142
+#: ligamanager/pages/PlayingSchedulePage.js:101 ligamanager/MainWidget.js:394
+#: ligamanager/MainWidget.js:434 ligamanager/pages/MatchesPage.js:142
 msgid "Matches"
 msgstr "Spiele"
 
@@ -314,7 +345,7 @@ msgstr "Öffnet das ausgewählte Spiel zum bearbeiten."
 msgid "First select a match."
 msgstr "Um ein Spiel zu bearbeiten, müssen Sie zuerst eins auswählen."
 
-#: ligamanager/pages/ManageMatchesPage.js:186 ligamanager/MainWidget.js:394
+#: ligamanager/pages/ManageMatchesPage.js:186 ligamanager/MainWidget.js:399
 msgid "Match Details"
 msgstr "Spieldetails"
 
@@ -335,19 +366,20 @@ msgstr "Es können keine neuen Spiele hinzugefügt werden, da schon Spiele exist
 msgid "Locks"
 msgstr "Sperren"
 
+#: ligamanager/pages/PlayingSchedulePage.js:109
 #: ligamanager/pages/PlayerLockPage.js:149 ligamanager/MainWidget.js:296
 msgid "Playing Schedule"
 msgstr "Spielplan"
 
-#: ligamanager/pages/PlayingSchedulePage.js:119
+#: ligamanager/pages/PlayingSchedulePage.js:120
 msgid "Team Filter"
 msgstr "Manschaft"
 
-#: ligamanager/pages/PlayingSchedulePage.js:121
+#: ligamanager/pages/PlayingSchedulePage.js:122
 msgid "Choose a team to filter"
 msgstr "Eine Mannschaft wählen, nach der gefilter wird"
 
-#: ligamanager/pages/PlayingSchedulePage.js:211
+#: ligamanager/pages/PlayingSchedulePage.js:213
 msgid "All Teams"
 msgstr "Alle Mannschaften"
 
@@ -463,10 +495,14 @@ msgstr "Überfahrfarbe"
 msgid "The settings were succesfully stored."
 msgstr "Die Einstellungen wurden erfolgreich gespeichert."
 
-#: ligamanager/pages/TablePage.js:69 ligamanager/MainWidget.js:292
-#: ligamanager/MainWidget.js:375
+#: ligamanager/pages/TablePage.js:78 ligamanager/pages/TablePage.js:86
+#: ligamanager/MainWidget.js:292 ligamanager/MainWidget.js:375
 msgid "Table"
 msgstr "Spieltabelle"
+
+#: ligamanager/pages/TablePage.js:95 ligamanager/pages/TablePage.js:97
+msgid "Webseite anzeigen"
+msgstr ""
 
 #: ligamanager/pages/UserManagerPage.js:68
 msgid "User Manager"
@@ -480,9 +516,6 @@ msgstr "Die Einstellungen wurden erfolgreich gespeichert"
 msgid "Something goes wrong: "
 msgstr "Beim Speichern ist ein unerwarteter Fehler aufgetreten."
 
-#~ msgid "CSV Export"
-#~ msgstr "CSV Export"
-
 #~ msgid "Datum"
 #~ msgstr ""
 
@@ -491,9 +524,6 @@ msgstr "Beim Speichern ist ein unerwarteter Fehler aufgetreten."
 
 #~ msgid "Edit"
 #~ msgstr "Bearbeiten"
-
-#~ msgid "Export data as CSV"
-#~ msgstr "Tabelle als CSV-Datei speichern"
 
 #~ msgid "Liga"
 #~ msgstr ""
