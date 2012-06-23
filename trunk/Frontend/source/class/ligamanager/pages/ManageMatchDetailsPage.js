@@ -353,7 +353,7 @@ qx.Class.define("ligamanager.pages.ManageMatchDetailsPage",
 				if (ex == null) {
 					successCallback.call(context);
 				} else {
-					dialog.Dialog.warning(qx.locale.Manager.tr("Error on saving match: %1", ex))
+					dialog.Dialog.warning(qx.locale.Manager.tr("Error on saving match: %1", ex));
 				}
 			}, "StoreMatch", match, playerChanges);
 			

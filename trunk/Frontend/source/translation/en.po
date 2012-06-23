@@ -35,23 +35,28 @@ msgstr ""
 msgid "User Settings"
 msgstr ""
 
-#: ligamanager/MainWidget.js:399
-msgid "LigaManager"
+#: ligamanager/MainWidget.js:389 ligamanager/pages/LigaMasterDataPage.js:365
+#: ligamanager/pages/ChangeNames.js:67
+msgid "Player"
 msgstr ""
 
 #: ligamanager/MainWidget.js:404
+msgid "LigaManager"
+msgstr ""
+
+#: ligamanager/MainWidget.js:409
 msgid "User"
 msgstr ""
 
-#: ligamanager/MainWidget.js:414
+#: ligamanager/MainWidget.js:419
 msgid "Settings"
 msgstr ""
 
-#: ligamanager/MainWidget.js:419
+#: ligamanager/MainWidget.js:424
 msgid "MasterData"
 msgstr ""
 
-#: ligamanager/MainWidget.js:424
+#: ligamanager/MainWidget.js:429
 msgid "Saison"
 msgstr ""
 
@@ -130,7 +135,9 @@ msgstr ""
 msgid "Message"
 msgstr ""
 
-#: ligamanager/pages/ContactPage.js:233 ligamanager/pages/RegisterPage.js:197
+#: ligamanager/pages/ContactPage.js:233
+#: ligamanager/pages/LigaMasterDataPage.js:416
+#: ligamanager/pages/RegisterPage.js:197
 #: ligamanager/pages/UserSettingsPage.js:195
 #: ligamanager/pages/Guestbook.js:147
 msgid "Send"
@@ -147,7 +154,7 @@ msgid "The message was succesfully send."
 msgstr ""
 
 #: ligamanager/pages/ContactPage.js:260 ligamanager/pages/SettingsPage.js:330
-#: ligamanager/pages/Guestbook.js:246
+#: ligamanager/pages/Guestbook.js:249
 msgid "Sending the messsaged failed. The following error occured: "
 msgstr ""
 
@@ -160,11 +167,19 @@ msgid "Upload"
 msgstr ""
 
 #: ligamanager/pages/DocumentsManagerPage.js:120 ligamanager/MainWidget.js:328
-#: ligamanager/MainWidget.js:409
+#: ligamanager/MainWidget.js:414
 msgid "Documents"
 msgstr ""
 
-#: ligamanager/pages/EntityTableModel.js:208
+#: ligamanager/pages/EntityTable.js:178
+msgid "CSV Export"
+msgstr ""
+
+#: ligamanager/pages/EntityTable.js:180
+msgid "Export data as CSV"
+msgstr ""
+
+#: ligamanager/pages/EntityTableModel.js:220
 msgid "que_save_data"
 msgstr ""
 
@@ -172,7 +187,7 @@ msgstr ""
 msgid "New Entry"
 msgstr ""
 
-#: ligamanager/pages/Guestbook.js:212
+#: ligamanager/pages/Guestbook.js:215
 msgid "Delete following entry"
 msgstr ""
 
@@ -210,8 +225,24 @@ msgstr ""
 msgid "Teams"
 msgstr ""
 
-#: ligamanager/pages/LigaMasterDataPage.js:365
-msgid "Player"
+#: ligamanager/pages/LigaMasterDataPage.js:399
+msgid "Merge Player"
+msgstr ""
+
+#: ligamanager/pages/LigaMasterDataPage.js:406
+msgid "Merge"
+msgstr ""
+
+#: ligamanager/pages/LigaMasterDataPage.js:411
+msgid "with"
+msgstr ""
+
+#: ligamanager/pages/LigaMasterDataPage.js:432
+msgid "Player successful merged"
+msgstr ""
+
+#: ligamanager/pages/LigaMasterDataPage.js:434
+msgid "Error on merging player: %1"
 msgstr ""
 
 #: ligamanager/pages/LoginPage.js:23
@@ -239,7 +270,7 @@ msgid "Error during request: %1"
 msgstr ""
 
 #: ligamanager/pages/ManageMatchDetailsPage.js:126
-#: ligamanager/pages/PlayingSchedulePage.js:263
+#: ligamanager/pages/PlayingSchedulePage.js:265
 msgid "Details"
 msgstr ""
 
@@ -256,7 +287,7 @@ msgid " vs "
 msgstr ""
 
 #: ligamanager/pages/ManageMatchDetailsPage.js:231
-msgid "Zurück"
+msgid "Back"
 msgstr ""
 
 #: ligamanager/pages/ManageMatchDetailsPage.js:236
@@ -293,8 +324,8 @@ msgstr ""
 #: ligamanager/pages/ManageMatchDetailsPage.js:112
 #: ligamanager/pages/ManageMatchDetailsPage.js:367
 #: ligamanager/pages/ManageMatchDetailsPage.js:393
-#: ligamanager/pages/PlayingSchedulePage.js:101 ligamanager/MainWidget.js:389
-#: ligamanager/MainWidget.js:429 ligamanager/pages/MatchesPage.js:142
+#: ligamanager/pages/PlayingSchedulePage.js:101 ligamanager/MainWidget.js:394
+#: ligamanager/MainWidget.js:434 ligamanager/pages/MatchesPage.js:142
 msgid "Matches"
 msgstr ""
 
@@ -310,7 +341,7 @@ msgstr ""
 msgid "First select a match."
 msgstr ""
 
-#: ligamanager/pages/ManageMatchesPage.js:186 ligamanager/MainWidget.js:394
+#: ligamanager/pages/ManageMatchesPage.js:186 ligamanager/MainWidget.js:399
 msgid "Match Details"
 msgstr ""
 
@@ -331,19 +362,20 @@ msgstr ""
 msgid "Locks"
 msgstr ""
 
+#: ligamanager/pages/PlayingSchedulePage.js:109
 #: ligamanager/pages/PlayerLockPage.js:149 ligamanager/MainWidget.js:296
 msgid "Playing Schedule"
 msgstr ""
 
-#: ligamanager/pages/PlayingSchedulePage.js:119
+#: ligamanager/pages/PlayingSchedulePage.js:120
 msgid "Team Filter"
 msgstr ""
 
-#: ligamanager/pages/PlayingSchedulePage.js:121
+#: ligamanager/pages/PlayingSchedulePage.js:122
 msgid "Choose a team to filter"
 msgstr ""
 
-#: ligamanager/pages/PlayingSchedulePage.js:211
+#: ligamanager/pages/PlayingSchedulePage.js:213
 msgid "All Teams"
 msgstr ""
 
@@ -459,9 +491,13 @@ msgstr ""
 msgid "The settings were succesfully stored."
 msgstr ""
 
-#: ligamanager/pages/TablePage.js:69 ligamanager/MainWidget.js:292
-#: ligamanager/MainWidget.js:375
+#: ligamanager/pages/TablePage.js:78 ligamanager/pages/TablePage.js:86
+#: ligamanager/MainWidget.js:292 ligamanager/MainWidget.js:375
 msgid "Table"
+msgstr ""
+
+#: ligamanager/pages/TablePage.js:95 ligamanager/pages/TablePage.js:97
+msgid "Webseite anzeigen"
 msgstr ""
 
 #: ligamanager/pages/UserManagerPage.js:68
@@ -479,9 +515,6 @@ msgstr ""
 #~ msgid "Anmelden"
 #~ msgstr ""
 
-#~ msgid "CSV Export"
-#~ msgstr ""
-
 #~ msgid "Datum"
 #~ msgstr ""
 
@@ -489,9 +522,6 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Edit"
-#~ msgstr ""
-
-#~ msgid "Export data as CSV"
 #~ msgstr ""
 
 #~ msgid "Extra"
@@ -528,6 +558,9 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Tore"
+#~ msgstr ""
+
+#~ msgid "Zurück"
 #~ msgstr ""
 
 #~ msgid "acadGraph Planinfo"
