@@ -1,0 +1,886 @@
+
+UPGRADE TO 2.1.2
+----------------------------------------------------------------------------
+  * Number of script input files: 48
+  * Number of HTML input files: 0
+  * Update to version: 2.1.2
+  * Searching for patch module...
+  * Searching for info expression data...
+    - Compiling expressions...
+    - Number of infos: 0
+  * Searching for patch expression data...
+    - Compiling expressions...
+    - Number of patches: 0
+
+  FILE PROCESSING:
+----------------------------------------------------------------------------
+  * Processing script files:
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonPlayersEditor.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\LigaManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\IPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\DateCellEditor.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ScorerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\DocumentsManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ManageMatchesPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\WaitingContainer.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\IFramePage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\DateCellRenderer.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\test\DemoTest.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\HtmlEditor.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ContactPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ManageMatchDetailsPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Font.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\PlayingSchedulePage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Color.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\simulation\DemoSimulation.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\CreateMatchesWizard.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Decoration.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\TablePage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\PlayerLockPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\TeamTableModel.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\EntityTableModel.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonPlayersRenderer.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\EmptyPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\MainWidget.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\MWaiting.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\LigaMasterDataPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\RegisterPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\UserSettingsPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\MatchesPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Base64.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Theme.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\Navigation.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\EntityTable.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Core.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\NumberField.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Appearance.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Utils.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\LoginPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SettingsPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\UserManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Application.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonChoice.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\Guestbook.js
+  * Done
+
+UPGRADE TO 3.0
+----------------------------------------------------------------------------
+  * Number of script input files: 48
+  * Number of HTML input files: 0
+  * Update to version: 3.0
+  * Searching for patch module...
+  * Searching for info expression data...
+    - E:\www\liga-manager\qooxdoo\tool\data\migration\3.0\info\01-main.dat
+    - Compiling expressions...
+      - 01-main.dat
+    - Number of infos: 20
+  * Searching for patch expression data...
+    - E:\www\liga-manager\qooxdoo\tool\data\migration\3.0\patches\01-main.dat
+    - Compiling expressions...
+      - 01-main.dat
+    - Number of patches: 3
+
+  FILE PROCESSING:
+----------------------------------------------------------------------------
+  * Processing script files:
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonPlayersEditor.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\LigaManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\IPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\DateCellEditor.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ScorerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\DocumentsManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ManageMatchesPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\WaitingContainer.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\IFramePage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\DateCellRenderer.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\test\DemoTest.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\HtmlEditor.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ContactPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ManageMatchDetailsPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Font.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\PlayingSchedulePage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Color.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\simulation\DemoSimulation.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\CreateMatchesWizard.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Decoration.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\TablePage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\PlayerLockPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\TeamTableModel.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\EntityTableModel.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonPlayersRenderer.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\EmptyPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\MainWidget.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\MWaiting.js
+   - E:\www\liga-manager\Frontend\source\class\ligamanager\ui\MWaiting.js:150: Found match 'getContainerLocation' in
+    - E:\www\liga-manager\Frontend\source\class\ligamanager\ui\MWaiting.js:150: The method 'qx.ui.core.Widget.getContainerLocation' is deprecated. Please use 'getContentLocation' instead.
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\LigaMasterDataPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\RegisterPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\UserSettingsPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\MatchesPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Base64.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Theme.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\Navigation.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\EntityTable.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Core.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\NumberField.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Appearance.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Utils.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\LoginPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SettingsPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\UserManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Application.js
+   - E:\www\liga-manager\Frontend\source\class\ligamanager\Application.js:21: Found match 'extend : qx.application.Standalone' in
+    - E:\www\liga-manager\Frontend\source\class\ligamanager\Application.js:21: Please make sure to read the migration guide at http://manual.qooxdoo.org/3.0/pages/desktop/migration/migration_from_2_x.html.
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonChoice.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\Guestbook.js
+  * Done
+
+UPGRADE TO 3.0.1
+----------------------------------------------------------------------------
+  * Number of script input files: 48
+  * Number of HTML input files: 0
+  * Update to version: 3.0.1
+  * Searching for patch module...
+  * Searching for info expression data...
+    - Compiling expressions...
+    - Number of infos: 0
+  * Searching for patch expression data...
+    - Compiling expressions...
+    - Number of patches: 0
+
+  FILE PROCESSING:
+----------------------------------------------------------------------------
+  * Processing script files:
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonPlayersEditor.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\LigaManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\IPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\DateCellEditor.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ScorerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\DocumentsManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ManageMatchesPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\WaitingContainer.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\IFramePage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\DateCellRenderer.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\test\DemoTest.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\HtmlEditor.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ContactPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ManageMatchDetailsPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Font.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\PlayingSchedulePage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Color.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\simulation\DemoSimulation.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\CreateMatchesWizard.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Decoration.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\TablePage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\PlayerLockPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\TeamTableModel.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\EntityTableModel.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonPlayersRenderer.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\EmptyPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\MainWidget.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\MWaiting.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\LigaMasterDataPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\RegisterPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\UserSettingsPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\MatchesPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Base64.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Theme.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\Navigation.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\EntityTable.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Core.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\NumberField.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Appearance.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Utils.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\LoginPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SettingsPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\UserManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Application.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonChoice.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\Guestbook.js
+  * Done
+
+UPGRADE TO 3.5
+----------------------------------------------------------------------------
+  * Number of script input files: 48
+  * Number of HTML input files: 0
+  * Update to version: 3.5
+  * Searching for patch module...
+  * Searching for info expression data...
+    - E:\www\liga-manager\qooxdoo\tool\data\migration\3.5\info\01-main.dat
+    - Compiling expressions...
+      - 01-main.dat
+    - Number of infos: 5
+  * Searching for patch expression data...
+    - E:\www\liga-manager\qooxdoo\tool\data\migration\3.5\patches\01-main.dat
+    - Compiling expressions...
+      - 01-main.dat
+    - Number of patches: 1
+
+  FILE PROCESSING:
+----------------------------------------------------------------------------
+  * Processing script files:
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonPlayersEditor.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\LigaManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\IPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\DateCellEditor.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ScorerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\DocumentsManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ManageMatchesPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\WaitingContainer.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\IFramePage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\DateCellRenderer.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\test\DemoTest.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\HtmlEditor.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ContactPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ManageMatchDetailsPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Font.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\PlayingSchedulePage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Color.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\simulation\DemoSimulation.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\CreateMatchesWizard.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Decoration.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\TablePage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\PlayerLockPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\TeamTableModel.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\EntityTableModel.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonPlayersRenderer.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\EmptyPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\MainWidget.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\MWaiting.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\LigaMasterDataPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\RegisterPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\UserSettingsPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\MatchesPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Base64.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Theme.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\Navigation.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\EntityTable.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Core.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\NumberField.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Appearance.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Utils.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\LoginPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SettingsPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\UserManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Application.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonChoice.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\Guestbook.js
+  * Done
+
+UPGRADE TO 3.5.1
+----------------------------------------------------------------------------
+  * Number of script input files: 48
+  * Number of HTML input files: 0
+  * Update to version: 3.5.1
+  * Searching for patch module...
+  * Searching for info expression data...
+    - Compiling expressions...
+    - Number of infos: 0
+  * Searching for patch expression data...
+    - Compiling expressions...
+    - Number of patches: 0
+
+  FILE PROCESSING:
+----------------------------------------------------------------------------
+  * Processing script files:
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonPlayersEditor.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\LigaManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\IPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\DateCellEditor.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ScorerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\DocumentsManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ManageMatchesPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\WaitingContainer.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\IFramePage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\DateCellRenderer.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\test\DemoTest.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\HtmlEditor.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ContactPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ManageMatchDetailsPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Font.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\PlayingSchedulePage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Color.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\simulation\DemoSimulation.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\CreateMatchesWizard.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Decoration.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\TablePage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\PlayerLockPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\TeamTableModel.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\EntityTableModel.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonPlayersRenderer.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\EmptyPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\MainWidget.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\MWaiting.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\LigaMasterDataPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\RegisterPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\UserSettingsPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\MatchesPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Base64.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Theme.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\Navigation.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\EntityTable.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Core.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\NumberField.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Appearance.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Utils.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\LoginPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SettingsPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\UserManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Application.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonChoice.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\Guestbook.js
+  * Done
+
+UPGRADE TO 4.0
+----------------------------------------------------------------------------
+  * Number of script input files: 48
+  * Number of HTML input files: 0
+  * Update to version: 4.0
+  * Searching for patch module...
+  * Searching for info expression data...
+    - E:\www\liga-manager\qooxdoo\tool\data\migration\4.0\info\01-main.dat
+    - Compiling expressions...
+      - 01-main.dat
+    - Number of infos: 86
+  * Searching for patch expression data...
+    - E:\www\liga-manager\qooxdoo\tool\data\migration\4.0\patches\01-main.dat
+    - Compiling expressions...
+      - 01-main.dat
+    - Number of patches: 14
+
+  FILE PROCESSING:
+----------------------------------------------------------------------------
+  * Processing script files:
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonPlayersEditor.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\LigaManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\IPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\DateCellEditor.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ScorerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\DocumentsManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ManageMatchesPage.js
+   - E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ManageMatchesPage.js:171: Found match 'cellDblclick' in
+    - E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ManageMatchesPage.js:171: Please check if you use this event. A complete list of API changes can be found in the release notes.
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\WaitingContainer.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\IFramePage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\DateCellRenderer.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\test\DemoTest.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\HtmlEditor.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ContactPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ManageMatchDetailsPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Font.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\PlayingSchedulePage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Color.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\simulation\DemoSimulation.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\CreateMatchesWizard.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Decoration.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\TablePage.js
+   - E:\www\liga-manager\Frontend\source\class\ligamanager\pages\TablePage.js:131: Found match 'cellDblclick' in
+    - E:\www\liga-manager\Frontend\source\class\ligamanager\pages\TablePage.js:131: Please check if you use this event. A complete list of API changes can be found in the release notes.
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\PlayerLockPage.js
+   - E:\www\liga-manager\Frontend\source\class\ligamanager\pages\PlayerLockPage.js:140: Found match 'cellDblclick' in
+    - E:\www\liga-manager\Frontend\source\class\ligamanager\pages\PlayerLockPage.js:140: Please check if you use this event. A complete list of API changes can be found in the release notes.
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\TeamTableModel.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\EntityTableModel.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonPlayersRenderer.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\EmptyPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\MainWidget.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\MWaiting.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\LigaMasterDataPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\RegisterPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\UserSettingsPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\MatchesPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Base64.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Theme.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\Navigation.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\EntityTable.js
+   - E:\www\liga-manager\Frontend\source\class\ligamanager\pages\EntityTable.js:53: Found match 'cellClick' in
+    - E:\www\liga-manager\Frontend\source\class\ligamanager\pages\EntityTable.js:53: Please check if you use this event. A complete list of API changes can be found in the release notes.
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Core.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\NumberField.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Appearance.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Utils.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\LoginPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SettingsPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\UserManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Application.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonChoice.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\Guestbook.js
+  * Done
+
+UPGRADE TO 4.0.1
+----------------------------------------------------------------------------
+  * Number of script input files: 48
+  * Number of HTML input files: 0
+  * Update to version: 4.0.1
+  * Searching for patch module...
+  * Searching for info expression data...
+    - Compiling expressions...
+    - Number of infos: 0
+  * Searching for patch expression data...
+    - Compiling expressions...
+    - Number of patches: 0
+
+  FILE PROCESSING:
+----------------------------------------------------------------------------
+  * Processing script files:
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonPlayersEditor.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\LigaManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\IPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\DateCellEditor.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ScorerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\DocumentsManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ManageMatchesPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\WaitingContainer.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\IFramePage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\DateCellRenderer.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\test\DemoTest.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\HtmlEditor.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ContactPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ManageMatchDetailsPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Font.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\PlayingSchedulePage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Color.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\simulation\DemoSimulation.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\CreateMatchesWizard.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Decoration.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\TablePage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\PlayerLockPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\TeamTableModel.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\EntityTableModel.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonPlayersRenderer.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\EmptyPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\MainWidget.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\MWaiting.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\LigaMasterDataPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\RegisterPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\UserSettingsPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\MatchesPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Base64.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Theme.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\Navigation.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\EntityTable.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Core.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\NumberField.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Appearance.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Utils.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\LoginPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SettingsPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\UserManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Application.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonChoice.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\Guestbook.js
+  * Done
+
+UPGRADE TO 4.0.2
+----------------------------------------------------------------------------
+  * Number of script input files: 48
+  * Number of HTML input files: 0
+  * Update to version: 4.0.2
+  * Searching for patch module...
+  * Searching for info expression data...
+    - Compiling expressions...
+    - Number of infos: 0
+  * Searching for patch expression data...
+    - Compiling expressions...
+    - Number of patches: 0
+
+  FILE PROCESSING:
+----------------------------------------------------------------------------
+  * Processing script files:
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonPlayersEditor.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\LigaManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\IPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\DateCellEditor.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ScorerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\DocumentsManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ManageMatchesPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\WaitingContainer.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\IFramePage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\DateCellRenderer.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\test\DemoTest.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\HtmlEditor.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ContactPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ManageMatchDetailsPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Font.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\PlayingSchedulePage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Color.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\simulation\DemoSimulation.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\CreateMatchesWizard.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Decoration.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\TablePage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\PlayerLockPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\TeamTableModel.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\EntityTableModel.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonPlayersRenderer.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\EmptyPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\MainWidget.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\MWaiting.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\LigaMasterDataPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\RegisterPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\UserSettingsPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\MatchesPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Base64.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Theme.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\Navigation.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\EntityTable.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Core.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\NumberField.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Appearance.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Utils.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\LoginPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SettingsPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\UserManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Application.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonChoice.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\Guestbook.js
+  * Done
+
+UPGRADE TO 4.1
+----------------------------------------------------------------------------
+  * Number of script input files: 48
+  * Number of HTML input files: 0
+  * Update to version: 4.1
+  * Searching for patch module...
+  * Searching for info expression data...
+    - E:\www\liga-manager\qooxdoo\tool\data\migration\4.1\info\01-main.dat
+    - Compiling expressions...
+      - 01-main.dat
+    - Number of infos: 1
+  * Searching for patch expression data...
+    - E:\www\liga-manager\qooxdoo\tool\data\migration\4.1\patches\01-main.dat
+    - Compiling expressions...
+      - 01-main.dat
+    - Number of patches: 1
+
+  FILE PROCESSING:
+----------------------------------------------------------------------------
+  * Processing script files:
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonPlayersEditor.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\LigaManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\IPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\DateCellEditor.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ScorerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\DocumentsManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ManageMatchesPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\WaitingContainer.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\IFramePage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\DateCellRenderer.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\test\DemoTest.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\HtmlEditor.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ContactPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ManageMatchDetailsPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Font.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\PlayingSchedulePage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Color.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\simulation\DemoSimulation.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\CreateMatchesWizard.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Decoration.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\TablePage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\PlayerLockPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\TeamTableModel.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\EntityTableModel.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonPlayersRenderer.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\EmptyPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\MainWidget.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\MWaiting.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\LigaMasterDataPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\RegisterPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\UserSettingsPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\MatchesPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Base64.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Theme.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\Navigation.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\EntityTable.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Core.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\NumberField.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Appearance.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Utils.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\LoginPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SettingsPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\UserManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Application.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonChoice.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\Guestbook.js
+  * Done
+
+UPGRADE TO 4.1.1
+----------------------------------------------------------------------------
+  * Number of script input files: 48
+  * Number of HTML input files: 0
+  * Update to version: 4.1.1
+  * Searching for patch module...
+  * Searching for info expression data...
+    - Compiling expressions...
+    - Number of infos: 0
+  * Searching for patch expression data...
+    - Compiling expressions...
+    - Number of patches: 0
+
+  FILE PROCESSING:
+----------------------------------------------------------------------------
+  * Processing script files:
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonPlayersEditor.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\LigaManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\IPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\DateCellEditor.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ScorerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\DocumentsManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ManageMatchesPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\WaitingContainer.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\IFramePage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\DateCellRenderer.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\test\DemoTest.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\HtmlEditor.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ContactPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ManageMatchDetailsPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Font.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\PlayingSchedulePage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Color.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\simulation\DemoSimulation.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\CreateMatchesWizard.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Decoration.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\TablePage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\PlayerLockPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\TeamTableModel.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\EntityTableModel.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonPlayersRenderer.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\EmptyPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\MainWidget.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\MWaiting.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\LigaMasterDataPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\RegisterPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\UserSettingsPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\MatchesPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Base64.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Theme.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\Navigation.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\EntityTable.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Core.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\NumberField.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Appearance.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Utils.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\LoginPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SettingsPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\UserManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Application.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonChoice.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\Guestbook.js
+  * Done
+
+UPGRADE TO 5.0
+----------------------------------------------------------------------------
+  * Number of script input files: 48
+  * Number of HTML input files: 0
+  * Update to version: 5.0
+  * Searching for patch module...
+  * Searching for info expression data...
+    - Compiling expressions...
+    - Number of infos: 0
+  * Searching for patch expression data...
+    - Compiling expressions...
+    - Number of patches: 0
+
+  FILE PROCESSING:
+----------------------------------------------------------------------------
+  * Processing script files:
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonPlayersEditor.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\LigaManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\IPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\DateCellEditor.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ScorerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\DocumentsManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ManageMatchesPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\WaitingContainer.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\IFramePage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\DateCellRenderer.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\test\DemoTest.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\HtmlEditor.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ContactPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ManageMatchDetailsPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Font.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\PlayingSchedulePage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Color.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\simulation\DemoSimulation.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\CreateMatchesWizard.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Decoration.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\TablePage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\PlayerLockPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\TeamTableModel.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\EntityTableModel.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonPlayersRenderer.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\EmptyPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\MainWidget.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\MWaiting.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\LigaMasterDataPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\RegisterPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\UserSettingsPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\MatchesPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Base64.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Theme.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\Navigation.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\EntityTable.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Core.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\NumberField.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Appearance.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Utils.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\LoginPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SettingsPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\UserManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Application.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonChoice.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\Guestbook.js
+  * Done
+
+UPGRADE TO 5.0.1
+----------------------------------------------------------------------------
+  * Number of script input files: 48
+  * Number of HTML input files: 0
+  * Update to version: 5.0.1
+  * Searching for patch module...
+  * Searching for info expression data...
+    - Compiling expressions...
+    - Number of infos: 0
+  * Searching for patch expression data...
+    - Compiling expressions...
+    - Number of patches: 0
+
+  FILE PROCESSING:
+----------------------------------------------------------------------------
+  * Processing script files:
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonPlayersEditor.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\LigaManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\IPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\DateCellEditor.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ScorerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\DocumentsManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ManageMatchesPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\WaitingContainer.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\IFramePage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\DateCellRenderer.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\test\DemoTest.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\HtmlEditor.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ContactPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ManageMatchDetailsPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Font.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\PlayingSchedulePage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Color.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\simulation\DemoSimulation.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\CreateMatchesWizard.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Decoration.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\TablePage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\PlayerLockPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\TeamTableModel.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\EntityTableModel.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonPlayersRenderer.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\EmptyPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\MainWidget.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\MWaiting.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\LigaMasterDataPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\RegisterPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\UserSettingsPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\MatchesPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Base64.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Theme.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\Navigation.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\EntityTable.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Core.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\NumberField.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Appearance.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Utils.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\LoginPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SettingsPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\UserManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Application.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonChoice.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\Guestbook.js
+  * Done
+
+UPGRADE TO 5.1
+----------------------------------------------------------------------------
+  * Number of script input files: 48
+  * Number of HTML input files: 0
+  * Update to version: 5.1
+  * Searching for patch module...
+  * Searching for info expression data...
+    - Compiling expressions...
+    - Number of infos: 0
+  * Searching for patch expression data...
+    - Compiling expressions...
+    - Number of patches: 0
+
+  FILE PROCESSING:
+----------------------------------------------------------------------------
+  * Processing script files:
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonPlayersEditor.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\LigaManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\IPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\DateCellEditor.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ScorerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\DocumentsManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ManageMatchesPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\WaitingContainer.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\IFramePage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\DateCellRenderer.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\test\DemoTest.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\HtmlEditor.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ContactPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\ManageMatchDetailsPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Font.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\PlayingSchedulePage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Color.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\simulation\DemoSimulation.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\CreateMatchesWizard.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Decoration.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\TablePage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\PlayerLockPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\TeamTableModel.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\EntityTableModel.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonPlayersRenderer.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\EmptyPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\MainWidget.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\MWaiting.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\LigaMasterDataPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\RegisterPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\UserSettingsPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\MatchesPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Base64.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Theme.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\Navigation.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\EntityTable.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Core.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\ui\NumberField.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\theme\Appearance.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Utils.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\LoginPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SettingsPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\UserManagerPage.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\Application.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\SaisonChoice.js
+  - File: E:\www\liga-manager\Frontend\source\class\ligamanager\pages\Guestbook.js
+  * Done

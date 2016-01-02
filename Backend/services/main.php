@@ -4,6 +4,8 @@ require_once "config.php";
 require_once "db/ErrorManager.class.php";
 require_once "db/MySQL.class.php";
 
+error_reporting(E_ERROR | E_WARNING | E_PARSE);
+
 $current_db = null;
 
 function GetDbConnection() {
