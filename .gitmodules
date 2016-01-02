@@ -4,3 +4,6 @@
 [submodule "Frontend/libs/uploadwidget"]
 	path = Frontend/libs/uploadwidget
 	url = https://github.com/derrell/uploadwidget.git
+[submodule "qooxdoo"]
+	path = qooxdoo
+	url = https://github.com/qooxdoo/qooxdoo.git
