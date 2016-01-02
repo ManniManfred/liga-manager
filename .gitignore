@@ -1,0 +1,10 @@
+qooxdoo/
+qooxdoo-trunk/
+cache
+cache-downloads
+inspector
+api
+source/inspector.html
+MobileFrontend/build/
+MobileFrontend/source/script/
+Backend/services/log.txt
