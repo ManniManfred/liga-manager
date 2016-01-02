@@ -1,3 +1,6 @@
 [submodule "Frontend/libs/qx-contrib-Dialog"]
 	path = Frontend/libs/qx-contrib-Dialog
 	url = https://github.com/ManniManfred/qx-contrib-Dialog.git
+[submodule "Frontend/libs/uploadwidget"]
+	path = Frontend/libs/uploadwidget
+	url = https://github.com/derrell/uploadwidget.git

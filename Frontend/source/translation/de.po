@@ -312,7 +312,7 @@ msgstr "Das Spiel wurde aufgrund folgenden Fehlers nicht gespeichert: %1"
 
 #: ligamanager/pages/ManageMatchesPage.js:94
 msgid "hint_choose_match"
-msgstr "Um ein Spiel zu bearbeiten, müssen Sie in der Tabelle ein Spiel doppelt klicken oder ein Spiel auswählen und auf "Spiel bearbeiten" klicken."
+msgstr "Um ein Spiel zu bearbeiten, müssen Sie in der Tabelle ein Spiel doppelt klicken oder ein Spiel auswählen und auf \"Spiel bearbeiten\" klicken."
 
 #: ligamanager/pages/ManageMatchesPage.js:99
 #: ligamanager/pages/ManageMatchDetailsPage.js:386

@@ -60,7 +60,7 @@
       "library" :
       [
         {
-          "manifest" : "contrib://UploadWidget/trunk/Manifest.json"
+          "manifest" : "libs/uploadwidget/Manifest.json"
         },
         {
           "manifest" : "libs/qx-contrib-Dialog/Manifest.json"
