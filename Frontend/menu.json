@@ -1,0 +1,87 @@
+
+		var menuDef = [
+		{
+			"name" : this.tr("Table"), 
+			"page" :  ligamanager.pages.TablePage
+		},
+		{
+			"name" : this.tr("Playing Schedule"), 
+			"page" :  ligamanager.pages.PlayingSchedulePage
+		},
+		{
+			"name" : this.tr("Locks"), 
+			"page" :  ligamanager.pages.PlayerLockPage
+		},
+		{
+			"name" : this.tr("Contact"), 
+			"page" :  ligamanager.pages.ContactPage
+		},
+		{
+			"name" : this.tr("Guestbook"), 
+			"page" :  ligamanager.pages.Guestbook
+		}];
+		
+		var outMenuDef = [
+		{
+			"name" : this.tr("Login"), 
+			"page" :  ligamanager.pages.LoginPage
+		},
+		{
+			"name" : this.tr("Register"), 
+			"page" :  ligamanager.pages.RegisterPage
+		}];
+		
+		var inMenuDef = [
+		{
+			"name" : this.tr("Manager"), 
+			"page" :  ligamanager.pages.EmptyPage
+			"children" : [
+				{
+					"name" : this.tr("User Settings"), 
+					"page" :  ligamanager.pages.UserSettingsPage,
+					"userGroups" : ["USER", "TEAM_ADMIN", "LIGA_ADMIN", "ADMIN"]
+				},
+				{
+					"name" : this.tr("Matches"), 
+					"page" :  ligamanager.pages.ManageMatchesPage,
+					"userGroups" : ["TEAM_ADMIN", "LIGA_ADMIN", "ADMIN"]
+				},
+				{
+					"name" : this.tr("LigaManager"), 
+					"page" :  ligamanager.pages.LigaManagerPage,
+					"userGroups" : ["LIGA_ADMIN", "ADMIN"],
+					"children" : [
+						{
+							"name" : this.tr("User"), 
+							"page" :  ligamanager.pages.UserManagerPage
+							"userGroups" : ["LIGA_ADMIN", "ADMIN"],
+						},
+						{
+							"name" : this.tr("Documents"), 
+							"page" :  ligamanager.pages.DocumentsManagerPage
+							"userGroups" : ["LIGA_ADMIN", "ADMIN"],
+						},
+						{
+							"name" : this.tr("Settings"), 
+							"page" :  ligamanager.pages.SettingsPage
+							"userGroups" : ["LIGA_ADMIN", "ADMIN"],
+						},
+						{
+							"name" : this.tr("MasterData"), 
+							"page" :  ligamanager.pages.LigaMasterDataPage
+							"userGroups" : ["LIGA_ADMIN", "ADMIN"],
+						},
+						{
+							"name" : this.tr("Saison"), 
+							"page" :  ligamanager.pages.SaisonManagerPage
+							"userGroups" : ["LIGA_ADMIN", "ADMIN"],
+						},
+						{
+							"name" : this.tr("Matches"), 
+							"page" :  ligamanager.pages.MatchesPage
+							"userGroups" : ["LIGA_ADMIN", "ADMIN"],
+						},
+					]
+				}]
+			}
+		}];

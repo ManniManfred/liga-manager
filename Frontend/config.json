@@ -62,12 +62,8 @@
         {
           "manifest" : "contrib://UploadWidget/trunk/Manifest.json"
         },
-        //{
-        //  "manifest" : "contrib://Dialog/trunk/Manifest.json"
-        //}
         {
-          /* "manifest" : "libs/Dialog/trunk/Manifest.json" */
-		  "manifest" : "libs/cboulanger-qx-contrib-Dialog-fb14231/Manifest.json"
+          "manifest" : "libs/qx-contrib-Dialog/Manifest.json"
         }
       ]
     },

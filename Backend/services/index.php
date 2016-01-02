@@ -30,6 +30,7 @@ error_reporting( E_ALL ^ E_NOTICE );
 /*
  * start jsonrpc server
  */
+ //echo dirname(__FILE__) . "/server/JsonRpcServer.php";
 require dirname(__FILE__) . "/server/JsonRpcServer.php";
 JsonRpcServer::run();
 ?>
