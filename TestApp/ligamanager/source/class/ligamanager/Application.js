@@ -8,9 +8,9 @@
 
 ************************************************************************ */
 
+
 /**
- * This is the main application class of your custom application "ligamanager"
- *
+ * This is the main application class of your custom application "LigaManager"
  * @asset(ligamanager/*)
  */
 qx.Class.define("ligamanager.Application",
@@ -38,6 +38,8 @@ qx.Class.define("ligamanager.Application",
       // Call super class
       this.base(arguments);
 
+	  //qx.io.remote.Rpc.CONVERT_DATES = true;
+	  
       // Enable logging in debug variant
       if (qx.core.Environment.get("qx.debug"))
       {
@@ -53,19 +55,12 @@ qx.Class.define("ligamanager.Application",
       -------------------------------------------------------------------------
       */
 
-      // Create a button
-      var button1 = new qx.ui.form.Button("First Button", "ligamanager/test.png");
-
       // Document is the application root
       var doc = this.getRoot();
 
-      // Add button to document at fixed coordinates
-      doc.add(button1, {left: 100, top: 50});
-
-      // Add an event listener
-      button1.addListener("execute", function(e) {
-        alert("Hello World!");
-      });
+	  var mainW = ligamanager.MainWidget.getInstance();
+	  doc.add(mainW, {left: 0, top: 0, right: 0, bottom: 0});
+	  
     }
   }
 });
