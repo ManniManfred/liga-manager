@@ -10,7 +10,7 @@
 
 qx.Theme.define("ligamanager.theme.Color",
 {
-  extend : qx.theme.indigo.Color,
+  extend : qx.theme.modern.Color,
 
   colors :
   {
