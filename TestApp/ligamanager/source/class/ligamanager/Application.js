@@ -8,10 +8,14 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#asset(ligamanager/*)
+
+************************************************************************ */
 
 /**
  * This is the main application class of your custom application "LigaManager"
- * @asset(ligamanager/*)
  */
 qx.Class.define("ligamanager.Application",
 {

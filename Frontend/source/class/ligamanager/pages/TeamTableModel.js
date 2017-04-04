@@ -34,7 +34,7 @@ qx.Class.define("ligamanager.pages.TeamTableModel",
 						self._onRowCountLoaded(result);
 					}
 				} else {
-					alert("Fehler beim Laden der Saisons.");
+					alert("TeamTableModel: Fehler beim Laden der Zeilenanzahl.");
 				}
 			}, "GetTeamsCount");
 
@@ -54,7 +54,7 @@ qx.Class.define("ligamanager.pages.TeamTableModel",
 						self._onRowDataLoaded(result);
 					}
 				} else {
-					alert("Fehler beim Laden der Saisons.");
+					alert("TeamTableModel: Fehler beim Laden der Daten.");
 				}
 				
 			}, "GetTeams");
