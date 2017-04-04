@@ -341,7 +341,7 @@ qx.Class.define("ligamanager.pages.EntityTableModel",
 						self.fireEvent("dataLoaded");
 					}
 				} else {
-					alert("Fehler beim Laden der Saisons.");
+					alert("Fehler beim Laden der Daten: " + ex);
 				}
 				
 			}, "GetEntities", this.__tableName, sortField, sortOrder, firstRow, lastRow, this.getFilter());

@@ -34,7 +34,7 @@ qx.Class.define("ligamanager.ui.HtmlEditor",
 		this.setLayout(new qx.ui.layout.VBox(0));
 		this.setBackgroundColor("white");
 		
-		this.__htmlArea = new qx.ui.embed.HtmlArea("", null, null);
+		this.__htmlArea = new qx.ui.embed.Html("", null, null);
 		this.__htmlArea.set({
 			margin: 5
 		});
