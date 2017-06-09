@@ -312,44 +312,114 @@ class class_LigaManager extends ServiceIntrospection {
 		$player1 = (int)$params[0];
 		$player2 = (int)$params[1];
 		
-		$id_saison_player1 = $this->GetPlayerSaisonId($player1);
-		$id_saison_player2 = $this->GetPlayerSaisonId($player2);
+		$saison_t_to_player1 = $this->GetSaisonPlayers($player1, true);
+		$saison_t_to_player2 = $this->GetSaisonPlayers($player2, true);
 		
-			
+		//$error->SetError(JsonRpcError_ParameterMismatch, 
+		//	"s1: ".json_encode($saison_t_to_player1)."; s2:".json_encode($saison_t_to_player2));
+		//return $error;
+				
 		$db = GetDbConnection();
 		
-		// link matches from player 2 to player 1
-		$sql = "update `" . $_ENV["table_prefix"] . "player_match`"
-				. " set id_saison_player = $id_saison_player1"
-				. " where id_saison_player = $id_saison_player2";
-		$db->query($sql);
+		foreach ($saison_t_to_player1 as $saison_team => $sp1) {
+			$sp2 = $saison_t_to_player2[$saison_team];
+			if (isset($sp2)) {
+				$this->MergeSaisonPlayer($sp1, $sp2);
+			}
+			unset($saison_t_to_player2[$saison_team]);
+		}
 		
 		
-		// remove saison player 2
-		$sql = "delete from `" . $_ENV["table_prefix"] . "saison_player`"
-				. " where id = $id_saison_player2";
-		$db->query($sql);
+		foreach ($saison_t_to_player2 as $saison_team => $sp2) {
+			
+			// create saison player 1
+			$sql = "insert into `" . $_ENV["table_prefix"] . "saison_player`"
+				. " (id_saison_team, id_player) values ($saison_team, $player1)";
+			$db->query($sql);
+				
+			$sp1 = $this->GetPlayerSaisonId($player1, $saison_team);
+			if (!isset($sp2)) {
+				$error->SetError(JsonRpcError_ParameterMismatch, 
+					"sp1 invalid: $sp1;");
+				return $error;
+			}
+			$this->MergeSaisonPlayer($sp1, $sp2);
+		}
 		
 		// remove player 2
 		$sql = "delete from `" . $_ENV["table_prefix"] . "player`"
 				. " where id = $player2";
 		$db->query($sql);
-		
 	}
 	
-	function GetPlayerSaisonId($playerId) {
+	function MergeSaisonPlayer($sp1, $sp2) {
+		
+		$db = GetDbConnection();
+		
+		// link matches from player 2 to player 1
+		$sql = "update `" . $_ENV["table_prefix"] . "player_match`"
+				. " set id_saison_player = $sp1"
+				. " where id_saison_player = $sp2";
+		$db->query($sql);
+		
+		// remove saison player 2
+		$sql = "delete from `" . $_ENV["table_prefix"] . "saison_player`"
+				. " where id = $sp2";
+		$db->query($sql);
+	}
+	
+	function GetPlayerSaisonId($playerId, $saison_team = null) {
+	
+		$db = GetDbConnection();
+		
+		if ($saison_team == null){
+		
+			// get saison player ids
+			$sql = "select SP.id as id_saison_player"
+					. " from `" . $_ENV["table_prefix"] . "saison_player` SP"
+					. " left join `" . $_ENV["table_prefix"] . "saison_team` ST on SP.id_saison_team = ST.id"
+					. " left join `" . $_ENV["table_prefix"] . "saison` S on ST.id_saison = S.id"
+					. " where S.isDefault and SP.id_player = $playerId";
+		} else {
+			$sql = "select SP.id as id_saison_player"
+					. " from `" . $_ENV["table_prefix"] . "saison_player` SP"
+					. " where SP.id_saison_team = $saison_team";
+		}
+		$result = $db->queryFetchAll($sql);
+		
+		return $result[0]["id_saison_player"];
+	}
+	
+	function GetSaisonPlayers($playerId) {
 	
 		$db = GetDbConnection();
 		
 		// get saison player ids
-		$sql = "select SP.id as id_saison_player"
+		$sql = "select SP.id as id_saison_player, SP.id_saison_team as saisonTeam"
 				. " from `" . $_ENV["table_prefix"] . "saison_player` SP"
-				. " left join `" . $_ENV["table_prefix"] . "saison_team` ST on SP.id_saison_team = ST.id"
-				. " left join `" . $_ENV["table_prefix"] . "saison` S on ST.id_saison = S.id"
-				. " where S.isDefault and SP.id_player = $playerId";
+				. " where SP.id_player = $playerId";
 		$result = $db->queryFetchAll($sql);
 		
-		return $result[0]["id_saison_player"];
+		$arr = [];
+		for ($i = 0; $i < count($result); $i++) {
+			$arr[$result[$i]["saisonTeam"]] = $result[$i]["id_saison_player"];
+		}
+		return $arr;
+	}
+	
+	function GetSaisonTeamOf($playerId)	{
+		
+		$db = GetDbConnection();
+		
+		// get saison player ids
+		$sql = "select ST.id as id_saison_team"
+				. " from `" . $_ENV["table_prefix"] . "saison_team` ST"
+				. " left join `" . $_ENV["table_prefix"] . "team` T on ST.id_team = T.id"
+				. " left join `" . $_ENV["table_prefix"] . "saison` S on ST.id_saison = S.id"
+				. " where S.isDefault and T.id IN (select id_team where id = $playerId)";
+		$result = $db->queryFetchAll($sql);
+		
+		return $result[0]["id_saison_team"];
 	}
 }
 
