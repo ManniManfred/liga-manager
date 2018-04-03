@@ -286,7 +286,7 @@ class class_LigaManager extends ServiceIntrospection {
 
 		// send mails
 		// select all users that have to informed
-		$sql = "select U.* from `" . $_ENV["table_prefix"] . "users` U"
+		$sql = "select distinct U.* from `" . $_ENV["table_prefix"] . "users` U"
 				. " left join `" . $_ENV["table_prefix"] . "saison_team` ST on U.id_team = ST.id_team"
 				. " where ST.id = " . ((int) $match->id_saison_team1) . " or ST.id = " . ((int) $match->id_saison_team2)
 				. " or U.rights = 'LIGA_ADMIN'";
