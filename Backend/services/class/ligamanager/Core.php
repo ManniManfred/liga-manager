@@ -167,7 +167,7 @@ class class_Core extends ServiceIntrospection {
 					// get id saison team
 					$queryResult = $db->queryFetchAll("select ST.id from `" . $_ENV["table_prefix"] . "saison_team` ST"
 							. " left join `" . $_ENV["table_prefix"] . "saison` S on ST.id_saison = S.id"
-							. " where S.isDefault and ST.id_team = $team_id");
+							. " where (S.isDefault or S.isCurrent) and ST.id_team = $team_id");
 
 					$id_saison_team = $queryResult[0]["id"];
 

@@ -118,7 +118,7 @@ class class_LigaManager extends ServiceIntrospection {
 
 		if ($saison_id == -1) {
 			$sql .= " left join `" . $_ENV["table_prefix"] . "saison` S on S.id = ST.id_saison"
-					. " where S.isDefault";
+					. " where (S.isDefault or S.isCurrent)";
 		} else {
 			$sql .= " where id_saison = $saison_id";
 		}
